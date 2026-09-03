@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 15:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -450,18 +450,20 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [2]
 
 [3]
-<figures/phase.pdf, id=88, 650.43pt x 260.17201pt>
+<figures/phase.pdf, id=87, 650.43pt x 260.17201pt>
 File: figures/phase.pdf Graphic file (type pdf)
 <use figures/phase.pdf>
-Package pdftex.def Info: figures/phase.pdf  used on input line 270.
+Package pdftex.def Info: figures/phase.pdf  used on input line 275.
 (pdftex.def)             Requested size: 448.0749pt x 179.23303pt.
 
 
-[4 <./figures/phase.pdf>]
+[4]
 
-[5]
+[5 <./figures/phase.pdf>]
 
-[6] (./go_forth.aux)
+[6]
+
+[7] (./go_forth.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -470,13 +472,13 @@ Package rerunfilecheck Info: File `go_forth.out' has not changed.
 (rerunfilecheck)             Checksum: B8FC1C9E16DF0F6E1B77D8B393BB30B1;1844.
  ) 
 Here is how much of TeX's memory you used:
- 10903 strings out of 473190
- 165132 string characters out of 5715801
- 584773 words of memory out of 5000000
+ 10904 strings out of 473190
+ 165138 string characters out of 5715801
+ 586774 words of memory out of 5000000
  33985 multiletter control sequences out of 15000+600000
  568762 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,681b,574s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,681b,568s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -496,10 +498,10 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf
 -dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on go_forth.pdf (6 pages, 254165 bytes).
+Output written on go_forth.pdf (7 pages, 254765 bytes).
 PDF statistics:
- 266 PDF objects out of 1000 (max. 8388607)
- 175 compressed objects within 2 object streams
- 41 named destinations out of 1000 (max. 500000)
+ 272 PDF objects out of 1000 (max. 8388607)
+ 180 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 500000)
  62 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -18,7 +18,7 @@
 \newcommand{\sech}{\operatorname{sech}}
 \newcommand{\artanh}{\operatorname{artanh}}
 
-\title{When the Grass Really Is Greener\\[4pt]
+\title{A Proof That the Grass Is Greener\\[4pt]
 {\large Three-shot search on an exponentiated Ornstein--Uhlenbeck landscape}}
 \author{Peter Cotton}
 \date{\normalsize First version: April 6, 2022. This version: September 3, 2026.}
@@ -48,7 +48,12 @@ $\rho$ the bracket correlation: stay between the anchors on good news;
 on bad news step out past the better end, whichever end that is.
 Numerically, the optimal three-shot policy widens the
 bracket relative to the two-shot step in anticipation of the revisit
-option, which is worth up to about one percent of expected value.
+option, which is worth up to about one percent of expected value. In
+every phase of the policy the winning location is one never yet
+visited: under a lognormal objective an unvisited point with the same
+expected height as a visited one is strictly better, by Jensen's
+inequality, so the grass provably is greener --- the searcher's only
+question is where it is greenest.
 \end{abstract}
 
 \section{The problem: three evaluations of an exponentiated OU path}
@@ -336,8 +341,12 @@ in high.
 
 \section{Discussion}
 
-The proverb warns that the grass only looks greener elsewhere. The
-analysis says when it truly is. On bad news, leave: a below-median
+The proverb, read as mathematics, is Jensen's inequality: under a
+payoff that exponentiates a Gaussian, any unvisited location whose
+expected height matches a visited one is strictly better, carrying a
+bonus of half its residual variance. The grass is greener --- provably,
+not wistfully --- and the analysis above locates the greenest patch.
+On bad news, leave: a below-median
 anchor is abandoned outright, and a disappointing second value sends
 the final point out past the better end --- in whichever direction
 that end lies. On good news, stay between: when both ends
