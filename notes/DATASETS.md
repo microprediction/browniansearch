@@ -1,4 +1,36 @@
 # Validation datasets for the One Last Trial case study
+
+## UPDATE 2026-09-03 (Peter's parallel search): WiFi RSS shadowing
+## displaces corn as the primary candidate
+A WiFi RTT/RSS indoor-positioning dataset (Zenodo, CC BY 4.0 per the
+report; DOI to be confirmed -- the closest record I located,
+zenodo 17210359, has 4-AP RTT databases and does NOT match the
+reported shape): 77,040 RSS measurements, 642 positions on a 92x15 m
+floor, 13 access points, 120 repeats per position, ~50 contiguous
+horizontal traces of 15+ locations. Peter's preliminary diagnostic
+on detrended log mean power: skew 0.047, excess kurtosis -0.152,
+pooled spatial correlation C(h) ~ 0.640 exp(-h/11.84) with R^2
+0.990 -- expOU plus a nugget. TO REPRODUCE INDEPENDENTLY once the
+DOI/file is in hand (house rule: rerun every number).
+
+WHY THIS BEATS CORN: real measurements (not simulation), a natural
+maximize-received-power deployment story (site survey: incumbent
+measurement, one more survey point, commit a placement), AND a
+35-year-old domain anchor -- log-power shadow fading with
+EXPONENTIAL spatial correlation is the classical Gudmundson model
+[U: read before citing], so the expOU premise is the standard model
+of the field, not an assumption to defend.
+
+Validation protocol (from the report): split by entire AP-corridor
+traces, never random points; fit path loss, variance, correlation
+length, nugget on training traces; treat the 120-sample mean power
+as the dense latent payoff surface; replay the three-shot policy on
+held-out traces snapping to the grid; compare terminal power vs
+two-shot, no-interior, equispaced, and empirical knowledge-gradient
+policies; report gains overall and conditional on the expOU
+diagnostics passing. Secondary: Mostofi lab robotic RSS routes
+(12,564 measurements at 2-5 cm spacing; academic-use restriction;
+spatial averaging needed for fast fading).
 (Agent reconnaissance 2026-09-03; 10 candidates checked for the
 crux shape: many instances x dense grid on ONE controlled x.)
 
