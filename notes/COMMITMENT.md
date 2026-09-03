@@ -76,3 +76,31 @@ from any single-bracket state, and threshold-structured by the
 corollary. The gap to the exact DP is the price of the freedom
 Proposition A proves is sometimes used -- to leave -- and is
 measurable on the lattice.
+
+## Round two (2026-09-03, later): the plank closed, k=2 attacked
+1. THE SIGMA PARABOLA (proved, in the paper). The symmetric interior
+   utility depends on position only through sigma = lam2 + lam,
+   becoming a downward parabola on [2 sqrt(rho), 1+rho): the
+   pitchfork is the peak entering the range, the exit edge is the
+   peak leaving it, the off-middle optimum is U_off =
+   (b^2 e^{-2T} + e^{2T})/2, and U_off >= b is literally AM-GM with
+   tangency at b = e^{2T}. The b<=1 stretch that had rested on a
+   dense grid is now one line, and three elementary no-gap
+   inequalities close the middle regime: the revisit-region theorem
+   is fully algebraic. Identities checked over 200k random draws
+   (verify/check_sigma.py).
+2. SINGLE CROSSING AT k=2: SURVIVES (verify/check_crossing_k2.py).
+   Stay-minus-exit is monotone through zero exactly once in all
+   three probed configs, including asymmetric anchors and a wide
+   bracket. Not proved -- the k=1 argument genuinely fails here
+   since exits can re-enter -- but the break attempt failed.
+3. NEW FINDING: THE STAY THRESHOLD RISES WITH BUDGET. At
+   (b,d,rho)=(0.7,0.7,0.5) the reveal must beat ~0.63 to hold a
+   single remaining shot inside, but ~1.2 to hold the first of two:
+   more remaining shots make the outside option (explore now,
+   re-enter later if warranted) more valuable, so the bracket must
+   be better to monopolize attention. Conjecture: v-dagger_k is
+   increasing in k, saturating at the value where the bracket beats
+   even a full fresh exploration program. Open alongside the k-shot
+   two-phase conjecture and the pitchfork's inheritance (late-stage
+   refinement should hug the running best, not bisect).
