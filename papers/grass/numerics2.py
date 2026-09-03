@@ -64,34 +64,6 @@ def opt_rho(b, with_interior=True):
     return float(r.x), float(-r.fun)
 
 
-if __name__ == "__main__":
-    out = {}
-    print("== corrected Table 1: adaptive integration, exact "
-          "interior ==")
-    rows = []
-    for b in (0.1, 0.3, 0.5, 0.7, 0.83, 0.9, 1.2):
-        rw, vw = opt_rho(b, True)
-        r0, v0 = opt_rho(b, False)
-        gain = (np.exp(vw) - np.exp(v0)) / np.exp(v0) * 100
-        rows.append(dict(b=b, rho_with=rw, val_with=vw,
-                         rho_wo=r0, val_wo=v0, gain_pct=gain))
-        print(f"  b={b:4.2f}: rho*={rw:.5f} value={vw:.5f} | "
-              f"interior-excluded rho*={r0:.5f} value={v0:.5f} | "
-              f"gain {gain:.3f}%")
-    out["table"] = rows
-    exact_flee = 0.5 + np.log(1 + 1 / np.sqrt(2 * np.pi))
-    print(f"  b<0 (flee, rho->0 limit, exact): {exact_flee:.6f}")
-    out["flee_exact"] = exact_flee
-    print("\n== widening decomposition at b=0.5 ==")
-    rw, _ = opt_rho(0.5, True)
-    r0, _ = opt_rho(0.5, False)
-    print(f"  two-shot rho = 0.5; interior-excluded rho* = {r0:.5f};"
-          f" interior-allowed rho* = {rw:.5f}")
-    out["widening"] = dict(two_shot=0.5, excluded=r0, allowed=rw)
-    json.dump(out, open(os.path.join(HERE, "results2.json"), "w"),
-              indent=2)
-    print("wrote results2.json")
-    make_figure()
 
 
 def make_figure():
@@ -136,3 +108,33 @@ def make_figure():
     os.makedirs(os.path.join(HERE, "figures"), exist_ok=True)
     fig.savefig(os.path.join(HERE, "figures", "phase.pdf"))
     print("wrote figures/phase.pdf")
+
+
+if __name__ == "__main__":
+    out = {}
+    print("== corrected Table 1: adaptive integration, exact "
+          "interior ==")
+    rows = []
+    for b in (0.1, 0.3, 0.5, 0.7, 0.83, 0.9, 1.2):
+        rw, vw = opt_rho(b, True)
+        r0, v0 = opt_rho(b, False)
+        gain = (np.exp(vw) - np.exp(v0)) / np.exp(v0) * 100
+        rows.append(dict(b=b, rho_with=rw, val_with=vw,
+                         rho_wo=r0, val_wo=v0, gain_pct=gain))
+        print(f"  b={b:4.2f}: rho*={rw:.5f} value={vw:.5f} | "
+              f"interior-excluded rho*={r0:.5f} value={v0:.5f} | "
+              f"gain {gain:.3f}%")
+    out["table"] = rows
+    exact_flee = 0.5 + np.log(1 + 1 / np.sqrt(2 * np.pi))
+    print(f"  b<0 (flee, rho->0 limit, exact): {exact_flee:.6f}")
+    out["flee_exact"] = exact_flee
+    print("\n== widening decomposition at b=0.5 ==")
+    rw, _ = opt_rho(0.5, True)
+    r0, _ = opt_rho(0.5, False)
+    print(f"  two-shot rho = 0.5; interior-excluded rho* = {r0:.5f};"
+          f" interior-allowed rho* = {rw:.5f}")
+    out["widening"] = dict(two_shot=0.5, excluded=r0, allowed=rw)
+    json.dump(out, open(os.path.join(HERE, "results2.json"), "w"),
+              indent=2)
+    print("wrote results2.json")
+    make_figure()
