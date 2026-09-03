@@ -19,7 +19,7 @@
 \newcommand{\artanh}{\operatorname{artanh}}
 
 \title{When the Grass Is Greener\\[4pt]
-{\large Three-shot search on an exponentiated Ornstein--Uhlenbeck landscape}}
+{\large Three-Shot Search on an Exponentiated Ornstein--Uhlenbeck Landscape}}
 \author{Peter Cotton}
 \date{\normalsize First version: April 6, 2022. This version: September 3, 2026.}
 
@@ -27,30 +27,31 @@
 \maketitle
 
 \begin{abstract}
-\noindent A searcher evaluates a rugged landscape --- the exponential of a
-stationary Ornstein--Uhlenbeck path --- at three points chosen
-sequentially, and is paid the value at the final point: a terminal
-placement problem, distinct from approximating the path's maximum. The
+\noindent A searcher evaluates a rugged landscape, the exponential of a
+stationary Ornstein--Uhlenbeck path, at three points chosen
+sequentially, and is paid the value at the final point. This is a
+terminal placement problem, distinct from approximating the path's
+maximum. The
 two-evaluation problem has a three-phase closed form (flee below the
 median; stay above a threshold; otherwise step a distance set by the
 mean-reversion scale). The third evaluation turns on a bracket of two
 observed locations with correlation $\rho$. For equal observed values
 $b$, every interior bracket point shares its conditional mean with an
 explicit exterior point while carrying conditional variance larger by
-the constant factor $(1+\rho)/(1-\rho)=e^{2\Theta}$, $\Theta$ the
-bracket rapidity --- a matched-mean dominance that extends to every
+the constant factor $(1+\rho)/(1-\rho)=e^{2\Theta}$, where $\Theta$
+is the bracket rapidity. This matched-mean dominance extends to every
 convex payoff by Gaussian convex ordering. The symmetric interior
 problem collapses to a parabola in $m=(\lambda_2+\lambda)/(1+\rho)$,
 namely $bm+\tfrac{C}{2}(1-m^{2})$ with $C=e^{2\Theta}$, whose clipped
-optimizer $b/C$ yields the full phase diagram: the interior beats every
+optimizer $b/C$ yields the full phase diagram. The interior beats every
 alternative, observed locations included, exactly for
 $b_{-}(\rho)<b<e^{2\Theta}$ with $b_{-}$ a quadratic root; the optimal
 interior point is the bracket middle only below $b=\sinh 2\tau$, with
 $\tau$ the half-bracket rapidity, beyond which a mirror pair of optima
 slides to the ends, arriving at $b=e^{2\Theta}$, where staying at an
-anchor takes over. Above that ceiling the grass is not greener: mean
-reversion caps the conditional mean of every unvisited point, and no
-variance bonus compensates. Numerically, the interior option is worth
+anchor takes over. Above that ceiling the grass is not greener, since
+mean reversion caps the conditional mean of every unvisited point and
+no variance bonus compensates. Numerically, the interior option is worth
 about one percent of expected value at most (peaking near $b=0.83$),
 and most of the three-shot bracket widening is explained by the extra
 evaluation itself rather than by the interior option.
@@ -83,11 +84,25 @@ searcher is thus paid for conditional mean and conditional variance in
 equal measure: a final location with residual uncertainty carries a
 lognormal bonus of half its variance.
 
+Figure~\ref{fig:problem} shows the decision this paper solves.
 Two conventions tidy the boundary cases. A searcher may take a location
 to infinity, which by mean reversion is equivalent to sampling a fresh
 $N(0,1)$ value independent of everything seen; and a searcher may
 finish at an observed location, receiving its known value. Neither
 changes the substance of any result.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/problem.pdf}
+\caption{The problem. Two locations have been evaluated and returned
+equal values (dots); the shaded region is the posterior band for the
+landscape and the grey curve one landscape consistent with the data.
+The final evaluation is the consequential one: settle between the
+anchors, step out past an end, or stay at an observed point. The
+paper computes which, exactly, as a function of the anchor value and
+the bracket correlation.}
+\label{fig:problem}
+\end{figure}
 
 \section{Two evaluations: flee, explore, or stay}
 
@@ -120,9 +135,9 @@ b & b>1 .
 \end{equation}
 \end{proposition}
 
-A below-median first value is abandoned; an exceptional one is kept ---
-already at two shots, an observed location can be the optimal final
-location. In between, the searcher steps to the distance at which the
+A below-median first value is abandoned, and an exceptional one is
+kept: already at two shots, an observed location can be the optimal
+final location. In between, the searcher steps to the distance at which the
 prior pull toward the mean exactly balances the anchor's height. The
 value $\zeta$ serves as the exterior benchmark throughout: by the
 Markov property, any placement beyond all existing observations faces a
@@ -144,8 +159,8 @@ conditioning gives the bridge moments
 \nu \;=\; \frac{\left(1-\lambda_2^{2}\right)\left(1-\lambda^{2}\right)}
 {1-\rho^{2}} .
 \end{equation}
-For $b=d>0$ the bridge sags --- the mean is below $b$ everywhere
-strictly inside, pulled toward the process mean --- while the variance
+For $b=d>0$ the bridge sags: the mean is below $b$ everywhere
+strictly inside, pulled toward the process mean, while the variance
 rises from zero at the ends to a maximum at the middle.
 
 A caution on what is additive. Correlations across consecutive
@@ -158,8 +173,8 @@ for equal anchors $d=b$ the bridge mean is
 \;=\; b\tanh\!\left(\theta_2+\theta\right),
 \end{equation}
 which matches the mean of the exterior point at correlation
-$\tanh(\theta_2+\theta)$ to its anchor --- a mean-matching device we
-use next, not a composition law. The bridge variance also takes a
+$\tanh(\theta_2+\theta)$ to its anchor. This is a mean-matching device
+we use next, not a composition law. The bridge variance also takes a
 hyperbolic product form: substituting $1-\tanh^{2}=\sech^{2}$ into
 \eqref{eq:bridge},
 \begin{equation}\label{eq:varprod}
@@ -206,8 +221,8 @@ The amplification is a property of the bracket, not the position:
 threefold at $\rho=\tfrac12$, nineteenfold at $\rho=0.9$, unbounded as
 $\rho\uparrow 1$. At the bracket's ends both variances vanish; their
 ratio still tends to $e^{2\Theta}$. Dominance over mean-matched
-exterior rivals --- which the theorem explicitly constructs ---
-decides nothing by itself: the exterior player may choose any
+exterior rivals, which the theorem explicitly constructs, decides
+nothing by itself: the exterior player may choose any
 correlation, and an observed anchor may simply be kept. The object
 that can fail to exist is different: an \emph{unvisited} point whose
 conditional mean matches the best \emph{observed} value. Mean
@@ -338,7 +353,7 @@ $\left(1-u\right)^{2}\ge 0$.
 Along the two-shot-inherited bracket $\rho=b$ the region opens at
 $b^{*}=0.4233\ldots$, the root of $U_{\mathrm{mid}}(b,b)=\zeta(b)$.
 The geometry of the upper edge deserves care: for $b>1$, interior
-dominance requires $\rho>\left(b-1\right)/\left(b+1\right)$ ---
+dominance requires $\rho>\left(b-1\right)/\left(b+1\right)$, so
 higher anchors demand a larger bracket correlation, which is a
 \emph{shorter} physical bracket. Very good news is forgiven only by
 narrow brackets; on a wide bracket, very good news means stay.
@@ -381,9 +396,9 @@ L(x)-1 \;=\;
 -\frac{\left(2x-1\right)^{2}\left(x^{2}+x+1\right)}{6x^{2}}
 \;<\;0, \qquad \tfrac12<x<1,
 \end{equation}
-and for $d\ge 1$ staying at the second anchor is optimal --- $d$'s
-coefficient in the bridge mean is below one, so raising $d$ only
-widens the loss. Symmetric dominance is a window, not a half-line.
+and for $d\ge 1$ staying at the second anchor is optimal, since
+$d$'s coefficient in the bridge mean is below one and raising $d$
+only widens the loss. Symmetric dominance is a window, not a half-line.
 
 \section{The three-shot policy, computed}
 
@@ -392,9 +407,8 @@ $\zeta(d)$ and the interior optimum (via \eqref{eq:quartic}), the
 three-shot value of a bracket $\rho$ is
 $\log\E_d\!\left[e^{V\left(b,d,\rho\right)}\right]$ with
 $d\sim N\!\left(b\rho,1-\rho^{2}\right)$, computed by adaptive
-quadrature and optimized over $\rho$. The comparison policy denies
-interior placement but keeps both exterior rays --- it is not a ban
-on reversing direction.
+quadrature and optimized over $\rho$. The comparison policy denies interior placement but keeps both
+exterior rays. It is not a ban on reversing direction.
 
 \begin{table}[t]
 \centering
@@ -450,42 +464,41 @@ The proverb, read as mathematics, is conditional, and two distinct
 comparisons should not be merged. Against a \emph{visited} point of
 matching conditional mean, any unvisited location wins by Jensen
 alone: it carries variance, the known value carries none. Between two
-\emph{unvisited} rivals of matching mean --- an interior point and
-its constructed exterior counterpart --- Theorem~\ref{thm:dominance}
+\emph{unvisited} rivals of matching mean, an interior point and its
+constructed exterior counterpart, Theorem~\ref{thm:dominance}
 gives the constant variance ratio $e^{2\Theta}$. Neither comparison
 manufactures a matched-mean unvisited rival for a high observed
 value. Mean reversion caps the conditional
 mean of every unvisited point, and above $b=e^{2\Theta}$ the cap
 binds: the optimal final location is one already seen, and the grass,
-there, is provably not greener. Below the cap the analysis locates
-the greenest patch --- past the better end on bad news, in whichever
-direction that end lies; between the anchors on good news, at the
-middle for moderate anchors and hugging an end beyond the pitchfork.
+there, is provably not greener. Below the cap the analysis locates the greenest patch: past the
+better end on bad news, in whichever direction that end lies; between
+the anchors on good news, at the middle for moderate anchors and
+hugging an end beyond the pitchfork.
 
 A caution about the word exploration. With one evaluation remaining
 there is nothing to explore: no discovery at the final point can
 inform a later choice. The last move is pure placement, and the pull
 toward uncertain locations is Jensen's inequality, not curiosity.
-Exploration proper enters only with more shots remaining. The natural
-conjecture from this endgame is a two-phase $k$-shot policy --- step
-out past the running best while values climb, then refine between the
-two best once a good region is bracketed --- with the pitchfork
-inherited by the refinement phase, and with no irreversible switch:
-an adverse interior observation can make leaving attractive again. The bridge formulas make each
+Exploration proper enters only with more shots remaining. The natural conjecture from this endgame is a two-phase $k$-shot
+policy: step out past the running best while values climb, then
+refine between the two best once a good region is bracketed, with the
+pitchfork inherited by the refinement phase. There is no irreversible
+switch, since an adverse interior observation can make leaving
+attractive again. The bridge formulas make each
 policy evaluation cheap; the search over adaptive policies that a
 $k$-shot dynamic program requires remains to be analyzed, and we make
 no claim that it is small.
 
 The problem solved here is terminal placement: the payoff is the value
-at the final location, not the running maximum of the path. That
-distinguishes it from the optimization literature on Brownian
-landscapes --- Grill, Valko and Munos approximate the maximum of a
+at the final location, not the running maximum of the path. That distinguishes it from the optimization literature on Brownian
+landscapes, where Grill, Valko and Munos approximate the maximum of a
 Brownian path with many evaluations, Calvin analyzes average-case
 adaptive optimization, and the nearest exact few-evaluation analysis,
 Alabert and Caballero's laws of the minimum of a conditioned Brownian
 bridge, was built to compare \emph{nonadaptive} few-point algorithms
-rather than to solve an adaptive placement game --- and places it in
-the correlated-learning
+rather than to solve an adaptive placement game. The problem instead
+belongs to the correlated-learning
 tradition that Callander introduced, in which each trial is a policy
 actually enacted and the last choice is the one lived with. The
 workhorse of that tradition is myopic --- each period's step
