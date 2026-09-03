@@ -263,22 +263,41 @@ $\Theta=\artanh\rho$ is the full-bracket rapidity.
 \end{theorem}
 
 \begin{proof}
-Differentiating, $f'(x)\,x^{3}\left(1+\rho\right)\left(1-\rho^{2}\right)$
-is proportional to
-$b\,x\left(x^{2}-\rho\right)\left(1-\rho\right)-\left(x^{4}-\rho^{2}\right)$,
-and $x^{4}-\rho^{2}=\left(x^{2}-\rho\right)\left(x^{2}+\rho\right)$
-gives \eqref{eq:factor}. The quadratic factor has real roots iff
-$b\left(1-\rho\right)\ge 2\sqrt{\rho}$, with product $\rho$ (the
-mirror symmetry $x\leftrightarrow\rho/x$) and
-$x_{+}=1$ exactly when $b\left(1-\rho\right)+
-\sqrt{b^{2}\left(1-\rho\right)^{2}-4\rho}=2$, i.e.
-$b=\left(1+\rho\right)/\left(1-\rho\right)$. At the middle,
-$f''(\sqrt{\rho}) = \frac{2b}{\sqrt{\rho}\left(1+\rho\right)}
-- \frac{4}{1-\rho^{2}}$, negative precisely when
-$b<2\sqrt{\rho}/\left(1-\rho\right)$; the hyperbolic form follows
-from $\tanh\tau=\sqrt{\rho}$, whence
-$2\sqrt{\rho}/\left(1-\rho\right)=2\tanh\tau\cosh^{2}\tau=\sinh 2\tau$.
+The interior problem is secretly one-dimensional in
+$\sigma = x + \rho/x = \lambda_2+\lambda$, under which mirror points
+coincide: using $\left(1-x^{2}\right)\left(1-\rho^{2}/x^{2}\right)
+= \left(1+\rho\right)^{2}-\sigma^{2}$,
+\begin{equation}\label{eq:parabola}
+f \;=\; \frac{b\,\sigma}{1+\rho}
++ \frac{\left(1+\rho\right)^{2}-\sigma^{2}}{2\left(1-\rho^{2}\right)},
+\end{equation}
+a downward parabola in $\sigma$ with peak at
+$\sigma^{*}=b\left(1-\rho\right)$, while $\sigma$ ranges over
+$[\,2\sqrt{\rho},\,1+\rho)$ --- its minimum at the middle, its
+supremum at the ends. Since $d\sigma/dx = 1-\rho/x^{2}$ vanishes only
+at the middle, the critical points of $f$ are the middle together
+with the preimages of $\sigma^{*}$, which lie in range iff
+$2\sqrt{\rho} < b\left(1-\rho\right) < 1+\rho$; solving
+$x+\rho/x=b\left(1-\rho\right)$ gives \eqref{eq:offmid} and, with the
+middle factor, \eqref{eq:factor}. The middle sits at the
+$\sigma$-minimum, so it is the interior optimum iff the parabola is
+decreasing there, $\sigma^{*}\le 2\sqrt{\rho}$, i.e.
+$b\le 2\sqrt{\rho}/\left(1-\rho\right)
+= 2\tanh\tau\cosh^{2}\tau=\sinh 2\tau$; beyond, the peak itself is
+attained by the mirror pair, and $x_{+}=1$ exactly when
+$\sigma^{*}=1+\rho$, i.e. $b=e^{2\Theta}$.
 \end{proof}
+
+\begin{corollary}[Off-middle value]\label{cor:uoff}
+For $\sinh 2\tau \le b \le e^{2\Theta}$ the interior optimum equals
+the parabola's peak value,
+\begin{equation}\label{eq:uoff}
+U_{\mathrm{off}}(b,\rho) \;=\;
+\tfrac12\!\left(b^{2}e^{-2\Theta} + e^{2\Theta}\right),
+\end{equation}
+obtained by substituting $\sigma^{*}=b\left(1-\rho\right)$ into
+\eqref{eq:parabola} and using $e^{2\Theta}=(1+\rho)/(1-\rho)$.
+\end{corollary}
 
 The searcher on very good news does not aim for the center of the
 bracket: the optimal patch slides from the middle toward the
@@ -303,30 +322,43 @@ bracket's ends.
 \end{theorem}
 
 \begin{proof}
-Lower edge: for $b\le 1$, $\zeta(b)=\tfrac12\left(b^{2}+1\right)$ and
-$U_{\mathrm{mid}}>\zeta$ reduces to the stated quadratic with
-discriminant $8\rho\left(1-\rho\right)$; since
-$b_{-}<\sinh 2\tau$ for every $\rho$ (their ratio is
-$\left(2-\sqrt{2\left(1-\rho\right)}\right)\left(1-\rho\right)
-/\left(2\left(1+\rho\right)\right)<1$), the middle is the interior
-optimum near the lower edge and the comparison is exact there.
-Upper edge: expanding at the end, $x=1-\varepsilon$,
+Everything reduces to the parabola \eqref{eq:parabola} and three
+regimes of its peak. If $b\ge e^{2\Theta}$ then
+$\sigma^{*}\ge 1+\rho$: $f$ increases in $\sigma$ over the whole
+range, its supremum is the unattained end limit $b$, and staying
+wins. If $\sinh 2\tau < b < e^{2\Theta}$ the optimum is
+$U_{\mathrm{off}}$ of Corollary~\ref{cor:uoff}, and both comparisons
+are one line: for $b>1$,
 \begin{equation}
-f\left(1-\varepsilon\right) \;=\; b
-+ \varepsilon\left(1-\frac{b\left(1-\rho\right)}{1+\rho}\right)
-+ O\!\left(\varepsilon^{2}\right),
+U_{\mathrm{off}} - b \;=\;
+\tfrac12\,e^{-2\Theta}\!\left(b-e^{2\Theta}\right)^{2} \;>\;0,
 \end{equation}
-so for $1\le b<e^{2\Theta}$ a point just inside the end strictly
-beats staying ($\zeta(b)=b$), while for $b>e^{2\Theta}$ the interior
-holds no critical point besides the middle minimum
-(\eqref{eq:offmid} has left the unit range), $f$ increases from the
-middle to both ends, and the interior supremum is the end value
-itself: staying is optimal. On the remaining stretch
-$b\in\left(\min\{1,b_{+}\},1\right]$ at small $\rho$, where the
-middle can lose to $\zeta$ while the off-middle pair wins, the
-inequality $f\left(x_{+}\right)>\zeta(b)$ is verified numerically on
-a dense grid (single crossing observed throughout); the two edges of
-\eqref{eq:region} are exact as proved.
+the arithmetic--geometric mean inequality applied to the two terms
+of \eqref{eq:uoff}, with equality only at the tangency
+$b=e^{2\Theta}$ that defines the upper edge; and for $b\le 1$,
+\begin{equation}
+U_{\mathrm{off}} - \tfrac12\!\left(b^{2}+1\right) \;=\;
+\tfrac12\!\left(e^{2\Theta}-1\right)\!\left(1-b^{2}e^{-2\Theta}\right)
+\;>\;0
+\end{equation}
+since $b\le 1<e^{\Theta}$. If $b\le\sinh 2\tau$ the optimum is the
+middle. For $b\le 1$, $U_{\mathrm{mid}}>\zeta$ is the stated
+quadratic; $b_{-}\le 2\sqrt{\rho}/\left(1+\rho\right)<\sinh 2\tau$
+places the lower edge inside this regime, so it is exact. No gap
+opens above: when $\sinh 2\tau\le 1$ (i.e.
+$\rho\le 3-2\sqrt{2}$), $b_{+}\ge\sinh 2\tau$ reduces to
+$\left(1-\rho\right)^{3}\ge 8\rho^{2}$, whose left side decreases
+and right side increases in $\rho$ and which holds at
+$\rho=3-2\sqrt{2}$; when $\sinh 2\tau>1$, $b_{+}\ge 1$ reduces, with
+$u=\sqrt{\rho}$, to $2u^{2}\left(1+u\right)\ge\left(1-u\right)^{3}$,
+increasing against decreasing and true at $u=\sqrt{2}-1$ (it reads
+$20\sqrt{2}\ge 28$); and on $1<b\le\sinh 2\tau$,
+$U_{\mathrm{mid}}\ge b$ reduces to
+$b\le\left(1+u\right)/\left(2\left(1-u\right)\right)$, which covers
+the whole stretch because $\sinh 2\tau\le
+\left(1+u\right)/\left(2\left(1-u\right)\right)$ is
+$\left(1-u\right)^{2}\ge 0$. Assembling the regimes, the interior
+wins exactly on \eqref{eq:region}.
 \end{proof}
 
 Along the two-shot-inherited bracket $\rho=b$ the region opens at
