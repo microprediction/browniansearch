@@ -44,8 +44,9 @@ rewards variance, the interior point beats its mean-matched outside
 rival everywhere except at the bracket's ends. Against the best outside
 choice the bridge middle wins if and only if
 $b^{2}(1+\rho)-4b\sqrt{\rho}+2\rho<0$, where $b$ is the anchor value and
-$\rho$ the bracket correlation: revisit the bracket on good news, go
-forth on bad. Numerically, the optimal three-shot policy widens the
+$\rho$ the bracket correlation: stay between the anchors on good news;
+on bad news step out past the better end, whichever end that is.
+Numerically, the optimal three-shot policy widens the
 bracket relative to the two-shot step in anticipation of the revisit
 option, which is worth up to about one percent of expected value.
 \end{abstract}
@@ -120,9 +121,13 @@ b & b>1 .
 A below-median first value is abandoned entirely; an exceptional one is
 kept; in between, the searcher steps to the distance at which the prior
 pull toward the anchor exactly matches the anchor's height. The value
-$\zeta$ will serve as the outside benchmark throughout: any strategy that
-moves beyond all existing observations faces, by the Markov property, a
-fresh copy of this two-shot problem anchored at the nearest observation.
+$\zeta$ will serve as the outside benchmark throughout. Outside the
+bracket means either ray, and by the Markov property an outside point
+sees only its nearest anchor, so the best outside move steps past
+whichever end is better --- reversing direction, when the second value
+disappoints, to leave by the first anchor rather than the second.
+There is no momentum in the policy; only the heights of the ends
+matter.
 
 \section{Bridge moments and the rapidity coordinate}
 
@@ -332,9 +337,10 @@ in high.
 \section{Discussion}
 
 The proverb warns that the grass only looks greener elsewhere. The
-analysis says when it truly is. Go forth on bad news: a disappointing
-anchor is abandoned, a disappointing second value sends the search
-outward past the better end. Stay between on good news: when both ends
+analysis says when it truly is. On bad news, leave: a below-median
+anchor is abandoned outright, and a disappointing second value sends
+the final point out past the better end --- in whichever direction
+that end lies. On good news, stay between: when both ends
 of the bracket came in high, the sagging bridge between them retains
 most of their promise and, at its middle, several times the residual
 uncertainty of any outside point with the same expectation --- and an
@@ -350,10 +356,10 @@ and the pull toward uncertain locations is Jensen's inequality, not
 curiosity: the objective pays half the variance directly, whether or
 not anything is ever learned there. Exploration proper enters only
 with more shots remaining, where early placements buy information. The
-natural conjecture from the corrected endgame is a two-phase $k$-shot
-policy: step outward while values keep climbing, each new high
-re-anchoring the next step, then refine inside once a high region is
-bracketed. Settling it is a dynamic program over the posterior, cheap
+natural conjecture from the endgame here is a two-phase $k$-shot
+policy: step out past the running best while values keep climbing,
+each new high re-anchoring the next step, then refine between the two
+highest once a good region is bracketed. Settling it is a dynamic program over the posterior, cheap
 per step with the bridge formulas above.
 
 The rapidity coordinate is the tool worth keeping: bridge means compose

@@ -29,7 +29,8 @@ sech(theta2+theta)sech(theta2-theta): every interior point has the
 same mean as the outside point at the composed rapidity and strictly
 more variance, and the objective pays for variance. The bridge middle
 beats every outside choice exactly when b^2(1+rho) - 4b sqrt(rho)
-+ 2rho < 0 — revisit on good news, go forth on bad. The revisit
++ 2rho < 0 — stay between the anchors on good news; on bad news step
+out past the better end, whichever end that is. The revisit
 option is worth up to about one percent of expected value, and the
 optimal bracket widens in anticipation of it.
 
