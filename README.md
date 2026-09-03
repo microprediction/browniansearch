@@ -16,8 +16,8 @@ there a controller *prunes many* paths under budget; here a searcher
 
 **A Proof That the Grass Is Greener: Three-Shot Search on an
 Exponentiated Ornstein-Uhlenbeck Landscape** (Cotton) —
-[papers/go_forth.pdf](papers/go_forth.pdf), source and numerics in
-[papers/go_forth/](papers/go_forth/).
+[papers/grass.pdf](papers/grass.pdf), source and numerics in
+[papers/grass/](papers/grass/).
 
 A searcher evaluates the landscape three times and is paid the value
 at the final point. The two-shot policy is a closed-form three-phase
@@ -38,7 +38,7 @@ Status: working paper. First version April 2022 (the original is
 preserved in
 [microprediction/home](https://github.com/microprediction/home/blob/main/workingpapers/go_forth.pdf),
 first committed 2022-04-06); current version September 2026. Every
-number is produced by `papers/go_forth/numerics.py` and independently
+number is produced by `papers/grass/numerics.py` and independently
 checked by `verify/check_inside.py` (exact conditioning plus weighted
 Monte Carlo).
 

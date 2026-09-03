@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 15:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 16:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**go_forth.tex
-(./go_forth.tex
+**grass.tex
+(./grass.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -346,8 +346,8 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count305
 \l__pdf_internal_box=\box54
 )
-(./go_forth.aux)
-\openout1 = `go_forth.aux'.
+(./grass.aux)
+\openout1 = `grass.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
 LaTeX Font Info:    ... okay on input line 26.
@@ -426,9 +426,9 @@ e
 ))
 Package hyperref Info: Link coloring ON on input line 26.
 
-(./go_forth.out) (./go_forth.out)
+(./grass.out) (./grass.out)
 \@outlinefile=\write3
-\openout3 = `go_forth.out'.
+\openout3 = `grass.out'.
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
 
@@ -473,7 +473,7 @@ LaTeX Warning: Reference `eq:quadratic' on page 7 undefined on input line 496.
 
 [7]
 
-[8] (./go_forth.aux)
+[8] (./grass.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -482,17 +482,17 @@ L3 programming layer <2025-01-18>
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `go_forth.out' has not changed.
+Package rerunfilecheck Info: File `grass.out' has not changed.
 (rerunfilecheck)             Checksum: 437D3F21FA7E2528818777D75DC97B6A;1831.
  ) 
 Here is how much of TeX's memory you used:
  10922 strings out of 473190
- 165379 string characters out of 5715801
- 592338 words of memory out of 5000000
+ 165322 string characters out of 5715801
+ 592323 words of memory out of 5000000
  33995 multiletter control sequences out of 15000+600000
  569070 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,914b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,911b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -512,7 +512,7 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf
 -dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on go_forth.pdf (8 pages, 264531 bytes).
+Output written on grass.pdf (8 pages, 264531 bytes).
 PDF statistics:
  297 PDF objects out of 1000 (max. 8388607)
  198 compressed objects within 2 object streams
