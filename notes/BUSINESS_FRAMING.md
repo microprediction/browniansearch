@@ -51,5 +51,12 @@ finite operating limits, OU-misspecification. Do NOT promise the 1%
 -- it measures one restriction under one model.
 
 ## Working title for the applied version
-"One Last Trial: Experiment Design Before Deployment" -- OU analysis
-as the exact benchmark, a process-control dataset as the application.
+"One More Pivot" (Peter, 2026-09-03) -- strategy-audience framing,
+subtitle to carry the placement question (e.g. "where to place a
+final experiment, and when to settle between past successes").
+Conditional on the pivot-count evidence verifying (agent out); if it
+holds, the three-shot budget is the empirical regime, not a
+tractability apology. "One Last Trial" remains the fallback if the
+case study stays industrial/agronomic and the register clash with
+pivot vocabulary matters. OU analysis as the exact benchmark, the
+corn N-response dataset as the application.
