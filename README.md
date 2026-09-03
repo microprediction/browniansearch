@@ -14,25 +14,30 @@ there a controller *prunes many* paths under budget; here a searcher
 
 ## Founding paper
 
-**A Proof That the Grass Is Greener: Three-Shot Search on an
-Exponentiated Ornstein-Uhlenbeck Landscape** (Cotton) —
+**When the Grass Is Greener: Three-Shot Search on an Exponentiated
+Ornstein-Uhlenbeck Landscape** (Cotton) —
 [papers/grass.pdf](papers/grass.pdf), source and numerics in
 [papers/grass/](papers/grass/).
 
 A searcher evaluates the landscape three times and is paid the value
-at the final point. The two-shot policy is a closed-form three-phase
-rule (flee / explore / stay). The three-shot question — go beyond the
-bracket, or revisit its interior? — is settled by a rapidity
-coordinate theta = tanh^-1(e^(-kappa dt)) under which bridge means
-compose additively and bridge variances factor as
-sech(theta2+theta)sech(theta2-theta): every interior point has the
-same mean as the outside point at the composed rapidity and strictly
-more variance, and the objective pays for variance. The bridge middle
-beats every outside choice exactly when b^2(1+rho) - 4b sqrt(rho)
-+ 2rho < 0 — stay between the anchors on good news; on bad news step
-out past the better end, whichever end that is. The revisit
-option is worth up to about one percent of expected value, and the
-optimal bracket widens in anticipation of it.
+at the final point -- terminal placement, not path-maximum
+approximation. The two-shot policy is a closed-form three-phase rule
+(flee / explore / stay). For a bracket of two equal observed values,
+every interior point shares its conditional mean with an explicit
+exterior point while carrying conditional variance larger by the
+constant factor (1+rho)/(1-rho) = e^{2 Theta} -- matched-mean
+dominance in the Gaussian convex order, for every convex payoff. The
+symmetric interior problem is a constrained parabola bm + C(1-m^2)/2
+whose clipped optimizer b/C yields the full phase diagram: the
+interior beats every alternative exactly for b_-(rho) < b <
+e^{2 Theta}; the optimal interior point is the middle only below
+b = sinh(2 tau), beyond which mirror optima slide to the ends; and
+above e^{2 Theta} the optimal final location is an OBSERVED one --
+mean reversion caps every unvisited point's conditional mean, and
+there the grass is provably not greener. The interior option is worth
+about 1% of expected value at most (peak near b = 0.83), and most of
+the three-shot bracket widening comes from the extra evaluation
+itself.
 
 Status: working paper. First version April 2022 (the original is
 preserved in
