@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 15:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 SEP 2026 15:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -472,7 +472,7 @@ Package rerunfilecheck Info: File `go_forth.out' has not changed.
 Here is how much of TeX's memory you used:
  10903 strings out of 473190
  165132 string characters out of 5715801
- 585761 words of memory out of 5000000
+ 585773 words of memory out of 5000000
  33985 multiletter control sequences out of 15000+600000
  568762 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -496,7 +496,7 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf
 -dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on go_forth.pdf (6 pages, 253134 bytes).
+Output written on go_forth.pdf (6 pages, 253929 bytes).
 PDF statistics:
  266 PDF objects out of 1000 (max. 8388607)
  175 compressed objects within 2 object streams

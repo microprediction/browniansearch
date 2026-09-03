@@ -14,8 +14,8 @@ there a controller *prunes many* paths under budget; here a searcher
 
 ## Founding paper
 
-**Go Forth on Bad News: Three-Shot Search on an Exponentiated
-Ornstein-Uhlenbeck Landscape** (Cotton) —
+**When the Grass Really Is Greener: Three-Shot Search on an
+Exponentiated Ornstein-Uhlenbeck Landscape** (Cotton) —
 [papers/go_forth.pdf](papers/go_forth.pdf), source and numerics in
 [papers/go_forth/](papers/go_forth/).
 

@@ -18,7 +18,7 @@
 \newcommand{\sech}{\operatorname{sech}}
 \newcommand{\artanh}{\operatorname{artanh}}
 
-\title{Go Forth on Bad News\\[4pt]
+\title{When the Grass Really Is Greener\\[4pt]
 {\large Three-shot search on an exponentiated Ornstein--Uhlenbeck landscape}}
 \author{Peter Cotton}
 \date{\normalsize First version: April 6, 2022. This version: September 3, 2026.}
@@ -331,16 +331,30 @@ in high.
 
 \section{Discussion}
 
-The maxim supported by the analysis is not that a searcher should always
-leave the bracket of past experience; it is conditional. Go forth on bad
-news: a disappointing anchor is abandoned, a disappointing second value
-sends the search outward past the better end. Revisit on good news: when
-both ends of the bracket came in high, the sagging bridge between them
-retains most of their promise and, at its middle, several times the
-residual uncertainty of any outside point with the same expectation ---
-and an objective that exponentiates a Gaussian pays for uncertainty at
-half-weight. The exact frontier between the two regimes is the quadratic
-\eqref{eq:quadratic}.
+The proverb warns that the grass only looks greener elsewhere. The
+analysis says when it truly is. Go forth on bad news: a disappointing
+anchor is abandoned, a disappointing second value sends the search
+outward past the better end. Stay between on good news: when both ends
+of the bracket came in high, the sagging bridge between them retains
+most of their promise and, at its middle, several times the residual
+uncertainty of any outside point with the same expectation --- and an
+objective that exponentiates a Gaussian pays for uncertainty at
+half-weight. The exact frontier between the two regimes is the
+quadratic \eqref{eq:quadratic}.
+
+A caution about the word exploration. With one evaluation remaining
+there is nothing to explore: no discovery at the final point can
+inform a later choice, because there is none. The last move is pure
+placement --- put the point where $\mu+\tfrac12\nu$ is largest ---
+and the pull toward uncertain locations is Jensen's inequality, not
+curiosity: the objective pays half the variance directly, whether or
+not anything is ever learned there. Exploration proper enters only
+with more shots remaining, where early placements buy information. The
+natural conjecture from the corrected endgame is a two-phase $k$-shot
+policy: step outward while values keep climbing, each new high
+re-anchoring the next step, then refine inside once a high region is
+bracketed. Settling it is a dynamic program over the posterior, cheap
+per step with the bridge formulas above.
 
 The rapidity coordinate is the tool worth keeping: bridge means compose
 additively in $\theta=\artanh(e^{-\kappa\Delta t})$, bridge variances
