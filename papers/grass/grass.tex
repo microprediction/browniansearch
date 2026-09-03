@@ -206,11 +206,15 @@ The amplification is a property of the bracket, not the position:
 threefold at $\rho=\tfrac12$, nineteenfold at $\rho=0.9$, unbounded as
 $\rho\uparrow 1$. At the bracket's ends both variances vanish; their
 ratio still tends to $e^{2\Theta}$. Dominance over mean-matched
-rivals, however, decides nothing by itself: the exterior player may
-choose any correlation, an observed anchor may be kept, and above all
-a matched-mean exterior point must exist. Mean reversion caps the
-conditional mean of every unvisited location, and when the anchors are
-high enough that cap binds. The next section makes this exact.
+exterior rivals --- which the theorem explicitly constructs ---
+decides nothing by itself: the exterior player may choose any
+correlation, and an observed anchor may simply be kept. The object
+that can fail to exist is different: an \emph{unvisited} point whose
+conditional mean matches the best \emph{observed} value. Mean
+reversion caps unvisited conditional means strictly below a high
+anchor, and whether the variance bonus makes up the shortfall is
+precisely the question the phase diagram answers. The next section
+makes this exact.
 
 \section{The constrained parabola and the complete symmetric solution}
 
@@ -289,10 +293,15 @@ exterior.
 
 \begin{proof}
 If $b\ge e^{2\Theta}$, Theorem~\ref{thm:pitchfork} gives interior
-supremum $b$, unattained, while the best exterior point offers
-$\sup_{\lambda\in[0,1)}\left[b\lambda
-+\tfrac12\left(1-\lambda^{2}\right)\right]<b$ for $b>1$: staying at
-an anchor wins. If $\sinh 2\tau<b<e^{2\Theta}$ the interior optimum
+supremum $b$, unattained, while every exterior point loses to the
+anchor pointwise: for $b>1$ and any $\lambda\in[0,1)$,
+\begin{equation}
+b-\left[b\lambda+\tfrac12\left(1-\lambda^{2}\right)\right]
+\;=\;\left(1-\lambda\right)\!\left[b-\tfrac{1+\lambda}{2}\right]
+\;>\;0
+\end{equation}
+(the suprema coincide at $b$; the dominance is strict at every
+unvisited point): staying at an anchor wins. If $\sinh 2\tau<b<e^{2\Theta}$ the interior optimum
 is $U_{\mathrm{off}}$, and both comparisons are one line: for $b>1$,
 \begin{equation}
 U_{\mathrm{off}} - b \;=\;
@@ -365,7 +374,7 @@ $\left(\rho,1\right)$, compared against $\zeta(b)$ and $\zeta(d)$,
 decide the move exactly and replace any grid. The symmetric window
 does not extend indefinitely in $d$. At $b=\tfrac12$,
 $\rho=\tfrac12$, the interior wins precisely for
-$d\in\left(0.4715,\,1\right)$: below, the ray past the better end
+$d\in\left(\approx 0.4715,\,1\right)$: below, the ray past the better end
 wins; at $d=1$ every strictly interior point loses, by the identity
 \begin{equation}
 L(x)-1 \;=\;
@@ -394,10 +403,10 @@ on reversing direction.
 $b$ & optimal $\rho$ & value & value, interior excluded & interior worth \\
 \midrule
 $0.1$ & $0.053$ & $0.8396$ & $0.8393$ & $0.03\%$ \\
-$0.3$ & $0.167$ & $0.8722$ & $0.8692$ & $0.31\%$ \\
+$0.3$ & $0.167$ & $0.8723$ & $0.8692$ & $0.31\%$ \\
 $0.5$ & $0.289$ & $0.9386$ & $0.9314$ & $0.73\%$ \\
 $0.7$ & $0.402$ & $1.0375$ & $1.0271$ & $1.05\%$ \\
-$0.83$ & $0.469$ & $1.1183$ & $1.1072$ & $1.11\%$ \\
+$0.83$ & $0.469$ & $1.1183$ & $1.1072$ & $1.12\%$ \\
 $0.9$ & $0.502$ & $1.1670$ & $1.1562$ & $1.09\%$ \\
 $1.2$ & $0.622$ & $1.4059$ & $1.3991$ & $0.68\%$ \\
 \bottomrule
@@ -425,17 +434,21 @@ enables account for most of the stretch; the interior option adds a
 further, smaller pull. Third, the interior option's worth peaks near
 $1.1\%$ of expected value around $b\approx 0.83$ and vanishes at both
 extremes. Excluding interior placement is thus cheap by value; it is
-the prescription that errs, and it errs exactly when both evaluations
-came in high.
+the prescription that errs, and it errs when both evaluations land in
+the revisit window --- high, but below the ceiling $e^{2\Theta}$
+above which both policies stay.
 
 \section{Discussion}
 
-The proverb, read as mathematics, is conditional. Jensen's inequality
-upgrades any unvisited location whose conditional mean matches a
-visited one --- by half its variance under the exponential payoff, and
-in the convex order generally, at the constant amplification
-$e^{2\Theta}$ of Theorem~\ref{thm:dominance}. But the inequality does
-not manufacture such locations. Mean reversion caps the conditional
+The proverb, read as mathematics, is conditional, and two distinct
+comparisons should not be merged. Against a \emph{visited} point of
+matching conditional mean, any unvisited location wins by Jensen
+alone: it carries variance, the known value carries none. Between two
+\emph{unvisited} rivals of matching mean --- an interior point and
+its constructed exterior counterpart --- Theorem~\ref{thm:dominance}
+gives the constant variance ratio $e^{2\Theta}$. Neither comparison
+manufactures a matched-mean unvisited rival for a high observed
+value. Mean reversion caps the conditional
 mean of every unvisited point, and above $b=e^{2\Theta}$ the cap
 binds: the optimal final location is one already seen, and the grass,
 there, is provably not greener. Below the cap the analysis locates
@@ -451,7 +464,8 @@ Exploration proper enters only with more shots remaining. The natural
 conjecture from this endgame is a two-phase $k$-shot policy --- step
 out past the running best while values climb, then refine between the
 two best once a good region is bracketed --- with the pitchfork
-inherited by the refinement phase. The bridge formulas make each
+inherited by the refinement phase, and with no irreversible switch:
+an adverse interior observation can make leaving attractive again. The bridge formulas make each
 policy evaluation cheap; the search over adaptive policies that a
 $k$-shot dynamic program requires remains to be analyzed, and we make
 no claim that it is small.

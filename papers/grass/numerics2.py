@@ -91,3 +91,48 @@ if __name__ == "__main__":
     json.dump(out, open(os.path.join(HERE, "results2.json"), "w"),
               indent=2)
     print("wrote results2.json")
+    make_figure()
+
+
+def make_figure():
+    """The paper's figure: exact symmetric region + interior-option
+    gain curve (adaptive quadrature, quartic-exact interior)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(1, 2, figsize=(9, 3.6))
+    rr = np.linspace(0.005, 0.995, 400)
+    s = np.sqrt(rr)
+    lo = s * (2 - np.sqrt(2 * (1 - rr))) / (1 + rr)
+    upper = (1 + rr) / (1 - rr)
+    bif = 2 * s / (1 - rr)
+    ax = axes[0]
+    ax.fill_between(rr, lo, np.minimum(upper, 1.6), alpha=0.25,
+                    color="tab:blue", label="revisit the interior")
+    ax.plot(rr, lo, "tab:blue", lw=1.2)
+    ax.plot(rr, np.minimum(upper, 1.6), "tab:blue", lw=1.2)
+    ax.plot(rr, np.minimum(bif, 1.6), "tab:green", lw=1.0, ls=":",
+            label=r"pitchfork $b=\sinh 2\tau$ (middle $\to$ ends)")
+    ax.plot(rr, rr, "k--", lw=0.9,
+            label=r"$\rho=b$ (two-shot bracket)")
+    ax.set_xlabel(r"bracket correlation $\rho=e^{-\kappa t_1}$")
+    ax.set_ylabel(r"anchor value $b=d$")
+    ax.set_ylim(0, 1.6)
+    ax.set_title("the symmetric revisit region, exactly")
+    ax.legend(frameon=False, fontsize=8)
+    ax = axes[1]
+    bs = np.linspace(0.05, 1.3, 26)
+    gains = []
+    for b in bs:
+        _, vw = opt_rho(b, True)
+        _, v0 = opt_rho(b, False)
+        gains.append((np.exp(vw) - np.exp(v0)) / np.exp(v0) * 100)
+    ax.plot(bs, gains, "tab:red", lw=1.4)
+    ax.axhline(0, color="k", lw=0.6)
+    ax.set_xlabel(r"first discovered value $b$")
+    ax.set_ylabel("value of the interior option (%)")
+    ax.set_title("what excluding interior placement costs")
+    fig.tight_layout()
+    os.makedirs(os.path.join(HERE, "figures"), exist_ok=True)
+    fig.savefig(os.path.join(HERE, "figures", "phase.pdf"))
+    print("wrote figures/phase.pdf")

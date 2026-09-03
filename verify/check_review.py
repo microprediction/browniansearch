@@ -50,8 +50,14 @@ xs = np.linspace(0.5 + 1e-9, 1 - 1e-9, 30001)
 mu, nu = bridge(b, d, rho, xs)
 L = mu + nu / 2
 rhs = -((2 * xs - 1) ** 2) * (xs ** 2 + xs + 1) / (6 * xs ** 2)
+ok_id = np.max(np.abs(L - 1 - rhs)) < 1e-12
+ok_sign = np.all(rhs < 0)          # the factored form is negative on
+                                   # the strict interior; testing L<1
+                                   # directly hits fp cancellation at
+                                   # the endpoint
+assert ok_id and ok_sign
 print(f"3. d=1 identity max|L-1-rhs| = {np.max(np.abs(L - 1 - rhs)):.2e}"
-      f"; all interior lose: {np.all(L < 1)}")
+      f"; factored expression negative on strict interior: {ok_sign}")
 
 # 4. quartic stationarity
 bad = 0
