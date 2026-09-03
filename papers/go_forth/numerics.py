@@ -126,17 +126,21 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     fig, axes = plt.subplots(1, 2, figsize=(9, 3.6))
     rr = np.linspace(0.005, 0.995, 400)
-    lo, hi = boundary(rr)
+    lo, _ = boundary(rr)
+    upper = (1 + rr) / (1 - rr)          # exact exit edge e^{2 Theta}
+    bif = 2 * np.sqrt(rr) / (1 - rr)     # pitchfork sinh(2 tau)
     ax = axes[0]
-    ax.fill_between(rr, lo, np.minimum(hi, 1.4), alpha=0.25,
-                    color="tab:blue", label="revisit the bridge")
+    ax.fill_between(rr, lo, np.minimum(upper, 1.6), alpha=0.25,
+                    color="tab:blue", label="revisit the interior")
     ax.plot(rr, lo, "tab:blue", lw=1.2)
-    ax.plot(rr, np.minimum(hi, 1.4), "tab:blue", lw=1.2)
+    ax.plot(rr, np.minimum(upper, 1.6), "tab:blue", lw=1.2)
+    ax.plot(rr, np.minimum(bif, 1.6), "tab:green", lw=1.0, ls=":",
+            label=r"pitchfork $b=\sinh 2\tau$ (middle $\to$ ends)")
     ax.plot(rr, rr, "k--", lw=0.9, label=r"$\rho=b$ (two-shot bracket)")
     ax.set_xlabel(r"bracket correlation $\rho=e^{-\kappa t_1}$")
     ax.set_ylabel(r"anchor value $b=d$")
-    ax.set_ylim(0, 1.4)
-    ax.set_title("where the bridge middle beats going forth")
+    ax.set_ylim(0, 1.6)
+    ax.set_title("the revisit region, exactly")
     ax.legend(frameon=False, fontsize=8)
     ax = axes[1]
     bs = np.linspace(0.05, 1.3, 40)

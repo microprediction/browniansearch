@@ -42,10 +42,14 @@ composed rapidity and conditional variance larger by the factor
 $\cosh(\theta_2+\theta)/\cosh(\theta_2-\theta)$. Since the objective
 rewards variance, the interior point beats its mean-matched outside
 rival everywhere except at the bracket's ends. Against the best outside
-choice the bridge middle wins if and only if
-$b^{2}(1+\rho)-4b\sqrt{\rho}+2\rho<0$, where $b$ is the anchor value and
-$\rho$ the bracket correlation: stay between the anchors on good news;
-on bad news step out past the better end, whichever end that is.
+choice the interior wins precisely for anchor values $b$ between a
+closed-form quadratic root and $e^{2\Theta}=(1+\rho)/(1-\rho)$, with
+$\rho$ the bracket correlation and $\Theta$ its rapidity: stay between
+the anchors on good news; on bad news step out past the better end,
+whichever end that is. Within the region the optimal interior point is
+the bracket middle only up to $b=\sinh 2\tau$, $\tau$ the half-bracket
+rapidity; beyond, a pitchfork sends a mirror pair of optima sliding
+toward the ends, which they reach exactly at the region's upper edge.
 Numerically, the optimal three-shot policy widens the
 bracket relative to the two-shot step in anticipation of the revisit
 option, which is worth up to about one percent of expected value. In
@@ -218,69 +222,140 @@ $\sech^{2}(\theta_2+\theta)$ --- up to three times as much residual
 uncertainty at the same expectation, and the objective pays for
 uncertainty.
 
-\section{The exact boundary: when to revisit, when to go forth}
+\section{The exact revisit region, and a pitchfork inside it}
 
 Dominance over mean-matched rivals does not by itself decide the
 searcher's move, because the outside player is free to choose any
-correlation, not the mean-matched one. The relevant comparison is the
-best interior point against the best outside value $\zeta$ of
-Proposition~\ref{prop:twoshot}. In the symmetric case the middle of the
-bridge, $\lambda_2=\lambda=\sqrt{\rho}$, attains the interior optimum,
-with log-utility
-\begin{equation}
-U_{\mathrm{mid}}(b,\rho)
-\;=\; \frac{2b\sqrt{\rho}}{1+\rho} + \frac{1-\rho}{2\left(1+\rho\right)} .
-\end{equation}
+correlation. The relevant comparison is the best interior point
+against the best outside value $\zeta$ of
+Proposition~\ref{prop:twoshot}, and it requires knowing where the
+interior optimum sits. It is not always the middle.
 
-\begin{theorem}[Revisit boundary]\label{thm:boundary}
-For $d=b\in[0,1]$ the bridge middle strictly beats every outside
-location if and only if
-\begin{equation}\label{eq:quadratic}
-b^{2}\left(1+\rho\right) - 4b\sqrt{\rho} + 2\rho \;<\; 0,
-\end{equation}
-that is, for $b$ strictly between
+\begin{theorem}[Interior critical points, symmetric case]\label{thm:pitchfork}
+For $d=b>0$ write the interior log-utility as a function of the
+correlation $x=\lambda_2\in(\rho,1)$ to one end,
 \begin{equation}
-b_{\pm}(\rho) \;=\;
-\frac{\sqrt{\rho}\left(2 \pm \sqrt{2\left(1-\rho\right)}\right)}{1+\rho}.
+f(x) \;=\; \frac{b\left(x+\rho/x\right)}{1+\rho}
++ \frac{\left(1-x^{2}\right)\left(1-\rho^{2}/x^{2}\right)}{2\left(1-\rho^{2}\right)}.
 \end{equation}
+Its critical points solve
+\begin{equation}\label{eq:factor}
+\left(x^{2}-\rho\right)\left(x^{2}-b\left(1-\rho\right)x+\rho\right)\;=\;0 .
+\end{equation}
+The middle $x=\sqrt{\rho}$ is always critical. Writing
+$\tau=\artanh\sqrt{\rho}$ for the half-bracket rapidity, the middle
+is the interior optimum if and only if
+\begin{equation}
+b \;\le\; \sinh 2\tau \;=\; \frac{2\sqrt{\rho}}{1-\rho},
+\end{equation}
+at which threshold a pitchfork bifurcation occurs: for
+$b>\sinh 2\tau$ the middle is a local minimum and the optimum is the
+mirror pair
+\begin{equation}\label{eq:offmid}
+x_{\pm} \;=\; \frac{b\left(1-\rho\right)
+\pm\sqrt{b^{2}\left(1-\rho\right)^{2}-4\rho}}{2},
+\qquad x_{+}x_{-}=\rho,
+\end{equation}
+one point seen from each end. The pair is born at the middle and
+migrates outward, reaching the ends exactly at
+$b=\left(1+\rho\right)/\left(1-\rho\right)=e^{2\Theta}$, where
+$\Theta=\artanh\rho$ is the full-bracket rapidity.
 \end{theorem}
 
 \begin{proof}
-For $b\in[0,1]$ the outside benchmark is
-$\zeta(b)=\tfrac12(b^2+1)$. The inequality
-$U_{\mathrm{mid}}>\zeta$ becomes, after multiplying by
-$2(1+\rho)$ and simplifying, exactly \eqref{eq:quadratic}; the roots
-follow from the quadratic formula with discriminant
-$8\rho\left(1-\rho\right)$.
+Differentiating, $f'(x)\,x^{3}\left(1+\rho\right)\left(1-\rho^{2}\right)$
+is proportional to
+$b\,x\left(x^{2}-\rho\right)\left(1-\rho\right)-\left(x^{4}-\rho^{2}\right)$,
+and $x^{4}-\rho^{2}=\left(x^{2}-\rho\right)\left(x^{2}+\rho\right)$
+gives \eqref{eq:factor}. The quadratic factor has real roots iff
+$b\left(1-\rho\right)\ge 2\sqrt{\rho}$, with product $\rho$ (the
+mirror symmetry $x\leftrightarrow\rho/x$) and
+$x_{+}=1$ exactly when $b\left(1-\rho\right)+
+\sqrt{b^{2}\left(1-\rho\right)^{2}-4\rho}=2$, i.e.
+$b=\left(1+\rho\right)/\left(1-\rho\right)$. At the middle,
+$f''(\sqrt{\rho}) = \frac{2b}{\sqrt{\rho}\left(1+\rho\right)}
+- \frac{4}{1-\rho^{2}}$, negative precisely when
+$b<2\sqrt{\rho}/\left(1-\rho\right)$; the hyperbolic form follows
+from $\tanh\tau=\sqrt{\rho}$, whence
+$2\sqrt{\rho}/\left(1-\rho\right)=2\tanh\tau\cosh^{2}\tau=\sinh 2\tau$.
 \end{proof}
 
-The region is nonempty for every $\rho\in(0,1)$ and, along the
-two-shot-inherited bracket $\rho=b$, opens at
-\begin{equation}
-b^{*} \;=\; 0.4233\ldots,
+The searcher on very good news does not aim for the center of the
+bracket: the optimal patch slides from the middle toward the
+better-known ends as the anchors improve, hugging them ever more
+closely, and merges with them exactly when $b$ reaches $e^{2\Theta}$.
+
+\begin{theorem}[Revisit region, symmetric case]\label{thm:boundary}
+For $d=b\ge 0$ the best interior point strictly beats every outside
+location precisely for
+\begin{equation}\label{eq:region}
+b_{-}(\rho) \;<\; b \;<\; \frac{1+\rho}{1-\rho} \;=\; e^{2\Theta},
+\qquad
+b_{-}(\rho)=\frac{\sqrt{\rho}\left(2-\sqrt{2\left(1-\rho\right)}\right)}{1+\rho}.
 \end{equation}
-the root of $U_{\mathrm{mid}}(b,b)=\zeta(b)$: a searcher whose first two
-evaluations both came in at $b>b^{*}$ does better returning to the
-middle of the bracket than striking out anew. Spot values, with the
-bracket at $\rho=b$: at $b=0.30$ the middle offers $0.5220$ against the
-outside $0.5450$ (go forth); at $b=0.50$, $0.6381$ against $0.6250$
-(revisit); at $b=0.90$, $0.9251$ against $0.9050$ (revisit). By
-continuity the revisit region extends to $d\ne b$: at $b=0.5$,
+The lower edge is the smaller root of
+$b^{2}\left(1+\rho\right)-4b\sqrt{\rho}+2\rho=0$, the middle-regime
+comparison $U_{\mathrm{mid}}=\zeta$ with
+$U_{\mathrm{mid}}(b,\rho)=2b\sqrt{\rho}/(1+\rho)
++\left(1-\rho\right)/\left(2\left(1+\rho\right)\right)$; the upper
+edge is where the off-middle optima \eqref{eq:offmid} reach the
+bracket's ends.
+\end{theorem}
+
+\begin{proof}
+Lower edge: for $b\le 1$, $\zeta(b)=\tfrac12\left(b^{2}+1\right)$ and
+$U_{\mathrm{mid}}>\zeta$ reduces to the stated quadratic with
+discriminant $8\rho\left(1-\rho\right)$; since
+$b_{-}<\sinh 2\tau$ for every $\rho$ (their ratio is
+$\left(2-\sqrt{2\left(1-\rho\right)}\right)\left(1-\rho\right)
+/\left(2\left(1+\rho\right)\right)<1$), the middle is the interior
+optimum near the lower edge and the comparison is exact there.
+Upper edge: expanding at the end, $x=1-\varepsilon$,
+\begin{equation}
+f\left(1-\varepsilon\right) \;=\; b
++ \varepsilon\left(1-\frac{b\left(1-\rho\right)}{1+\rho}\right)
++ O\!\left(\varepsilon^{2}\right),
+\end{equation}
+so for $1\le b<e^{2\Theta}$ a point just inside the end strictly
+beats staying ($\zeta(b)=b$), while for $b>e^{2\Theta}$ the interior
+holds no critical point besides the middle minimum
+(\eqref{eq:offmid} has left the unit range), $f$ increases from the
+middle to both ends, and the interior supremum is the end value
+itself: staying is optimal. On the remaining stretch
+$b\in\left(\min\{1,b_{+}\},1\right]$ at small $\rho$, where the
+middle can lose to $\zeta$ while the off-middle pair wins, the
+inequality $f\left(x_{+}\right)>\zeta(b)$ is verified numerically on
+a dense grid (single crossing observed throughout); the two edges of
+\eqref{eq:region} are exact as proved.
+\end{proof}
+
+Along the two-shot-inherited bracket $\rho=b$ the region opens at
+$b^{*}=0.4233\ldots$, the root of $U_{\mathrm{mid}}(b,b)=\zeta(b)$.
+Spot values with $\rho=b$: at $b=0.30$ the middle offers $0.5220$
+against the outside $0.5450$ (go forth); at $b=0.50$, $0.6381$
+against $0.6250$ (revisit); at $b=0.90$, $0.9251$ against $0.9050$
+(revisit). By continuity the region extends to $d\ne b$: at $b=0.5$,
 $\rho=0.5$ the interior wins for all $d\ge b$ and loses for
-$d\le 0.45$. Good news on both ends of the bracket favors the interior;
-bad news at either end favors leaving.
+$d\le 0.45$. And notably the region reaches above $b=1$: even an
+anchor better than the two-shot stay threshold is worth leaving for
+a point just inside the bracket, provided $b<e^{2\Theta}$ --- wide
+brackets forgive very good news.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/phase.pdf}
-\caption{Left: the symmetric-case region \eqref{eq:quadratic} where the
-bridge middle beats every outside choice, in the plane of bracket
-correlation $\rho$ and anchor value $b=d$. The dashed line is the
-two-shot-inherited bracket $\rho=b$, which enters the region at
-$b^{*}=0.4233$. Right: the value of the revisit option --- the
-percentage increase in expected payoff of the full three-shot optimum
-over the best policy forbidden to backtrack --- as a function of the
-first discovered value $b$, with the bracket optimized in both cases.}
+\caption{Left: the exact symmetric revisit region
+\eqref{eq:region} in the plane of bracket correlation $\rho$ and
+anchor value $b=d$, bounded below by the quadratic root $b_{-}$ and
+above by $e^{2\Theta}=\left(1+\rho\right)/\left(1-\rho\right)$. The
+dotted curve is the pitchfork $b=\sinh 2\tau$: below it the optimal
+interior point is the bracket middle, above it the mirror pair
+\eqref{eq:offmid} hugging the ends. The dashed line is the two-shot
+bracket $\rho=b$, entering the region at $b^{*}=0.4233$. Right: the
+value of the revisit option --- the percentage increase in expected
+payoff of the full three-shot optimum over the best policy forbidden
+to backtrack --- as a function of the first discovered value $b$,
+with the bracket optimized in both cases.}
 \label{fig:phase}
 \end{figure}
 
