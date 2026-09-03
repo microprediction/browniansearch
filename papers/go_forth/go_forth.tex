@@ -1,0 +1,402 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+
+\newtheoremstyle{itheads}{\topsep}{\topsep}{}{}{\itshape}{.}{.5em}{}
+\theoremstyle{itheads}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\artanh}{\operatorname{artanh}}
+
+\title{Go Forth on Bad News\\[4pt]
+{\large Three-shot search on an exponentiated Ornstein--Uhlenbeck landscape}}
+\author{Peter Cotton}
+\date{\normalsize First version: April 6, 2022. This version: September 3, 2026.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent A searcher evaluates a rugged landscape --- the exponential of an
+Ornstein--Uhlenbeck path --- at three points chosen sequentially, and is
+paid the value at the final point. The two-evaluation problem has a
+three-phase closed form: flee somewhere fresh if the first value is below
+the median, stay put if it is exceptional, and otherwise step a distance
+set by the mean-reversion scale. The interesting question is the third
+evaluation: given two locations a bracket apart, should the searcher ever
+place the final point between them? A rapidity coordinate
+$\theta=\artanh(e^{-\kappa\,\Delta t})$, under which bridge means compose
+additively, reduces the comparison to a hyperbolic identity: an interior
+bridge point has the same conditional mean as the outside point at the
+composed rapidity and conditional variance larger by the factor
+$\cosh(\theta_2+\theta)/\cosh(\theta_2-\theta)$. Since the objective
+rewards variance, the interior point beats its mean-matched outside
+rival everywhere except at the bracket's ends. Against the best outside
+choice the bridge middle wins if and only if
+$b^{2}(1+\rho)-4b\sqrt{\rho}+2\rho<0$, where $b$ is the anchor value and
+$\rho$ the bracket correlation: revisit the bracket on good news, go
+forth on bad. Numerically, the optimal three-shot policy widens the
+bracket relative to the two-shot step in anticipation of the revisit
+option, which is worth up to about one percent of expected value.
+\end{abstract}
+
+\section{The problem: three evaluations of an exponentiated OU path}
+
+Let $X$ be a stationary Ornstein--Uhlenbeck process on $\R$ with
+$\E[X_t]=0$, unit marginal variance, and covariance kernel
+\begin{equation}
+k(s,t) \;=\; e^{-\kappa|s-t|}.
+\end{equation}
+The landscape is $f(t)=\exp(X_t)$: locally continuous, mean-reverting in
+its logarithm, with occasional high peaks where excursions are magnified
+by the exponential. A searcher samples $f$ at a first location, which we
+take to be $t_0=0$ by translation invariance, discovering $X_0=b$. Two
+further evaluations at locations $t_1$ and then $t_2$ follow, each chosen
+with knowledge of all values so far, and the payoff is the value at the
+final location,
+\begin{equation}
+u \;=\; \E\!\left[f(t_2)\right]
+\;=\; \E\!\left[e^{X_{t_2}}\right].
+\end{equation}
+Since $X_{t_2}$ is conditionally Gaussian given the observations, with
+mean $\mu$ and variance $\nu$ depending on the chosen location,
+\begin{equation}\label{eq:lognormal}
+\log \E\!\left[e^{X_{t_2}}\right] \;=\; \mu + \tfrac{1}{2}\nu ,
+\end{equation}
+and the searcher is paid for conditional mean and conditional variance in
+equal measure. This is the engine of everything below: exploration has
+value not only through what it might reveal along the way but directly,
+because a final location with residual uncertainty carries a lognormal
+bonus of half its variance.
+
+Two conventions tidy the boundary cases. A searcher may take a location
+to infinity, which by mean reversion is equivalent to sampling a fresh
+$N(0,1)$ value independent of everything seen; and a searcher may revisit
+an existing location, receiving its known value. Neither changes the
+substance of any result.
+
+\section{Two evaluations: flee, explore, or stay}
+
+Given only $X_0=b$, a candidate second location at distance $t$ has
+$X_t \sim N\!\left(b\lambda,\,1-\lambda^{2}\right)$ with
+$\lambda=e^{-\kappa t}\in(0,1]$. From \eqref{eq:lognormal},
+\begin{equation}
+\log \E\!\left[e^{X_t}\right]
+\;=\; b\lambda + \tfrac{1}{2}\!\left(1-\lambda^{2}\right)
+\;=\; -\tfrac{1}{2}\left(\lambda-b\right)^{2} + \tfrac{1}{2}\left(b^{2}+1\right),
+\end{equation}
+maximized over $\lambda\in[0,1]$ at $\lambda^{*}=\min\{\max\{b,0\},1\}$.
+Three phases result.
+
+\begin{proposition}[Two-shot policy]\label{prop:twoshot}
+The optimal second location and its log-value $\zeta(b)$ are
+\begin{equation}
+t^{*} \;=\;
+\begin{cases}
+\infty & b<0 \quad(\text{flee}),\\[2pt]
+-\tfrac{1}{\kappa}\log b & 0\le b\le 1 \quad(\text{explore}),\\[2pt]
+0 & b>1 \quad(\text{stay}),
+\end{cases}
+\qquad
+\zeta(b) \;=\;
+\begin{cases}
+\tfrac{1}{2} & b<0,\\[2pt]
+\tfrac{1}{2}\left(b^{2}+1\right) & 0\le b\le 1,\\[2pt]
+b & b>1 .
+\end{cases}
+\end{equation}
+\end{proposition}
+
+A below-median first value is abandoned entirely; an exceptional one is
+kept; in between, the searcher steps to the distance at which the prior
+pull toward the anchor exactly matches the anchor's height. The value
+$\zeta$ will serve as the outside benchmark throughout: any strategy that
+moves beyond all existing observations faces, by the Markov property, a
+fresh copy of this two-shot problem anchored at the nearest observation.
+
+\section{Bridge moments and the rapidity coordinate}
+
+Now suppose values $X_0=b$ and $X_{t_1}=d$ are known, and write
+$\rho=e^{-\kappa t_1}$ for the bracket correlation. For an interior
+location $t_2\in(0,t_1)$ let $\lambda_2=e^{-\kappa t_2}$ and
+$\lambda=e^{-\kappa(t_1-t_2)}$ be the correlations to the two ends, so
+$\lambda_2\lambda=\rho$. Gaussian conditioning gives the bridge moments
+\begin{equation}\label{eq:bridge}
+\mu \;=\; \frac{\lambda_2\!\left(1-\lambda^{2}\right)b
++ \lambda\!\left(1-\lambda_2^{2}\right)d}{1-\rho^{2}},
+\qquad
+\nu \;=\; \frac{\left(1-\lambda_2^{2}\right)\left(1-\lambda^{2}\right)}
+{1-\rho^{2}} .
+\end{equation}
+The bridge sags: for $b=d>0$ the mean is below $b$ everywhere strictly
+inside, pulled toward the process mean, while the variance rises from
+zero at the ends to a maximum at the middle.
+
+Define rapidities
+\begin{equation}
+\theta_2 = \artanh(\lambda_2), \qquad \theta = \artanh(\lambda),
+\end{equation}
+so named because, in the symmetric case $d=b$, bridge means compose like
+relativistic velocities:
+\begin{equation}\label{eq:meanadd}
+\mu \;=\; b\,\frac{\lambda_2+\lambda}{1+\lambda_2\lambda}
+\;=\; b\tanh\!\left(\theta_2+\theta\right).
+\end{equation}
+The variance in \eqref{eq:bridge} also takes a hyperbolic product form.
+Substituting $1-\tanh^{2}=\sech^{2}$ and using
+$\cosh(A+B)\cosh(A-B)=\cosh^{2}\!A\cosh^{2}\!B-\sinh^{2}\!A\sinh^{2}\!B$,
+\begin{equation}\label{eq:varprod}
+\nu \;=\; \frac{\sech^{2}\theta_2\,\sech^{2}\theta}
+{1-\tanh^{2}\theta_2\tanh^{2}\theta}
+\;=\; \sech\!\left(\theta_2+\theta\right)\sech\!\left(\theta_2-\theta\right).
+\end{equation}
+An outside location beyond $t_1$ at correlation
+$\lambda'=\tanh\theta'$ to its anchor has, by the Markov property, mean
+$d\tanh\theta'$ and variance
+\begin{equation}\label{eq:outvar}
+1-\tanh^{2}\theta' \;=\; \sech^{2}\theta' .
+\end{equation}
+
+\section{Interior points beat their mean-matched outside rivals}
+
+Equations \eqref{eq:meanadd}--\eqref{eq:outvar} settle the comparison
+between an interior point and the outside point engineered to match its
+mean.
+
+\begin{theorem}[Bridge dominance]\label{thm:dominance}
+Let $d=b$ and let $t_2\in(0,t_1)$ be an interior location with
+rapidities $(\theta_2,\theta)$. The outside location at composed
+rapidity $\theta'=\theta_2+\theta$ has the same conditional mean
+$b\tanh(\theta_2+\theta)$, and the ratio of conditional variances is
+\begin{equation}
+\frac{\nu_{\mathrm{inside}}}{\nu_{\mathrm{outside}}}
+\;=\; \frac{\sech(\theta_2+\theta)\sech(\theta_2-\theta)}
+{\sech^{2}(\theta_2+\theta)}
+\;=\; \frac{\cosh(\theta_2+\theta)}{\cosh(\theta_2-\theta)} \;\ge\; 1,
+\end{equation}
+with equality only in the degenerate limits $\theta_2\to\infty$ or
+$\theta\to\infty$ (the bracket's ends). By \eqref{eq:lognormal} the
+interior point's utility is at least that of its mean-matched outside
+rival, strictly so in the interior, for every anchor value $b$.
+\end{theorem}
+
+\begin{proof}
+The mean statement is \eqref{eq:meanadd} against the outside mean
+$b\tanh\theta'$ at $\theta'=\theta_2+\theta$; the variance ratio is
+\eqref{eq:varprod} against \eqref{eq:outvar}; and
+$\cosh(\theta_2+\theta)\ge\cosh(\theta_2-\theta)$ with equality iff
+$\theta_2\theta=0$. Utility \eqref{eq:lognormal} is increasing in $\nu$
+at fixed $\mu$.
+\end{proof}
+
+The interior of a bracket whose two ends are both worth $b$ is,
+point for point, a better bet than the outside locations with the same
+expected height: the bridge keeps most of the anchors' mean while
+retaining, at its middle, variance
+$\sech(\theta_2+\theta)$ against the outside's
+$\sech^{2}(\theta_2+\theta)$ --- up to three times as much residual
+uncertainty at the same expectation, and the objective pays for
+uncertainty.
+
+\section{The exact boundary: when to revisit, when to go forth}
+
+Dominance over mean-matched rivals does not by itself decide the
+searcher's move, because the outside player is free to choose any
+correlation, not the mean-matched one. The relevant comparison is the
+best interior point against the best outside value $\zeta$ of
+Proposition~\ref{prop:twoshot}. In the symmetric case the middle of the
+bridge, $\lambda_2=\lambda=\sqrt{\rho}$, attains the interior optimum,
+with log-utility
+\begin{equation}
+U_{\mathrm{mid}}(b,\rho)
+\;=\; \frac{2b\sqrt{\rho}}{1+\rho} + \frac{1-\rho}{2\left(1+\rho\right)} .
+\end{equation}
+
+\begin{theorem}[Revisit boundary]\label{thm:boundary}
+For $d=b\in[0,1]$ the bridge middle strictly beats every outside
+location if and only if
+\begin{equation}\label{eq:quadratic}
+b^{2}\left(1+\rho\right) - 4b\sqrt{\rho} + 2\rho \;<\; 0,
+\end{equation}
+that is, for $b$ strictly between
+\begin{equation}
+b_{\pm}(\rho) \;=\;
+\frac{\sqrt{\rho}\left(2 \pm \sqrt{2\left(1-\rho\right)}\right)}{1+\rho}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For $b\in[0,1]$ the outside benchmark is
+$\zeta(b)=\tfrac12(b^2+1)$. The inequality
+$U_{\mathrm{mid}}>\zeta$ becomes, after multiplying by
+$2(1+\rho)$ and simplifying, exactly \eqref{eq:quadratic}; the roots
+follow from the quadratic formula with discriminant
+$8\rho\left(1-\rho\right)$.
+\end{proof}
+
+The region is nonempty for every $\rho\in(0,1)$ and, along the
+two-shot-inherited bracket $\rho=b$, opens at
+\begin{equation}
+b^{*} \;=\; 0.4233\ldots,
+\end{equation}
+the root of $U_{\mathrm{mid}}(b,b)=\zeta(b)$: a searcher whose first two
+evaluations both came in at $b>b^{*}$ does better returning to the
+middle of the bracket than striking out anew. Spot values, with the
+bracket at $\rho=b$: at $b=0.30$ the middle offers $0.5220$ against the
+outside $0.5450$ (go forth); at $b=0.50$, $0.6381$ against $0.6250$
+(revisit); at $b=0.90$, $0.9251$ against $0.9050$ (revisit). By
+continuity the revisit region extends to $d\ne b$: at $b=0.5$,
+$\rho=0.5$ the interior wins for all $d\ge b$ and loses for
+$d\le 0.45$. Good news on both ends of the bracket favors the interior;
+bad news at either end favors leaving.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/phase.pdf}
+\caption{Left: the symmetric-case region \eqref{eq:quadratic} where the
+bridge middle beats every outside choice, in the plane of bracket
+correlation $\rho$ and anchor value $b=d$. The dashed line is the
+two-shot-inherited bracket $\rho=b$, which enters the region at
+$b^{*}=0.4233$. Right: the value of the revisit option --- the
+percentage increase in expected payoff of the full three-shot optimum
+over the best policy forbidden to backtrack --- as a function of the
+first discovered value $b$, with the bracket optimized in both cases.}
+\label{fig:phase}
+\end{figure}
+
+\section{The three-shot policy, computed}
+
+The first location $t_1$ should anticipate the endgame. Writing
+$V(b,d,\rho)$ for the best of the outside values
+$\zeta(b),\zeta(d)$ and the interior optimum, the three-shot value of a
+bracket $\rho$ is
+$\log \E_d\!\left[e^{V(b,d,\rho)}\right]$ with
+$d\sim N(b\rho,\,1-\rho^{2})$, evaluated by quadrature. Optimizing over
+$\rho$ yields the policy. Three features, all visible in
+Table~\ref{tab:threeshot} and Figure~\ref{fig:phase}:
+
+\begin{table}[t]
+\centering
+\begin{tabular}{rcccc}
+\toprule
+$b$ & optimal $\rho$ & value & value, no revisit & revisit worth \\
+\midrule
+$-0.5$ & $\to 0$ & $0.8306$ & $0.8306$ & $0.00\%$ \\
+$0.1$ & $0.06$ & $0.8398$ & $0.8394$ & $0.03\%$ \\
+$0.3$ & $0.16$ & $0.8728$ & $0.8695$ & $0.33\%$ \\
+$0.5$ & $0.28$ & $0.9392$ & $0.9304$ & $0.88\%$ \\
+$0.7$ & $0.40$ & $1.0378$ & $1.0262$ & $1.16\%$ \\
+$0.9$ & $0.50$ & $1.1670$ & $1.1567$ & $1.03\%$ \\
+$1.2$ & $0.62$ & $1.4060$ & $1.4004$ & $0.56\%$ \\
+\bottomrule
+\end{tabular}
+\caption{The three-shot game: optimal bracket correlation, log-value,
+the log-value of the best policy forbidden to revisit the bracket
+interior, and the percentage the revisit option adds to expected payoff.
+Gauss--Hermite quadrature with $61$ nodes over the second value $d$;
+interior optima on a $400$-point grid.}
+\label{tab:threeshot}
+\end{table}
+
+First, a below-median start still means flight: for $b<0$ the optimal
+bracket correlation tends to zero (the searcher abandons the anchor,
+collecting fresh draws) and the revisit option is worthless, since a
+bridge between an abandoned anchor and whatever follows is a bridge
+between things not worth bridging.
+
+Second, the optimal bracket is wider than the two-shot step. At
+$b=0.5$ the two-shot policy steps to $\rho=0.5$; the three-shot optimum
+stretches to $\rho=0.28$. The wide bracket is bought in anticipation of
+the endgame: a wider bracket makes the eventual bridge middle more
+uncertain, and \eqref{eq:lognormal} pays half of that uncertainty
+directly.
+
+Third, the revisit option's worth peaks near one percent of expected
+value around $b\approx0.7$ and vanishes at both extremes --- worthless
+when the start is abandoned, nearly worthless when the start is so good
+the policy barely moves. Forbidding backtracking is thus a cheap
+approximation by value, but it is not the optimal policy, and its
+prescription is qualitatively wrong exactly when both evaluations came
+in high.
+
+\section{Discussion}
+
+The maxim supported by the analysis is not that a searcher should always
+leave the bracket of past experience; it is conditional. Go forth on bad
+news: a disappointing anchor is abandoned, a disappointing second value
+sends the search outward past the better end. Revisit on good news: when
+both ends of the bracket came in high, the sagging bridge between them
+retains most of their promise and, at its middle, several times the
+residual uncertainty of any outside point with the same expectation ---
+and an objective that exponentiates a Gaussian pays for uncertainty at
+half-weight. The exact frontier between the two regimes is the quadratic
+\eqref{eq:quadratic}.
+
+The rapidity coordinate is the tool worth keeping: bridge means compose
+additively in $\theta=\artanh(e^{-\kappa\Delta t})$, bridge variances
+factor as $\sech(\theta_2+\theta)\sech(\theta_2-\theta)$, and the
+inside--outside comparison collapses to the monotonicity of
+$\cosh$. The same coordinate is the natural discretization for lattice
+computations of extremes of OU paths, where uniform-in-$\theta$ spacing
+makes correlations additive across cells.
+
+Beyond three shots the closed forms give out, and the $k$-shot policy is
+a dynamic program over the posterior --- bridge moments per interval,
+maximization over intervals --- that the formulas here make cheap per
+step. The landscapes themselves remain a useful synthetic test bed for
+few-shot exploration algorithms: the choice between striking out and
+revisiting is a one-bit probe of whether a search strategy has grasped the
+trade between mean reversion and the variance bonus, and
+\eqref{eq:quadratic} is the answer key.
+
+\subsection*{Reproducibility}
+
+All numbers and the figure are produced by
+\texttt{numerics.py} alongside this source, with an independent
+verification of Theorems~\ref{thm:dominance} and \ref{thm:boundary}
+by exact conditioning and weighted Monte Carlo in
+\texttt{verify/check\_inside.py}, in the
+\href{https://github.com/microprediction/browniansearch}{browniansearch}
+repository.
+
+\begin{thebibliography}{9}
+
+\bibitem{callander2011}
+S.~Callander.
+Searching for good policies.
+\emph{American Political Science Review}, 105(4):643--662, 2011.
+
+\bibitem{baumann2019}
+O.~Baumann, J.~Schmidt, and N.~Stieglitz.
+Effective search in rugged performance landscapes: a review and outlook.
+\emph{Journal of Management}, 45(1):285--318, 2019.
+
+\bibitem{grill2018}
+J.-B. Grill, M.~Valko, and R.~Munos.
+Optimistic optimization of a Brownian.
+In \emph{Advances in Neural Information Processing Systems~31}, 2018.
+
+\bibitem{calvin1997}
+J.~M. Calvin.
+Average performance of a class of adaptive algorithms for global
+optimization.
+\emph{Annals of Applied Probability}, 7(3):711--730, 1997.
+
+\bibitem{agrawal1995}
+R.~Agrawal.
+The continuum-armed bandit problem.
+\emph{SIAM Journal on Control and Optimization}, 33(6):1926--1951, 1995.
+
+\end{thebibliography}
+
+\end{document}
