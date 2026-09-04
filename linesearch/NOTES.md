@@ -71,3 +71,31 @@ Brent's 8-10-eval lines, and its stay verdicts spend nothing. On
 smooth slices classical inner loops win; on pure noise nothing beats
 sampling. Roughness measured by p is necessary but not sufficient:
 the edge needs p in roughly (0.3, 1.5) AND real spatial structure.
+
+## exp2b: the full physics family (run 2026-09-03, run_family.py)
+All 22 dynamics-simulating demos in example_applications, same
+protocol (measure p, then the five-way head-to-head, budget 120).
+Two axes now, not one:
+- ROUGHNESS: grass mean rank 2.33/5 at p<1.1 vs 3.17 in the middle
+  band. Every rank-1 rough demo is collision/agent chaos -- bowling
+  p=0.29, boids_flocking p=0.19, plinko p=1.05, tennis_doubles
+  p=0.90. But rough is NOT sufficient: free_kick (p=0.92) and
+  tuned_mass_damper (p=1.06) are dead LAST -- both needle/resonance
+  landscapes where value hides in a tiny region and golden's fixed
+  full-segment probes are the right move; no placement theory helps
+  when the signal is a spike. (trebuchet's slices came back constant,
+  p=nan -- plateaus; golden wins it too.)
+- DIMENSION, the unanticipated axis: mean rank 3.50 at d<=4 but
+  2.25-2.50 at d>=5. wind_farm (d=16, p=1.61, SMOOTH slices) is a
+  strong grass win -- 21-22/24 seeds vs golden2/brent -- and
+  rocket_landing d=12 / satellite_phasing d=6 are near-wins
+  (satellite 22/24 vs golden2 and random). In high d the per-line
+  economy compounds: cheap lines buy direction coverage that
+  expensive inner loops cannot afford.
+So the sharpened claim: the grass inner loop wins when EITHER slices
+are navigably rough (collision/agent chaos, p<~1.1 with spatial
+structure, not needles) OR dimension is high enough that direction
+count beats per-line precision. Classical inner loops keep low-d
+smooth problems and all needle landscapes. Overall the rule is
+rank 1 or 2 on 9 of 22 physical demos -- a real niche, plainly
+bounded.

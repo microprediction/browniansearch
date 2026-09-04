@@ -100,7 +100,9 @@ if __name__ == "__main__":
         p_med, usable = measure_p(obj, d, n_slices=n_slices)
         rows = {}
         for method in METHODS:
-            rows[method] = [run_method(method, obj, d, n_trials, s)[0] for s in range(seeds)]
+            rows[method] = [
+                run_method(method, obj, d, n_trials, s)[0] for s in range(seeds)
+            ]
         med = {m: float(np.median(v)) for m, v in rows.items()}
         wins = {}
         for rival in ("golden2", "golden6", "brent", "random"):
