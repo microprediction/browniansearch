@@ -130,3 +130,58 @@ stationary mean-reverting landscape, and an exact phase diagram sits
 in unoccupied territory -- the fixed multi-shot planning problem
 this literature repeatedly gestures at (Ganz's two-shot hyperopia
 the nearest point) but never solves exactly.
+
+============================================================
+## STRAND A: CALLANDER CORE 2008-2019 (complete; six full texts,
+## Econometrica 2014 via its published 36pp proof supplement)
+
+- CALLANDER 2008 (QJPS 3(2):123-140): introduces the Brownian policy
+  landscape and the first exact complexity threshold -- delegation
+  survives iff agency bias <= sigma^2/2mu. Zero search shots; the
+  complexity ratio sigma^2/|mu| is born here. Quote p124: higher
+  variance / lower drift = "the greater is the complexity of the
+  underlying issue."
+- CALLANDER 2011 APSR (105(4):643-662): myopic electoral search;
+  stay iff status-quo outcome in [-alpha, alpha], alpha =
+  sigma^2/2|mu|; monotonic then triangulating phases; STUCK at
+  arbitrarily bad outcomes (17-50% in simulation); ~1.5-4 policy
+  changes before stability -- an in-model pivot count matching the
+  Camuffo field numbers.
+- CALLANDER 2011 AER (101(6):2277-2308): the canonical version;
+  Prop 6: alpha is ex ante a SUFFICIENT STATISTIC for search
+  dynamics (scale invariance) -- the direct ancestor of collapsing a
+  phase diagram to dimensionless ratios. Quote p2281: "a bandit
+  problem with a continuum of correlated, deterministic arms."
+- CALLANDER & HUMMEL 2014 (Econometrica 82(4):1509-1528): TWO-shot
+  sequential strategic game; Theorem 1 is a double-cutoff phase
+  structure sigma^2/4mu < gamma* < gamma**; preemptive
+  experimentation from a status quo that is already ideal. The
+  closest precedent for a small-fixed-shot exact phase diagram;
+  strategic, flow payoffs.
+- CALLANDER & HARSTAD 2015 (QJE 130(2):951-1002): NOT a Brownian
+  landscape (preference line, iid binary experiments) -- do not cite
+  as landscape work; divergence-to-deter-free-riding, welfare
+  maximized at positive heterogeneity.
+- CALLANDER & CLARK 2017 (APSR 111(1):184-203): analogical reasoning
+  = optimal bridge interpolation; case selection strictly between
+  max-error and max-outcome uncertainty; information placement for a
+  population, not terminal placement.
+- CALLANDER & MATOUSCHEK 2019 (AEJ:Micro 11(1):44-78): risk aversion
+  replaces the ideal point; performance trap iff r(m) crosses
+  2mu/sigma^2 from above; one-sided unbounded search; divergence
+  across fields.
+
+SYNTHESIS (strand A, agent verbatim): the tradition builds one
+object -- a fixed realized Brownian path with known (mu, sigma^2)
+searched by myopic or two-period actors -- and its signature results
+are exact thresholds in sigma^2/|mu| partitioning behavior into
+stay/experiment/stuck regimes, with the number of evaluations always
+endogenous and payoffs always flow-based. A three-shot terminal-
+placement problem on an exponentiated OU landscape differs on all
+three structural margins Callander never varies -- fixed shot
+budget, terminal objective, mean-reverting landscape -- while
+inheriting the phase-boundary aesthetic that Callander-Hummel's
+two-cutoff theorem most closely anticipates.
+
+ALL FOUR STRANDS COMPLETE: 29 papers read. Local PDFs cached in the
+session scratchpad (see agent reports for filenames).
