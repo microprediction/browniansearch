@@ -637,7 +637,15 @@ best inner loop: on a plinko objective it beats every rival on 20 or
 when slices are smooth --- a sixteen-dimensional wind-farm layout on
 21 or 22 of 24 seeds --- because its one- or two-evaluation lines
 let the outer loop try several times more directions than an inner
-loop that spends eight to ten evaluations per line. It loses to the
+loop that spends eight to ten evaluations per line. This last win is
+budget-starved rather than general: it appears when the dimension
+times a classical line search's cost exceeds the whole evaluation
+budget, so a method with a fixed number of directions per iteration
+cannot complete one pass. The value is the pairing of the rule with
+a cheap-line outer loop, not a drop-in replacement for the line
+search inside an existing optimizer; substituted into Powell, whose
+direction updates rely on genuine line minimization, the rule loses
+to Brent. It loses to the
 classical loops on smooth low-dimensional objectives, and it loses
 badly on needle landscapes, where the value hides in a spike and no
 placement theory helps. Across the 22 objectives the rule ranks
