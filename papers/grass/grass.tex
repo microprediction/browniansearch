@@ -27,17 +27,18 @@
 \maketitle
 
 \begin{abstract}
-\noindent How should a firm spend its last pivot? In field experiments most
-startups pivot at most once or twice before committing. We solve
-this scarce-trial search problem exactly. A searcher knows the
-performance of an incumbent strategy, may run one more trial, and
-must then commit. Performance is the exponential of a stationary
+\noindent How should a firm spend its last pivot? In randomized trials most
+startups pivot at most once or twice before committing. We study the
+scarce-trial search problem: a searcher knows the performance of an
+incumbent strategy, may run one more trial, and must then commit. We
+solve the final placement exactly and reduce the opening trial to a
+one-dimensional optimization. Performance is the exponential of a stationary
 Ornstein--Uhlenbeck path: unexplored performance regresses to the
 industry average, and correlation decays exponentially with
 distance, a shape standard in radio engineering, Gaussian-process
-modeling, and fitness-landscape theory. The optimal policy is a
-phase diagram with every boundary in closed form. A below-average
-incumbent is abandoned. A disappointing trial sends the searcher out
+modeling, and fitness-landscape theory. For equal observed values the
+policy is a phase diagram with every boundary in closed form. A
+below-median incumbent is abandoned. A disappointing trial sends the searcher out
 past the better of her two positions. When both positions are good
 she commits between them, at the midpoint for moderate values and
 nearer the better-known position for higher ones, and above an exact
@@ -46,18 +47,26 @@ constant-variance result: an interior position has the same expected
 performance as some bolder alternative and $(1+\rho)/(1-\rho)$ times
 its variance, where $\rho$ is the correlation between the two known
 positions. The interior option adds about one percent of expected
-value at the optimum, so most of the last pivot's worth is the
-information it produces.
+value at the optimum in our calibration, so most of the last pivot's
+worth is the information it produces. The rule also works as an
+algorithm: used as the line search inside a derivative-free
+optimizer, it beats golden-section and Brent inner loops on rough
+and on high-dimensional physical objectives in a public benchmark,
+and loses on smooth low-dimensional ones.
 \end{abstract}
 
 \section{Introduction}
 
-How many pivots does a firm get? In randomized trials, about three
-quarters of startups did not pivot at all over a year, about a fifth
-pivoted once, and fewer than one in ten pivoted more than once
-(Camuffo et al.\ 2020, 2024). Training founders to search more
-scientifically raised the frequency of a single pivot and lowered
-the frequency of repeated pivots. In practice, strategic search
+How many pivots does a firm get? Across four randomized trials
+covering 759 startups, 59\% never pivoted radically during the
+observation window, about 30\% pivoted exactly once, and 11\%
+pivoted more than once (Camuffo et al.\ 2024; the shares in the
+smaller 2020 trial are 74\%, 19\%, and 7\%). These are one-year
+observation windows; at the implied rate of roughly half a pivot per
+year, a startup's three-to-five-year life carries a budget on the
+order of two or three pivots in total. Training founders to search
+more scientifically raised the frequency of a single pivot and
+lowered the frequency of repeated pivots. In practice, strategic search
 involves very few evaluations.
 
 Callander (2011) modeled this kind of search as trial and error on
@@ -76,7 +85,7 @@ extra value on average.
 
 The searcher knows the performance of an incumbent strategy. She may
 try one more. Then she must commit. With two evaluations the optimal
-rule is a threshold rule: abandon a below-average incumbent, keep an
+rule is a threshold rule: abandon a below-median incumbent, keep an
 exceptional one, and otherwise step a distance that we give in
 closed form. With three evaluations the question is where to commit
 after the trial: between the two known strategies, beyond the better
@@ -87,10 +96,20 @@ values and moves toward the better-known end as the values improve.
 Above an exact ceiling the searcher should stay where she is.
 
 The interior option is worth about one percent of expected value at
-the optimum. Most of the value of the final pivot comes from the
-information it produces. On landscapes that decorrelate quickly, it
-is better to probe far away, and the formulas say so: the interior
-premium is first order in the bracket correlation.
+the optimum in our calibration. Most of the value of the final pivot
+comes from the information it produces. On landscapes that
+decorrelate quickly, it is better to probe far away, and the
+formulas say so: the interior premium is first order in the bracket
+correlation.
+
+The rule is also an algorithm, and the direction of trade is
+unusual: a policy derived in the economics of search outperforms
+classical line searches on their own ground. Used as the inner loop
+of a derivative-free optimizer, the three-evaluation rule beats
+golden-section and Brent on collision and agent-chaos objectives and
+on high-dimensional ones, where its one- or two-evaluation lines buy
+several times more search directions per budget
+(Section~\ref{sec:linesearch}).
 
 \section{Related work}
 
@@ -117,8 +136,10 @@ strategic and payoffs accrue in both periods. Ganz (2020) studies an
 organization that allows a manager one offline trial before an
 online choice. That is a two-evaluation problem in which only the
 second evaluation is paid, and some of its boundaries are computed
-numerically. We solve the three-evaluation single-agent problem in
-closed form.
+numerically. We solve the three-evaluation single-agent problem: the final
+placement exactly and, for equal observed values, with every phase
+boundary in closed form; the opening trial reduces to a
+one-dimensional numerical optimization.
 
 Other papers obtain farsighted results under other restrictions.
 Urgun and Yariv (2025) require search to be contiguous; the searcher
@@ -145,9 +166,12 @@ bridge in order to compare fixed sampling designs. Malladi (2025)
 and Banchio and Malladi (2025) solve worst-case versions with no
 prior and a Lipschitz bound in place of volatility. Hodgson and
 Lewis (2025) estimate a Gaussian-process search model on clickstream
-data and solve the policy numerically. We are not aware of a
-closed-form solution for a small fixed budget of adaptive
-evaluations under a Bayesian prior.
+data and solve the policy numerically. The probabilistic line search of Mahsereci and Hennig (2017) is the
+nearest algorithmic relative: a Gaussian-process line search for
+stochastic gradient descent, built on gradient observations and an
+integrated-Wiener model, without closed-form placement. We are not
+aware of a closed-form solution for a small fixed budget of
+adaptive, derivative-free evaluations under a Bayesian prior.
 
 Glick and Myers (2015) tested the one-evaluation problem on lab
 subjects. Subjects respond to the Brownian structure but modify too
@@ -166,7 +190,8 @@ described shadow fading in radio engineering since Gudmundson
 (1991). On 77{,}040 WiFi measurements across a university floor
 (Feng, Nguyen and Luo 2024), we find the detrended log signal close
 to Gaussian with spatial correlation fitting an exponential at
-$R^{2}=0.98$; the scripts are in the paper's repository. The same
+$R^{2}=0.98$, alongside a short-scale component of comparable size;
+the scripts are in the paper's repository. The same
 shape is standard in several other fields. In Gaussian-process
 modeling the exponential kernel is the Mat\'ern class at $\nu=1/2$
 and is the covariance of the OU process (Rasmussen and Williams
@@ -200,6 +225,15 @@ equal measure: a final location with residual uncertainty carries a
 lognormal bonus of half its variance.
 
 Figure~\ref{fig:problem} shows the decision this paper solves.
+Unit variance is a calibration, not a normalization. With payoff
+$e^{\beta X}$ on a unit-variance path, every comparison maximizes
+$\mu + \beta\nu/2$; the two-shot step becomes
+$\lambda^{*}=\operatorname{clip}(b/\beta,0,1)$, and the pitchfork
+and ceiling of Section~7 scale to $\beta\cdot 2\sqrt{\rho}/(1-\rho)$
+and $\beta(1+\rho)/(1-\rho)$. Comparative statics in $\beta$ follow
+directly, and the one-percent figure of Section~9 is specific to
+$\beta=1$.
+
 Two conventions tidy the boundary cases. A searcher may take a location
 to infinity, which by mean reversion is equivalent to sampling a fresh
 $N(0,1)$ value independent of everything seen; and a searcher may
@@ -485,7 +519,8 @@ $e^{2\Theta}$. The dotted curve is the pitchfork $b=\sinh 2\tau$:
 below it the optimal interior point is the bracket middle, above it
 the mirror pair \eqref{eq:offmid} hugging the ends. The dashed line
 is the two-shot bracket $\rho=b$, entering the region at
-$b^{*}=0.4233$. Right: the value of the interior option --- the
+$b^{*}=0.4233$; the upper boundary continues beyond the plotted
+range. Right: the value of the interior option --- the
 percentage increase in expected payoff of the full three-shot optimum
 over the best policy denied interior placements (it may still place
 on either exterior ray) --- as a function of the first discovered
@@ -569,11 +604,39 @@ the prescription that errs, and for equal anchors it errs exactly on
 the revisit window \eqref{eq:region} --- high, but below the ceiling
 $e^{2\Theta}$ above which both policies stay. For unequal
 observations the erring region is a joint condition on
-$\left(b,d,\rho\right)$, decided by the quartic of
-Section~6, not membership of each value separately: at
+$\left(b,d,\rho\right)$, decided by the quartic \eqref{eq:quartic}, not membership of each value separately: at
 $\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
 symmetric window, yet staying at the second anchor is optimal and
 the exclusion costs nothing.
+
+\section{The rule as a line search}\label{sec:linesearch}
+
+Derivative-free optimizers spend most of their budget on
+one-dimensional subproblems: pick a direction, place a few
+evaluations along it, return a point. Classical inner loops
+(golden-section search, Brent's method) assume smooth unimodal
+slices. We implemented the three-evaluation rule as an inner loop
+--- the exact final placement of Sections 5--8, the opening step
+from Section~9, with the mean, scale, and correlation length
+estimated online from the optimizer's own history --- and benchmarked
+it inside a common outer loop (iterated random-direction search,
+budget 120 evaluations, matched directions and seeds) against
+golden-section, Brent, and random placement on 22 physics-simulation
+objectives.
+
+The rule wins in two regimes and loses in two. On collision and
+agent-chaos objectives with rough but structured slices it is the
+best inner loop: on a plinko objective it beats every rival on 20 or
+21 of 24 seeds. On high-dimensional objectives it also wins even
+when slices are smooth --- a sixteen-dimensional wind-farm layout on
+21 or 22 of 24 seeds --- because its one- or two-evaluation lines
+let the outer loop try several times more directions than an inner
+loop that spends eight to ten evaluations per line. It loses to the
+classical loops on smooth low-dimensional objectives, and it loses
+badly on needle landscapes, where the value hides in a spike and no
+placement theory helps. Across the 22 objectives the rule ranks
+first or second for 9. Scripts, seeds, and per-objective results are
+in the paper's repository.
 
 \section{The rules in business terms}
 
@@ -585,16 +648,19 @@ tethered. Capabilities, customers, and identity keep the next
 position within roughly one correlation length of the incumbent, and
 that is the regime in which the results above carry the decision.
 
-The rules are short. Abandon a below-average incumbent for fresh
-ground. If the trial disappoints, leave past the better of the two
-positions; do not attempt to repair the bracket (Appendix~A). If
-both positions are good, commit between them: at the midpoint for
-moderate values, closer to the better-known position for high ones.
-If the incumbent is exceptional, stay. The gain from placing the
-final position cleverly is about one percent at the optimum, so most
-of the value of the last pivot is the information it produces, and
-the case for making the trial at all is much stronger than the case
-for any particular refinement afterward.
+The rules are short. Abandon a below-median incumbent for fresh
+ground. If the trial lands at or below the median, leave past the
+better of the two positions rather than repair the bracket
+(Appendix~A); a trial only somewhat below the anchors can still be
+worth keeping. If both positions are good, reasonably balanced, and
+below the ceiling, commit between them: at the midpoint for moderate
+values, closer to the better-known position for high ones. If either
+position is exceptional, or the two are very uneven, stay at the
+best observed. The interior option is worth about one percent at the
+optimum, measured against a policy already free to leave in either
+direction, so most of the value of the last pivot is the information
+it produces, and the case for making the trial at all is much
+stronger than the case for any particular refinement afterward.
 
 \section{Discussion}
 
@@ -814,6 +880,11 @@ Learning from others: an experimental test of Brownian motion
 uncertainty models.
 \emph{Journal of Theoretical Politics}, 27(4):588--612, 2015.
 
+\bibitem{mahsereci2017}
+M.~Mahsereci and P.~Hennig.
+Probabilistic line searches for stochastic optimization.
+\emph{Journal of Machine Learning Research}, 18:1--59, 2017.
+
 \bibitem{malladi2025}
 S.~Malladi.
 Searching in the dark and learning where to look.
@@ -884,11 +955,6 @@ A scientific approach to entrepreneurial decision making: large
 scale replication and extension.
 \emph{Strategic Management Journal}, 45(6):1209--1237, 2024.
 
-\bibitem{baumann2019}
-O.~Baumann, J.~Schmidt, and N.~Stieglitz.
-Effective search in rugged performance landscapes: a review and outlook.
-\emph{Journal of Management}, 45(1):285--318, 2019.
-
 \bibitem{grill2018}
 J.-B. Grill, M.~Valko, and R.~Munos.
 Optimistic optimization of a Brownian.
@@ -905,10 +971,7 @@ A.~Alabert and R.~Caballero.
 On the minimum of a conditioned Brownian bridge.
 \emph{Stochastic Models}, 34(3):269--291, 2018.
 
-\bibitem{agrawal1995}
-R.~Agrawal.
-The continuum-armed bandit problem.
-\emph{SIAM Journal on Control and Optimization}, 33(6):1926--1951, 1995.
+
 
 \end{thebibliography}
 
