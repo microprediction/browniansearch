@@ -1,0 +1,5 @@
+nn_teacher_d33   d=33 grass rank 2/5 ( 0.7s) golden2=0.2991  grass3=0.4731  golden6=0.649  brent=0.7159  random=1.918 | wins {'golden2': 8, 'golden6': 20, 'brent': 21, 'random': 23}
+nn_teacher_d65   d=73 grass rank 2/5 ( 0.8s) golden2=3.261  grass3=7.525  golden6=8.872  brent=9.18  random=9.232 | wins {'golden2': 3, 'golden6': 16, 'brent': 16, 'random': 16}
+quant_3bit_d17   d=17 grass rank 4/5 ( 1.4s) golden2=0.03663  golden6=0.03901  random=0.04308  grass3=0.04519  brent=0.05886 | wins {'golden2': 7, 'golden6': 9, 'brent': 17, 'random': 11}
+quant_4bit_d17   d=17 grass rank 3/5 ( 1.4s) golden2=0.04224  random=0.04448  grass3=0.04523  golden6=0.04573  brent=0.05664 | wins {'golden2': 7, 'golden6': 12, 'brent': 16, 'random': 11}
+wrote nn_quant_results.json

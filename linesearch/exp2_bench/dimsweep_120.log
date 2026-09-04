@@ -1,0 +1,21 @@
+rastrigin   d= 2 grass rank 5/5  vs brent 4/24  vs golden6 0/24  ( 0.4s)  golden6=0.1527  brent=0.501  golden2=0.5606  random=0.8477  grass3=2.038
+rastrigin   d= 4 grass rank 5/5  vs brent 2/24  vs golden6 0/24  ( 0.4s)  golden6=2.129  golden2=2.157  brent=3.452  random=4.874  grass3=5.549
+rastrigin   d= 8 grass rank 4/5  vs brent 9/24  vs golden6 4/24  ( 0.4s)  golden2=8.288  golden6=9.052  brent=10.39  grass3=12.01  random=13.65
+rastrigin   d=16 grass rank 4/5  vs brent 8/24  vs golden6 4/24  ( 0.5s)  golden2=24.2  golden6=24.98  brent=25.6  grass3=29.53  random=33.19
+rastrigin   d=32 grass rank 4/5  vs brent 12/24  vs golden6 10/24  ( 0.6s)  golden6=56.36  golden2=58.77  brent=59.75  grass3=60.58  random=75.88
+schwefel    d= 2 grass rank 5/5  vs brent 6/24  vs golden6 2/24  ( 0.4s)  random=0.3329  brent=0.3337  golden6=0.378  golden2=0.4483  grass3=0.5687
+schwefel    d= 4 grass rank 4/5  vs brent 12/24  vs golden6 8/24  ( 0.4s)  golden6=1.109  golden2=1.128  random=1.167  grass3=1.264  brent=1.279
+schwefel    d= 8 grass rank 4/5  vs brent 7/24  vs golden6 8/24  ( 0.5s)  golden2=2.627  golden6=2.632  brent=2.848  grass3=3.122  random=3.163
+schwefel    d=16 grass rank 3/5  vs brent 15/24  vs golden6 7/24  ( 0.5s)  golden6=6.357  golden2=6.811  grass3=6.811  brent=6.98  random=7.624
+schwefel    d=32 grass rank 3/5  vs brent 18/24  vs golden6 9/24  ( 0.7s)  golden2=14.58  golden6=15.06  grass3=15.57  brent=16.07  random=17.05
+rosenbrock  d= 2 grass rank 4/5  vs brent 6/24  vs golden6 4/24  ( 0.3s)  brent=811.3  golden6=1269  golden2=1.091e+04  grass3=1.258e+04  random=7.171e+04
+rosenbrock  d= 4 grass rank 4/5  vs brent 10/24  vs golden6 7/24  ( 0.3s)  golden6=1.106e+06  golden2=2.321e+06  brent=3.738e+06  grass3=3.823e+06  random=1.249e+08
+rosenbrock  d= 8 grass rank 1/5  vs brent 23/24  vs golden6 21/24  ( 0.3s)  grass3=6.815e+07  golden2=2.143e+08  golden6=4.263e+08  brent=2.347e+09  random=1.152e+10
+rosenbrock  d=16 grass rank 2/5  vs brent 23/24  vs golden6 19/24  ( 0.4s)  golden2=3.537e+09  grass3=3.931e+09  golden6=1.542e+10  brent=2.952e+10  random=9.031e+10
+rosenbrock  d=32 grass rank 2/5  vs brent 24/24  vs golden6 20/24  ( 0.5s)  golden2=4.129e+10  grass3=8.703e+10  golden6=1.288e+11  brent=1.74e+11  random=3.308e+11
+griewank    d= 2 grass rank 3/5  vs brent 6/24  vs golden6 7/24  ( 0.3s)  brent=0.4308  golden6=0.7677  grass3=1.292  random=3.907  golden2=7.51
+griewank    d= 4 grass rank 2/5  vs brent 14/24  vs golden6 11/24  ( 0.3s)  golden6=2.19  grass3=2.298  brent=3.827  golden2=10.78  random=19.91
+griewank    d= 8 grass rank 1/5  vs brent 22/24  vs golden6 15/24  ( 0.4s)  grass3=7.006  golden6=23.81  golden2=23.81  brent=63.1  random=131
+griewank    d=16 grass rank 2/5  vs brent 20/24  vs golden6 16/24  ( 0.5s)  golden2=77.06  grass3=108.2  golden6=169.8  brent=243.2  random=424.7
+griewank    d=32 grass rank 2/5  vs brent 21/24  vs golden6 20/24  ( 0.5s)  golden2=335.1  grass3=497.7  golden6=669.4  brent=751.5  random=1153
+wrote dimsweep_results.json

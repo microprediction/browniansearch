@@ -1,0 +1,23 @@
+bowling                d= 4 (1127.1s) grass3=-105  grassK=-105  grass2=-104  golden2=-104  grassU=-104  golden2loc=-102  es5=-102
+plinko_funnel          d= 7 ( 37.1s) grass2=-57.12  grass3=-57  grassU=-53.88  grassK=-52.5  golden2=-50.5  es5=-1.25  golden2loc=-0.375
+pool                   d= 3 (  1.3s) grass3=-100  golden2loc=-100  golden2=-100  es5=-100  grassK=-100  grass2=-99.99  grassU=-99.98
+trebuchet              d= 4 (  1.2s) golden2=-68.46  grass2=-59.16  grassU=-47.41  grass3=-36.16  grassK=-33.15  es5=0  golden2loc=0
+mini_golf              d= 3 (  1.3s) grass2=-100  es5=-100  grass3=-98.12  golden2loc=-95.46  grassK=-95.37  grassU=-93.36  golden2=-90.66
+curling                d= 4 (  1.2s) golden2=-96.97  grassU=-95.29  grassK=-94.55  grass2=-92.16  grass3=-91.38  es5=0  golden2loc=0
+slingshot              d= 3 (  8.6s) grassU=-9  grass2=-8.5  grass3=-8  grassK=-8  golden2=-8  es5=0  golden2loc=0
+free_kick              d= 4 (  4.8s) golden2=-105.2  grassU=-44.89  grass2=-43.69  grassK=-39.33  grass3=-32.92  es5=-16.42  golden2loc=-7.931
+goalkeeper_punt        d= 4 (  3.5s) es5=-107.9  golden2=-107.3  grassU=-106.7  golden2loc=-106.4  grass3=-106.3  grass2=-106.2  grassK=-105.5
+darts_aim              d= 2 (  4.0s) grassU=-14.38  golden2=-14.13  es5=-13.31  grass3=-13.25  grassK=-12.64  golden2loc=-12.6  grass2=-12.25
+brachistochrone        d= 8 (  1.1s) golden2=49.66  es5=50.52  grassU=51.45  grass3=51.54  grass2=53.86  grassK=54.59  golden2loc=58.6
+rocket_landing         d=12 (  3.7s) grass2=-75.89  golden2=-44.16  grass3=-1.863  grassU=12.26  es5=43.89  grassK=71.06  golden2loc=142.6
+tuned_mass_damper      d= 4 (164.9s) golden2=-41.88  es5=-40.97  grass2=-37.27  golden2loc=-35.99  grassU=-35.89  grass3=-35.86  grassK=-34.35
+robot_arm              d= 6 (  1.4s) grass2=-80.26  grass3=-75  grassK=-70.88  golden2=-70.1  grassU=-63.89  es5=-29.43  golden2loc=-14.76
+cart_pole_policy       d= 5 (  6.8s) grass2=-368.8  grassU=-365.3  golden2=-351.9  grassK=-237.9  grass3=-214.2  es5=-9.75  golden2loc=-9.75
+walking_creature       d= 6 (  8.9s) es5=-64.45  grass2=-62.35  golden2=-57.32  grass3=-53.08  grassU=-49.91  grassK=-47.44  golden2loc=-41.27
+boids_flocking         d= 5 (379.7s) grass3=-100  grass2=-100  grassK=-100  grassU=-100  golden2=-98.75  es5=-44.38  golden2loc=-43.75
+tennis_doubles         d= 6 (  6.8s) grass3=-91.67  grass2=-91.67  grassK=-91.67  grassU=-91.67  golden2=-83.33  es5=-62.5  golden2loc=-50
+lennard_jones_cluster  d=15 (  1.5s) golden2=-5.872  es5=-5.349  grassU=-5.052  grassK=-5.032  golden2loc=-4.8  grass2=-4.244  grass3=-4.069
+bridge_truss           d=10 (  2.6s) golden2=56.84  grassU=65.88  es5=70.3  grassK=71.06  grass3=80.38  grass2=86.11  golden2loc=119.3
+wind_farm              d=16 (  4.5s) grass3=-94.14  grass2=-93.8  grassK=-93.34  grassU=-92.23  es5=-90.72  golden2=-90.57  golden2loc=-89.98
+satellite_phasing      d= 6 (  1.6s) grassU=1.192  es5=1.224  grass3=1.252  grassK=1.26  golden2loc=1.28  grass2=1.4  golden2=1.88
+wrote ablation_results.json

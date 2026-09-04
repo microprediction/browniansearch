@@ -287,11 +287,19 @@ class GrassInner:
     KAPPA_GRID = np.geomspace(2.0, 200.0, 60)
     CHI2_MEDIAN = 0.4549364  # median of chi^2_1: med[(dX)^2] = 2(1-rho)*this
 
-    def __init__(self, kappa0=20.0):
+    def __init__(
+        self, kappa0=20.0, skip_third=False, adapt_kappa=True, uniform_flee=False
+    ):
         self.kappa = kappa0
         self.values = []  # all raw values seen (for mean/std)
         self.pairs = []  # (distance, f_i, f_j) raw same-line pairs
         self.stall = 0  # consecutive lines with no material improvement
+        # Ablation switches (exp2c mechanism study):
+        self.skip_third = skip_third  # two-shot rule only: 1 eval/line
+        self.adapt_kappa = adapt_kappa  # False freezes kappa at kappa0
+        self.uniform_flee = uniform_flee  # flee to a uniform point on the
+        # far half of the segment instead of its end (removes the
+        # cube-boundary bias of end-of-segment flight)
 
     def _stats(self):
         if len(self.values) < 2:
@@ -306,7 +314,7 @@ class GrassInner:
         against a degenerate std would otherwise poison the fit), binned
         by distance, and the per-bin median increment is matched to its
         OU expectation 2(1-e^{-kappa D}) * med[chi^2_1]."""
-        if len(self.pairs) < 8:
+        if len(self.pairs) < 8 or not self.adapt_kappa:
             return
         _, s = self._stats()
         pairs = self.pairs[-256:]
@@ -354,7 +362,10 @@ class GrassInner:
         # cannot see a nonstationary plateau; b measured against a
         # collapsed sample std is an artifact, not an exceptional anchor).
         r = 0.0 if self.stall >= 3 else rho_star(b)
-        t1 = room_fwd if r <= 0.0 else min(-np.log(r) / kap, room_fwd)
+        if r <= 0.0:
+            t1 = rng.uniform(0.4, 1.0) * room_fwd if self.uniform_flee else room_fwd
+        else:
+            t1 = min(-np.log(r) / kap, room_fwd)
         if t1 < 1e-9:
             return p, fp
         alpha1 = side * t1
@@ -364,7 +375,7 @@ class GrassInner:
         d_val = std(f1)
         best_a, best_f = (alpha1, f1) if f1 < fp else (0.0, fp)
 
-        if budget.remaining() > 0:
+        if budget.remaining() > 0 and not self.skip_third:
             # Shot 3: best of stay (either anchor), exterior, interior.
             rho = float(np.exp(-kap * t1))
             zb, zd = zeta(b), zeta(d_val)

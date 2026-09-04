@@ -99,3 +99,65 @@ count beats per-line precision. Classical inner loops keep low-d
 smooth problems and all needle landscapes. Overall the rule is
 rank 1 or 2 on 9 of 22 physical demos -- a real niche, plainly
 bounded.
+
+## exp2c/d/e: mechanism, the dimension law, and two new domains
+(run 2026-09-04: run_ablations.py, run_dimsweep.py, run_nn_quant.py)
+
+MECHANISM (ablations, all 22 demos). The engine is the per-line
+economy plus the paper's Table-1 adaptive bracket, NOT the third-shot
+endgame machinery:
+- grass2 (two-shot only, 1 eval/line) ties or beats full grass3
+  broadly, dramatically on rocket_landing (-75.9 vs -1.9) and
+  cart_pole (-369 vs -214). This is Table 1's own "interior option
+  is worth ~1%" resurfacing in the optimizer: the third shot's rival
+  there is not nothing but a FRESH DIRECTION, and the fresh direction
+  usually wins. The quartic/interior move is theory the outer loop
+  cannot afford.
+- Adaptivity is genuine: fixed-step es5 and localized golden2loc
+  collapse on the rough family (plinko -1.25 / -0.4 vs grass -57),
+  and frozen-kappa loses where scale matters (rocket +71 vs -1.9).
+- Flee-to-segment-END has a cube-boundary bias (diagnosed on
+  free_kick: 73/102 lines fled to an endpoint). Uniform-interior flee
+  fixes darts_aim and satellite_phasing (best of family) and halves
+  free_kick's gap, but needles still belong to golden2.
+- wind_farm's high-d win survives every ablation; even es5 beats
+  golden2 there. Short adaptive steps from a good anchor ARE the
+  high-d mechanism.
+
+DIMENSION LAW (classics at d=2..32, 24 seeds). Grass-vs-Brent seed
+wins rise monotonically with d on all four objectives: rosenbrock
+6/24 (d=2) -> 24/24 (d=32), griewank 6 -> 21, schwefel 6 -> 18,
+rastrigin 4 -> 12; grass is rank 1 outright on rosenbrock and
+griewank at d=8. The expensive inner loop fades as d grows; above
+d~8 the real contest is between the two cheap-line methods, grass
+and golden2.
+
+NEW DOMAINS (Peter's suggestions). NN weight fitting
+(teacher-student tanh MLP, d=33 and 73): grass beats golden6, Brent
+and random decisively (16-23/24) but LOSES to golden2 (3-8/24) --
+NN landscapes from random init reward occasional far jumps between
+basins, golden2's specialty. Post-training quantization (per-channel
+scales, 3-4 bit, d=17, measured slice p=1.21 -- inside the rough
+band): golden2 wins again with random close behind; in-band
+roughness is NOT sufficient when the good set is broad rather than
+cascade-structured. Prompting / chain-of-thought optimization is the
+natural few-expensive-evaluations regime for a 3-shot rule but needs
+an LLM in the loop -- flagged as follow-up, not testable offline.
+
+RECOMMENDED CONFIGURATION (grass2U: two-shot only + uniform-interior
+flee, family rerun). The combination removes the rule's worst
+failure mode while keeping its wins: free_kick -100.3 (grass3 was
+-33, golden2 -105), rocket_landing -89.6 (grass3 -1.9), cart_pole
+-350, with plinko/bowling/boids/tennis/wind_farm essentially
+unchanged. Better median than grass3 on 12/22 demos and than golden2
+on 10/22. This -- one model-placed probe per line, flee to a uniform
+interior point, no third shot -- is the version to carry forward;
+it is also the simplest.
+
+STANDING RESULT. Across every experiment the quietly strongest
+general baseline is golden2 -- two full-segment probes per line,
+maximal direction economy with global reach and no model. The grass
+rule's distinctive wins over it are the navigably-rough simulators
+(bowling, plinko, boids, tennis) and structured high-d landscapes
+(wind_farm, rosenbrock/griewank d~8-16); everywhere else the honest
+recommendation is golden2, not Brent.
