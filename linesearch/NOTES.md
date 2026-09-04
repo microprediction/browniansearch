@@ -158,25 +158,33 @@ it is also the simplest.
 (run 2026-09-04: run_vs_sota.py, run_budget.py, run_kshot.py)
 
 VS THE REAL CATALOG (grass2U against 9 humpday SOTA ports + golden2,
-all 22 demos, budget 120, everyone as shipped). grass2U lands
-mid-field: mean rank 5.73/11 -- above BOBYQA, Nelder-Mead,
-Rechenberg, random and dual annealing; below Alloy (3.23, the family
-champion), CMA-ES (4.41), DE and Powell. It beats CMA-ES's median on
-8/22 and takes top-3 on six: slingshot/boids/tennis (shared firsts),
-wind_farm, robot_arm, free_kick. Fair reading: a three-formula
-closed-form rule with no covariance learning or model building holds
-mid-table against engineered optimizers, and its inner-loop niche
-wins (exp2/2b) do NOT all survive the external fight -- plinko in
-particular is handled fine by the full-strength field.
+all 22 demos, budget 120, everyone as shipped). CORRECTED
+2026-09-04 after the grass session failed to reproduce the first
+figures: the original 5.73 mean rank was inflated by a tie-handling
+bug (stable sort broke tied medians by dict insertion order, and
+grass2U was inserted first -- every shared first became an outright
+first). With tie-AVERAGED ranks: grass2U 6.05/11, sixth-seventh of
+eleven and BELOW PRIMA_BOBYQA (5.91), above golden2, Rechenberg,
+Nelder-Mead, random, dual annealing; Alloy 2.82 is the family
+champion, then DE/Powell/CMA-ES near 4.7. It beats CMA-ES's median
+on 8/22 with genuine top-3 finishes on wind_farm, robot_arm and
+free_kick (the boids/tennis/slingshot "shared firsts" are exact
+ties several methods reach). Fair reading unchanged in direction,
+softened in degree: a three-formula closed-form rule sits just below
+mid-table against engineered optimizers, and the inner-loop niche
+wins (exp2/2b) do NOT all survive the external fight.
 
-BUDGET SCALING (40 -> 1080). grass2U is a FEW-SHOT SPECIALIST,
-which is exactly what a 3-shot theory should produce: strongest at
-B=40-120 (plinko rank 1 at 40), overtaken by CMA-ES at B>=360 on
-most problems, and flatlining on smooth classics (rosenbrock d=8:
+BUDGET SCALING (40 -> 1080). CORRECTED alongside the above: by mean
+tie-averaged rank over the 8 problems, grass2U leads CMA-ES only at
+B=40 (2.88 vs 3.00); CMA-ES is ahead from B=120 on (1.88 vs 2.88)
+and stays ahead. So: a FEW-SHOT SPECIALIST with the emphasis on FEW
+-- relative standing is best at the smallest budget and slips as
+budget grows, exactly the profile a 3-shot theory should produce,
+with the crossover at ~100 evaluations rather than the ~360 first
+reported. Smooth classics still show the flatline (rosenbrock d=8:
 stuck at 2.6e8 while CMA-ES reaches 1.7e3 -- no refinement
-mechanism). The standing exception is robot_arm: rank 1 at EVERY
-budget through 1080, ahead of CMA-ES -- flee restarts plus adaptive
-local steps suit its disjoint elbow-branch corridors.
+mechanism), and robot_arm remains the standing per-problem
+exception: rank 1 at every budget through 1080, ahead of CMA-ES.
 
 THE k-SHOT CONJECTURE (paper's discussion): tested in its native
 habitat -- 1-D Morton-rough landscapes, k=5..40, against golden,
