@@ -27,155 +27,135 @@
 \maketitle
 
 \begin{abstract}
-\noindent A searcher evaluates a rugged landscape, the exponential of a
-stationary Ornstein--Uhlenbeck path, at three points chosen
-sequentially, and is paid the value at the final point: a terminal
-placement problem, distinct from approximating the path's maximum. The
-two-evaluation problem has a three-phase closed form: flee below the
-median, stay above a threshold, otherwise step a distance set by the
-mean-reversion scale. The third evaluation turns on a bracket of two
-observed locations and rests on one identity: every interior bracket
-point shares its conditional mean with an explicit exterior point while
-carrying conditional variance larger by the constant factor
-$(1+\rho)/(1-\rho)$, so matched-mean dominance extends to every convex
-payoff by Gaussian convex ordering. The resulting phase diagram is
-exact: the interior beats every alternative, observed locations
-included, on a stated interval of the observed value $b$, and above an
-explicit ceiling the grass is not greener, since mean reversion caps
-the conditional mean of every unvisited point and no variance bonus
-compensates. Numerically the interior option is worth about one percent
-of expected value at most, and most of the three-shot bracket widening
-is explained by the extra evaluation itself rather than by the interior
-option.
+\noindent A searcher evaluates a random landscape at three points, one at a
+time, and is paid the value at the final point. The landscape is the
+exponential of a stationary Ornstein--Uhlenbeck path. We solve the
+problem exactly. With two evaluations the optimal rule has three
+regimes: abandon a below-average start, keep an exceptional one, and
+otherwise step a distance given in closed form. With three
+evaluations the question is where to commit after observing values
+$b$ and $d$ at bracket correlation $\rho$. For $b=d$, every interior
+point of the bracket has the same conditional mean as some exterior
+point, and conditional variance larger by the constant factor
+$(1+\rho)/(1-\rho)=e^{2\Theta}$. The interior problem reduces to a
+parabola on an interval. The best interior point beats every
+alternative exactly when $b$ lies between a quadratic root and
+$e^{2\Theta}$. The optimal interior point is the midpoint for
+moderate $b$; it splits into a pair that moves toward the ends as
+$b$ grows, and reaches them at $b=e^{2\Theta}$, above which the
+searcher should stay at an observed point. The interior option
+raises expected value by about one percent at most. We verify the
+landscape assumption on 77{,}040 WiFi measurements and interpret the
+three evaluations as an incumbent strategy, one pivot, and a
+commitment.
 \end{abstract}
 
 \section{Introduction}
 
-How many pivots does a firm get? In randomized samples of startups,
-roughly three quarters pivot zero times over a year of observation, a
-fifth pivot exactly once, and only six to eleven percent more than
-once (Camuffo et al.\ 2020, 2024). The same trials find that teaching
-founders to search more scientifically shifts them toward exactly one
-pivot rather than none or many. Strategic search, as practiced, is a
-game of two or three evaluations.
+How many pivots does a firm get? In randomized trials, about three
+quarters of startups did not pivot at all over a year, about a fifth
+pivoted once, and fewer than one in ten pivoted more than once
+(Camuffo et al.\ 2020, 2024). Training founders to search more
+scientifically raised the frequency of a single pivot and lowered
+the frequency of repeated pivots. In practice, strategic search
+involves very few evaluations.
 
-Callander modeled such search as trial and error on an unknown rugged
-mapping from strategies to outcomes, drawn as the realized path of a
-stochastic process: each trial is a strategy actually enacted, and
-the last one is lived with. The workhorse of the tradition that
-followed is myopic, each step maximizing the current outcome, and the
-survey of Bardhi and Callander lists farsighted search with
-unrestricted direction among its open methodological questions.
+Callander (2011) modeled this kind of search as trial and error on
+an unknown function drawn from a Brownian motion. Each trial is
+implemented and its outcome observed. Most work in this tradition
+assumes myopic agents. Bardhi and Callander (2026) list farsighted
+search with a free choice of location as an open problem.
 
-This paper solves the smallest farsighted case exactly, on a
-landscape adapted to strategic search in two ways. Performance is the
+We solve the smallest such problem exactly. The landscape is the
 exponential of a stationary Ornstein--Uhlenbeck path. Mean reversion
-says that far from anything tried, performance regresses to the
-industry average, so news is good or bad relative to that average.
-The exponential says a strategy that truly hits the sweet spot
-outsells its near neighbors by a wide margin, so residual uncertainty
-about an untried strategy is valuable in itself.
+means that performance far from known territory regresses to the
+industry average. The exponential means that small differences in
+fit produce large differences in sales, so an untried strategy has
+extra value on average.
 
-The searcher holds an incumbent whose performance is known, may try
-one more strategy, and then must commit. With two evaluations the
-optimal rule is pivot-or-persevere with exact thresholds: abandon a
-below-average position for fresh ground, keep an exceptional one, and
-otherwise step a distance set by how fast the landscape decorrelates.
-With three, the interesting question is the final move, and the
-answer is a phase diagram. On bad news, leave past the better of the
-two positions tried, in whichever direction that lies. On good news,
-commit to a strategy between them. On news good enough, stay put.
-The between region has structure of its own: moderate good news sends
-the searcher to the midpoint, very good news to a blend hugging the
-better-known position, and the frontier of every regime is closed
-form.
+The searcher knows the performance of an incumbent strategy. She may
+try one more. Then she must commit. With two evaluations the optimal
+rule is a threshold rule: abandon a below-average incumbent, keep an
+exceptional one, and otherwise step a distance that we give in
+closed form. With three evaluations the question is where to commit
+after the trial: between the two known strategies, beyond the better
+one, or at one of them. We compute the answer exactly. Commitment
+between the two is optimal when both values are good but not
+exceptional. The commitment point is the midpoint for moderate
+values and moves toward the better-known end as the values improve.
+Above an exact ceiling the searcher should stay where she is.
 
-Two further results cut against the pivot's importance. The option to
-settle between past positions adds about one percent of expected
-value at the optimum, so the last pivot's worth lies mostly in the
-information it gathers, not in the blending it enables. And on a
-landscape that decorrelates quickly relative to the strategy space,
-the formulas themselves demote the between option to a second-order
-refinement: bold fresh probes dominate. Both points are visible in
-data. On 77{,}040 radio measurements across a university floor, a
-physical search field with the same mathematical shape, detrended log
-performance is Gaussian with exponential spatial correlation
-($R^2=0.98$), the form radio engineering has used since Gudmundson
-(1991), and the leading policies in a replay on those measurements
-are the far-probing ones this regime predicts
+The interior option is worth about one percent of expected value at
+the optimum. Most of the value of the final pivot comes from the
+information it produces. On landscapes that decorrelate quickly, it
+is better to probe far away, and the formulas say so: the interior
+premium is first order in the bracket correlation. We check the
+landscape assumption on 77{,}040 WiFi measurements across a
+university floor. The detrended log signal is Gaussian and its
+spatial correlation is exponential with $R^2=0.98$. A replay on
+that data matches the ranking of policies that the formulas predict
 (Section~\ref{sec:wifi}).
 
 \section{Related work}
 
-Callander (2008) introduced the Brownian policy landscape and its
-first exact threshold: delegation to a biased expert survives only
-when the bias is below $\sigma^{2}/2\mu$. The two 2011 papers made
-the landscape a search field. A myopic sequence of policymakers or
-entrepreneurs experiments exactly when the incumbent outcome falls
-outside $[-\alpha,\alpha]$ with $\alpha=\sigma^{2}/2|\mu|$, search
-passes through monotonic and triangulating phases, and it sticks,
-often at bad outcomes, after one to four placements in simulation
-(Callander 2011a,b) --- an in-model pivot count consistent with the
-field evidence of the introduction. The line that followed keeps the
-same shape: exact thresholds in the dimensionless ratio
-$\sigma^{2}/|\mu|$ govern precedent selection (Callander and Clark
-2017), agenda control (Callander and McCarty 2024), and the
-performance trap of risk-averse learners (Callander and Matouschek
-2019), with the number of evaluations always endogenous and payoffs
-always flow. The game here differs on the three margins that line
-never varies: the shot budget is fixed, the payoff is terminal, and
+Callander (2008) introduced the Brownian policy landscape. In that
+paper, delegation to a biased expert survives only when the bias is
+below $\sigma^{2}/2\mu$. The 2011 papers use the landscape for
+search. An agent experiments when the incumbent outcome is worse
+than $\alpha=\sigma^{2}/2|\mu|$ and stops otherwise. Search ends
+almost surely, often at a mediocre policy. Simulated runs change
+policy between one and four times, which is consistent with the
+pivot counts above. Later papers derive similar thresholds for
+precedent (Callander and Clark 2017), agenda control (Callander and
+McCarty 2024), and risk-averse learning (Callander and Matouschek
+2019). In all of these the number of evaluations is endogenous and
+payoffs accrue every period. In our problem the number of
+evaluations is fixed at three, only the final placement is paid, and
 the landscape mean-reverts.
 
-Two papers come closest to a fixed-shot phase diagram. Callander and
-Hummel (2014) analyze a two-shot sequential game between polarized
-policymakers and obtain a double-cutoff equilibrium
-($\sigma^{2}/4\mu<\gamma^{*}<\gamma^{**}$) in which the first mover
-experiments preemptively from a status quo that already delivers his
-ideal; the shots are strategic and the payoffs flow. Ganz (2020) is
-the closest decision problem: exactly two shots, one offline trial
-and one online placement, with terminal-only payoff on a Callander
-landscape, wrapped in a manager-retention game with partly
-computational boundaries. The present paper is the three-shot,
-single-agent member of this progression, solved exactly.
-
-Farsighted search over correlated alternatives has otherwise
-advanced by restricting something else. Urgun and Yariv (2025)
-restrict direction: a searcher expands contiguous territory,
-choosing speed, and stops at a closed-form drawdown; Cetemen, Urgun
-and Yariv (2023) extend the drawdown analysis to teams, and Wong
-(2025) to flow payoffs. Bardhi (2024) restricts timing: a batch of
-$k$ attribute samples chosen at once for an estimation objective,
-with the placements exact. Garfagnini and Strulovici (2016), Carnehl
-and Schneider (2025), and Callander, Lambert and Matouschek
-(forthcoming) study infinite sequences of short-lived experimenters.
-Aybas and Callander (2025) extend the landscape itself to Ito
-diffusions, including the Ornstein--Uhlenbeck case, for a one-shot
-cheap-talk game; to our knowledge that is the only appearance of a
-mean-reverting landscape in this tradition, and multi-shot search on
-one appears here first. Bardhi's nearest-attribute theorem supplies
-the license for the choice: within the powered-exponential family,
-the OU kernel is the unique covariance satisfying the Markov
-property that the tradition's updating relies on.
-
-The optimization literature treats the same object with many
-evaluations and asymptotic goals: Calvin derives average-case rates
-under Wiener measure, Grill, Valko and Munos approximate the
-maximum of a Brownian path, and Grosse, Zhang and Hennig extend the
-approach to general Gaussian-process samples with regret rates in a
-growing budget. Alabert and Caballero (2018) compute exact laws of a
-conditioned bridge minimum to compare nonadaptive few-point rules.
-Malladi (2025) and Banchio and Malladi (2025) obtain closed-form
-few-shot policies in a worst-case, prior-free setting, where
-roughness plays the role volatility plays here. Hodgson and Lewis
-(2025) estimate Gaussian-process search on clickstream data, solving
-the farsighted problem numerically. None of these solves a fixed
-small budget of adaptive evaluations on a Bayesian landscape in
+Callander and Hummel (2014) analyze a two-period game in which each
+of two policymakers can experiment once. The equilibrium has two
+exact cutoffs, and the first mover sometimes experiments although
+the status quo already delivers his ideal outcome. The players are
+strategic and payoffs accrue in both periods. Ganz (2020) studies an
+organization that allows a manager one offline trial before an
+online choice. That is a two-evaluation problem in which only the
+second evaluation is paid, and some of its boundaries are computed
+numerically. We solve the three-evaluation single-agent problem in
 closed form.
 
-The phase boundaries are behaviorally meaningful as well as
-derivable: in the laboratory, subjects placed on exactly this
-landscape respond to Brownian uncertainty but over-modify when
-complexity is high (Glick and Myers 2015).
+Other papers obtain farsighted results under other restrictions.
+Urgun and Yariv (2025) require search to be contiguous; the searcher
+chooses speed and stops at a closed-form drawdown. Cetemen, Urgun
+and Yariv (2023) extend this to teams and Wong (2025) to flow
+payoffs. Bardhi (2024) chooses $k$ sample locations at once to
+estimate a project. Garfagnini and Strulovici (2016), Carnehl and
+Schneider (2025), and Callander, Lambert and Matouschek
+(forthcoming) study infinite sequences of short-lived agents. Aybas
+and Callander (2025) allow Ito diffusion landscapes, including the
+Ornstein--Uhlenbeck case, in a one-shot cheap-talk game. That is the
+only mean-reverting landscape we know of in this literature. Bardhi
+(2024) also proves that the OU kernel is the only powered-exponential
+covariance with the Markov property, which supports our choice of
+landscape.
+
+In the optimization literature the same object appears with large
+budgets. Calvin (1997) derives average-case convergence rates under
+Wiener measure. Grill, Valko and Munos (2018) approximate the
+maximum of a Brownian path. Grosse, Zhang and Hennig (2023) extend
+this to Gaussian-process samples and prove regret rates. Alabert and
+Caballero (2018) compute the law of the minimum of a conditioned
+bridge in order to compare fixed sampling designs. Malladi (2025)
+and Banchio and Malladi (2025) solve worst-case versions with no
+prior and a Lipschitz bound in place of volatility. Hodgson and
+Lewis (2025) estimate a Gaussian-process search model on clickstream
+data and solve the policy numerically. We are not aware of a
+closed-form solution for a small fixed budget of adaptive
+evaluations under a Bayesian prior.
+
+Glick and Myers (2015) tested the one-evaluation problem on lab
+subjects. Subjects respond to the Brownian structure but modify too
+much when the variance is high.
 
 \section{The model: three evaluations of an exponentiated OU path}
 
@@ -639,15 +619,13 @@ refinements.
 
 \section{Discussion}
 
-The proverb, read as mathematics, is conditional, and two distinct
-comparisons should not be merged. Against a \emph{visited} point of
+Two distinct comparisons should not be merged. Against a \emph{visited} point of
 matching conditional mean, any unvisited location wins by Jensen
 alone: it carries variance, the known value carries none. Between two
 \emph{unvisited} rivals of matching mean, an interior point and its
 constructed exterior counterpart, Theorem~\ref{thm:dominance}
-gives the constant variance ratio $e^{2\Theta}$. Neither comparison
-manufactures a matched-mean unvisited rival for a high observed
-value. Mean reversion caps the conditional
+gives the constant variance ratio $e^{2\Theta}$. Neither comparison guarantees that a matched-mean unvisited point
+exists when the observed value is high. Mean reversion caps the conditional
 mean of every unvisited point, and above $b=e^{2\Theta}$ the cap
 binds: the optimal final location is one already seen, and the grass,
 there, is provably not greener. Below the cap the analysis locates the greenest patch: past the
@@ -657,8 +635,9 @@ hugging an end beyond the pitchfork.
 
 A caution about the word exploration. With one evaluation remaining
 there is nothing to explore: no discovery at the final point can
-inform a later choice. The last move is pure placement, and the pull
-toward uncertain locations is Jensen's inequality, not curiosity.
+inform a later choice. The last move is pure placement. The preference for uncertain
+locations comes from Jensen's inequality, not from any value of
+information.
 Exploration proper enters only with more shots remaining. The natural conjecture from this endgame is a two-phase $k$-shot
 policy: step out past the running best while values climb, then
 refine between the two best once a good region is bracketed, with the

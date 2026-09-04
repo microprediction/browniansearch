@@ -1,0 +1,45 @@
+bowling                d= 4 p= 0.29 grass rank 1/5 | grass3=-105  golden2=-104  golden6=-104  brent=-104  random=-103.5 | wins golden2:4/8 golden6:5/8 brent:4/8 random:5/8
+                       (1583.0s)
+plinko_funnel          d= 7 p= 1.05 grass rank 1/5 | grass3=-57  golden6=-50.75  golden2=-50.5  random=-46.88  brent=-28.25 | wins golden2:14/16 golden6:13/16 brent:15/16 random:13/16
+                       ( 82.9s)
+pool                   d= 3 p= 1.62 grass rank 3/5 | brent=-100  golden6=-100  grass3=-100  golden2=-100  random=-99.56 | wins golden2:12/24 golden6:11/24 brent:5/24 random:18/24
+                       (  1.2s)
+trebuchet              d= 4 p=  nan grass rank 4/5 | golden6=-78.81  golden2=-68.46  random=-37.7  grass3=-36.16  brent=0 | wins golden2:9/24 golden6:7/24 brent:13/24 random:12/24
+                       (  1.1s)
+mini_golf              d= 3 p= 1.93 grass rank 3/5 | golden6=-100  brent=-100  grass3=-98.12  random=-95.91  golden2=-90.66 | wins golden2:17/24 golden6:4/24 brent:4/24 random:17/24
+                       (  1.3s)
+curling                d= 4 p= 1.98 grass rank 3/5 | golden6=-98.29  golden2=-96.97  grass3=-91.38  brent=-89.55  random=-88.06 | wins golden2:7/24 golden6:8/24 brent:14/24 random:16/24
+                       (  1.2s)
+slingshot              d= 3 p= 1.19 grass rank 2/5 | golden6=-9  grass3=-8  golden2=-8  random=-8  brent=-6.5 | wins golden2:11/24 golden6:7/24 brent:16/24 random:11/24
+                       ( 16.9s)
+free_kick              d= 4 p= 0.92 grass rank 5/5 | golden2=-105.2  golden6=-101.6  random=-46.48  brent=-38.31  grass3=-32.92 | wins golden2:3/24 golden6:7/24 brent:13/24 random:10/24
+                       (  8.4s)
+goalkeeper_punt        d= 4 p= 1.66 grass rank 4/5 | golden6=-107.8  golden2=-107.3  random=-106.4  grass3=-106.3  brent=-106.1 | wins golden2:8/24 golden6:8/24 brent:15/24 random:11/24
+                       (  6.0s)
+darts_aim              d= 2 p= 1.27 grass rank 5/5 | golden6=-14.69  brent=-14.36  golden2=-14.13  random=-14.05  grass3=-13.25 | wins golden2:3/24 golden6:1/24 brent:4/24 random:7/24
+                       (  7.5s)
+brachistochrone        d= 8 p= 1.96 grass rank 3/5 | golden2=49.66  golden6=50.81  grass3=51.54  brent=54.63  random=57.94 | wins golden2:5/24 golden6:13/24 brent:17/24 random:19/24
+                       (  1.1s)
+rocket_landing         d=12 p= 1.37 grass rank 2/5 | golden2=-44.16  grass3=-1.863  random=17.31  golden6=38.86  brent=78.55 | wins golden2:9/24 golden6:17/24 brent:18/24 random:15/24
+                       (  6.2s)
+tuned_mass_damper      d= 4 p= 1.06 grass rank 5/5 | golden6=-43.74  golden2=-42.16  brent=-37.23  random=-36.59  grass3=-34.98 | wins golden2:1/8 golden6:0/8 brent:2/8 random:1/8
+                       (187.3s)
+robot_arm              d= 6 p= 1.14 grass rank 2/5 | golden6=-75.38  grass3=-75  golden2=-70.1  random=-67.95  brent=-60.47 | wins golden2:8/24 golden6:12/24 brent:17/24 random:12/24
+                       (  1.5s)
+cart_pole_policy       d= 5 p= 1.39 grass rank 4/5 | golden2=-351.9  random=-274.1  golden6=-220.8  grass3=-214.2  brent=-26.38 | wins golden2:8/24 golden6:13/24 brent:21/24 random:10/24
+                       ( 12.8s)
+walking_creature       d= 6 p= 1.59 grass rank 4/5 | golden6=-61.71  golden2=-57.32  brent=-53.75  grass3=-53.08  random=-42.91 | wins golden2:12/24 golden6:8/24 brent:14/24 random:19/24
+                       ( 16.6s)
+boids_flocking         d= 5 p= 0.19 grass rank 1/5 | grass3=-100  golden2=-99.38  random=-96.88  golden6=-91.88  brent=-88.12 | wins golden2:4/8 golden6:6/8 brent:5/8 random:6/8
+                       (316.6s)
+tennis_doubles         d= 6 p= 0.90 grass rank 1/5 | grass3=-91.67  golden6=-91.67  random=-91.67  golden2=-83.33  brent=-75 | wins golden2:11/24 golden6:8/24 brent:19/24 random:4/24
+                       (  7.8s)
+lennard_jones_cluster  d=15 p= 1.97 grass rank 4/5 | golden2=-5.872  brent=-5.124  golden6=-5.019  grass3=-4.069  random=-4 | wins golden2:2/24 golden6:7/24 brent:7/24 random:14/24
+                       (  1.1s)
+bridge_truss           d=10 p= 1.92 grass rank 3/5 | golden2=56.84  golden6=75.51  grass3=80.38  random=95.97  brent=97.4 | wins golden2:2/24 golden6:12/24 brent:17/24 random:13/24
+                       (  2.7s)
+wind_farm              d=16 p= 1.61 grass rank 1/5 | grass3=-94.14  golden6=-93.61  random=-92.85  brent=-91.1  golden2=-90.57 | wins golden2:21/24 golden6:16/24 brent:22/24 random:18/24
+                       (  5.0s)
+satellite_phasing      d= 6 p= 1.95 grass rank 2/5 | golden6=1.243  grass3=1.252  brent=1.399  random=1.623  golden2=1.88 | wins golden2:22/24 golden6:15/24 brent:15/24 random:22/24
+                       (  1.1s)
+wrote family_results.json
