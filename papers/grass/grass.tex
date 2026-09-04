@@ -105,6 +105,78 @@ performance is Gaussian with exponential spatial correlation
 are the far-probing ones this regime predicts
 (Section~\ref{sec:wifi}).
 
+\section{Related work}
+
+Callander (2008) introduced the Brownian policy landscape and its
+first exact threshold: delegation to a biased expert survives only
+when the bias is below $\sigma^{2}/2\mu$. The two 2011 papers made
+the landscape a search field. A myopic sequence of policymakers or
+entrepreneurs experiments exactly when the incumbent outcome falls
+outside $[-\alpha,\alpha]$ with $\alpha=\sigma^{2}/2|\mu|$, search
+passes through monotonic and triangulating phases, and it sticks,
+often at bad outcomes, after one to four placements in simulation
+(Callander 2011a,b) --- an in-model pivot count consistent with the
+field evidence of the introduction. The line that followed keeps the
+same shape: exact thresholds in the dimensionless ratio
+$\sigma^{2}/|\mu|$ govern precedent selection (Callander and Clark
+2017), agenda control (Callander and McCarty 2024), and the
+performance trap of risk-averse learners (Callander and Matouschek
+2019), with the number of evaluations always endogenous and payoffs
+always flow. The game here differs on the three margins that line
+never varies: the shot budget is fixed, the payoff is terminal, and
+the landscape mean-reverts.
+
+Two papers come closest to a fixed-shot phase diagram. Callander and
+Hummel (2014) analyze a two-shot sequential game between polarized
+policymakers and obtain a double-cutoff equilibrium
+($\sigma^{2}/4\mu<\gamma^{*}<\gamma^{**}$) in which the first mover
+experiments preemptively from a status quo that already delivers his
+ideal; the shots are strategic and the payoffs flow. Ganz (2020) is
+the closest decision problem: exactly two shots, one offline trial
+and one online placement, with terminal-only payoff on a Callander
+landscape, wrapped in a manager-retention game with partly
+computational boundaries. The present paper is the three-shot,
+single-agent member of this progression, solved exactly.
+
+Farsighted search over correlated alternatives has otherwise
+advanced by restricting something else. Urgun and Yariv (2025)
+restrict direction: a searcher expands contiguous territory,
+choosing speed, and stops at a closed-form drawdown; Cetemen, Urgun
+and Yariv (2023) extend the drawdown analysis to teams, and Wong
+(2025) to flow payoffs. Bardhi (2024) restricts timing: a batch of
+$k$ attribute samples chosen at once for an estimation objective,
+with the placements exact. Garfagnini and Strulovici (2016), Carnehl
+and Schneider (2025), and Callander, Lambert and Matouschek
+(forthcoming) study infinite sequences of short-lived experimenters.
+Aybas and Callander (2025) extend the landscape itself to Ito
+diffusions, including the Ornstein--Uhlenbeck case, for a one-shot
+cheap-talk game; to our knowledge that is the only appearance of a
+mean-reverting landscape in this tradition, and multi-shot search on
+one appears here first. Bardhi's nearest-attribute theorem supplies
+the license for the choice: within the powered-exponential family,
+the OU kernel is the unique covariance satisfying the Markov
+property that the tradition's updating relies on.
+
+The optimization literature treats the same object with many
+evaluations and asymptotic goals: Calvin derives average-case rates
+under Wiener measure, Grill, Valko and Munos approximate the
+maximum of a Brownian path, and Grosse, Zhang and Hennig extend the
+approach to general Gaussian-process samples with regret rates in a
+growing budget. Alabert and Caballero (2018) compute exact laws of a
+conditioned bridge minimum to compare nonadaptive few-point rules.
+Malladi (2025) and Banchio and Malladi (2025) obtain closed-form
+few-shot policies in a worst-case, prior-free setting, where
+roughness plays the role volatility plays here. Hodgson and Lewis
+(2025) estimate Gaussian-process search on clickstream data, solving
+the farsighted problem numerically. None of these solves a fixed
+small budget of adaptive evaluations on a Bayesian landscape in
+closed form.
+
+The phase boundaries are behaviorally meaningful as well as
+derivable: in the laboratory, subjects placed on exactly this
+landscape respond to Brownian uncertainty but over-modify when
+complexity is high (Glick and Myers 2015).
+
 \section{The model: three evaluations of an exponentiated OU path}
 
 Let $X$ be a stationary Ornstein--Uhlenbeck process on $\R$ with
@@ -597,35 +669,15 @@ policy evaluation cheap; the search over adaptive policies that a
 $k$-shot dynamic program requires remains to be analyzed, and we make
 no claim that it is small.
 
-The problem solved here is terminal placement: the payoff is the value
-at the final location, not the running maximum of the path. That distinguishes it from the optimization literature on Brownian
-landscapes, where Grill, Valko and Munos approximate the maximum of a
-Brownian path with many evaluations, Calvin analyzes average-case
-adaptive optimization, and the nearest exact few-evaluation analysis,
-Alabert and Caballero's laws of the minimum of a conditioned Brownian
-bridge, was built to compare \emph{nonadaptive} few-point algorithms
-rather than to solve an adaptive placement game. The problem instead
-belongs to the correlated-learning
-tradition that Callander introduced, in which each trial is a policy
-actually enacted and the last choice is the one lived with. The
-pivot-count evidence of the introduction makes the
-incumbent-one-trial-commitment game, at most two pivots, the
-empirically relevant problem rather than a truncation of it. Within
-that tradition, surveyed by Bardhi and Callander, the landscape here
-is the exponential of the $p=1$ member of Bardhi's
-powered-exponential covariance family --- Ornstein--Uhlenbeck, the
-member that preserves the nearest-neighbor property --- and the
-question is a small exactly-solvable case of one their survey lists
-among its open methodological problems: farsighted search once
-restrictions on direction or horizon are dropped. Existing progress
-on farsighted correlated search restricts the searcher to move
-contiguously, choosing speed along a vein (Urgun and Yariv; Wong), or
-solves exact few-point placement under an information objective
-(Bardhi); the three-shot game here is the smallest
-direction-unrestricted terminal-payoff case, and its phase diagram
---- the constant amplification $e^{2\Theta}$, the constrained
-parabola \eqref{eq:parabola}, the pitchfork --- is, to our knowledge,
-new.
+The problem solved here is terminal placement: the payoff is the
+value at the final location, not the running maximum of the path.
+Section~2 locates it in the literature; the short version is that
+the tradition's exact objects are thresholds in
+$\sigma^{2}/|\mu|$ on drifting Brownian paths with endogenous
+evaluations and flow payoffs, and the fixed-budget, terminal-payoff,
+mean-reverting combination, with its phase diagram, constant
+amplification $e^{2\Theta}$, and constrained parabola
+\eqref{eq:parabola}, is new.
 
 \subsection*{Reproducibility}
 
@@ -670,6 +722,91 @@ Contiguous search: exploration and ambition on uncharted terrain.
 Y.~F. Wong.
 Forward-looking experimentation of correlated alternatives.
 \emph{Theoretical Economics}, 20, 2025.
+
+\bibitem{callander2008}
+S.~Callander.
+A theory of policy expertise.
+\emph{Quarterly Journal of Political Science}, 3(2):123--140, 2008.
+
+\bibitem{callanderhummel2014}
+S.~Callander and P.~Hummel.
+Preemptive policy experimentation.
+\emph{Econometrica}, 82(4):1509--1528, 2014.
+
+\bibitem{callanderclark2017}
+S.~Callander and T.~S. Clark.
+Precedent and doctrine in a complicated world.
+\emph{American Political Science Review}, 111(1):184--203, 2017.
+
+\bibitem{callandermatouschek2019}
+S.~Callander and N.~Matouschek.
+The risk of failure: trial and error learning and long-run
+performance.
+\emph{American Economic Journal: Microeconomics}, 11(1):44--78, 2019.
+
+\bibitem{callandermccarty2024}
+S.~Callander and N.~McCarty.
+Agenda control under policy uncertainty.
+\emph{American Journal of Political Science}, 68(1):210--226, 2024.
+
+\bibitem{clm2025}
+S.~Callander, N.~S. Lambert, and N.~Matouschek.
+Innovation and competition on a rugged technological landscape.
+\emph{American Economic Journal: Microeconomics}, forthcoming.
+
+\bibitem{aybas2025}
+Y.~C. Aybas and S.~Callander.
+Cheap talk in complex environments.
+Working paper, 2025.
+
+\bibitem{ganz2020}
+S.~C. Ganz.
+Hyperopic search: organizations learning about managers learning
+about strategies.
+\emph{Organization Science}, 31(4):821--838, 2020.
+
+\bibitem{garfagnini2016}
+U.~Garfagnini and B.~Strulovici.
+Social experimentation with interdependent and expanding
+technologies.
+\emph{Review of Economic Studies}, 83(4):1579--1613, 2016.
+
+\bibitem{cetemen2023}
+D.~Cetemen, C.~Urgun, and L.~Yariv.
+Collective progress: dynamics of exit waves.
+\emph{Journal of Political Economy}, 131(9):2402--2450, 2023.
+
+\bibitem{carnehl2025}
+C.~Carnehl and J.~Schneider.
+A quest for knowledge.
+\emph{Econometrica}, 93(2):623--659, 2025.
+
+\bibitem{hodgson2025}
+C.~Hodgson and G.~Lewis.
+You can lead a horse to water: spatial learning and path dependence
+in consumer search.
+\emph{Econometrica}, 93(4):1299--1332, 2025.
+
+\bibitem{glick2015}
+D.~Glick and C.~D. Myers.
+Learning from others: an experimental test of Brownian motion
+uncertainty models.
+\emph{Journal of Theoretical Politics}, 27(4):588--612, 2015.
+
+\bibitem{malladi2025}
+S.~Malladi.
+Searching in the dark and learning where to look.
+Working paper, 2025.
+
+\bibitem{banchio2025}
+M.~Banchio and S.~Malladi.
+Rediscovery.
+Working paper, arXiv:2504.19761, 2025.
+
+\bibitem{grosse2023}
+J.~Grosse, C.~Zhang, and P.~Hennig.
+Optimistic optimization of Gaussian process samples.
+\emph{Transactions on Machine Learning Research}, 2023.
 
 \bibitem{feng2024}
 X.~Feng, K.~A. Nguyen, and Z.~Luo.

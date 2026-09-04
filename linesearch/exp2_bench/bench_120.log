@@ -1,0 +1,29 @@
+bowling              (rough, d=4, 909.1s) grass3=-104.5  golden6=-104  golden2=-104  brent=-104  random=-104
+                       grass3 vs golden2: 7/12 wins (1 ties)
+                       grass3 vs golden6: 8/12 wins (0 ties)
+                       grass3 vs brent  : 6/12 wins (2 ties)
+plinko_funnel        (rough, d=7,  40.3s) grass3=-56.38  golden2=-49.5  golden6=-47.88  random=-46.88  brent=-28.25
+                       grass3 vs golden2: 20/24 wins (0 ties)
+                       grass3 vs golden6: 20/24 wins (0 ties)
+                       grass3 vs brent  : 21/24 wins (0 ties)
+morton_schwefel_d2   (rough, d=1,   0.4s) random=0.2019  brent=0.3813  grass3=0.832  golden6=0.9804  golden2=1.183
+                       grass3 vs golden2: 13/24 wins (10 ties)
+                       grass3 vs golden6: 10/24 wins (8 ties)
+                       grass3 vs brent  : 2/24 wins (2 ties)
+morton_rastrigin_d2  (rough, d=1,   0.4s) random=0.9688  brent=1.1  grass3=3.126  golden2=3.702  golden6=3.702
+                       grass3 vs golden2: 10/24 wins (3 ties)
+                       grass3 vs golden6: 10/24 wins (3 ties)
+                       grass3 vs brent  : 3/24 wins (1 ties)
+pool                 (smooth, d=3,   0.4s) brent=-100  golden6=-100  grass3=-100  golden2=-100  random=-99.56
+                       grass3 vs golden2: 12/24 wins (0 ties)
+                       grass3 vs golden6: 11/24 wins (0 ties)
+                       grass3 vs brent  : 5/24 wins (0 ties)
+mini_golf            (smooth, d=3,   0.4s) golden6=-100  brent=-100  grass3=-98.12  random=-95.91  golden2=-90.66
+                       grass3 vs golden2: 17/24 wins (0 ties)
+                       grass3 vs golden6: 4/24 wins (5 ties)
+                       grass3 vs brent  : 4/24 wins (5 ties)
+rosenbrock_d3        (smooth, d=3,   0.3s) brent=9.769e+04  golden6=1.038e+05  grass3=3.52e+05  golden2=9.413e+05  random=6.253e+06
+                       grass3 vs golden2: 15/24 wins (0 ties)
+                       grass3 vs golden6: 9/24 wins (0 ties)
+                       grass3 vs brent  : 9/24 wins (0 ties)
+wrote results.json
