@@ -66,3 +66,20 @@ trade all become computable with the max/argmax/first-passage laws
 far apart should my k attempts be" is exactly the redundancy question
 eval people wave at. This is the generalization with an external
 audience.
+
+## 6. The multiscale k-shot expansion (PARKED 2026-09-03, Peter's
+## suggestion, for later)
+Peter's PhD territory: fast mean-reverting OU, FPS-style singular
+perturbation. With epsilon = 1/(kappa T), the k-shot search game on
+a fast-reverting landscape should expand: leading order, every probe
+is a fresh draw and the game degenerates to order statistics of
+independent draws plus the incumbent (a winning-engine object);
+bridge/revisit machinery enters at O(epsilon), seeded by the exact
+three-shot solution (interior premium U_off - zeta ~ rho(1-b^2) at
+small rho). The WiFi data empirically occupies exactly this regime
+(L ~ 11 grid units on traces of 15-92, adjacent rho 0.91 -- both
+scales in one trace), and replay round one confirmed the leading-
+order prediction (far probes win). This would give the k-shot
+asymptotics that closed forms cannot: the natural second theory
+section or follow-up paper, and the one place the author's own
+singular-perturbation toolkit plugs in directly.
