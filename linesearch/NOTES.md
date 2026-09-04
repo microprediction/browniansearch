@@ -197,6 +197,40 @@ pattern). One implementation of an informally stated policy, but as
 an empirical test of the conjectured two-phase SHAPE: a null result.
 The writing session should not lean on the conjecture.
 
+## exp2i: the surgical swap (run 2026-09-04, run_powell_swap.py)
+Peter's design correction, and the study's closing verdict. Swap
+ONLY the line search inside humpday's Powell as shipped -- stock
+Brent vs the grass rule vs golden2, identical direction-set updates,
+extrapolation and convergence logic -- so any difference is the line
+search and nothing else (paired seeds, no rank aggregation).
+
+Result: the grass rule is NOT a drop-in line-search upgrade. Stock
+Powell(Brent) wins 390/488 paired seeds; Powell(grass) loses even on
+plinko (0/16), where grass dominated in the custom outer loop.
+Mechanism: Powell's machinery RELIES on the line search being a
+genuine minimizer -- the per-direction decrease drives the
+direction-set replacement and the extrapolation step -- and a
+1-2-eval probabilistic probe feeds that machinery noise. Powell's
+direction count is structurally fixed at n per iteration, so cheap
+lines buy nothing there.
+
+The exception proves the law: wind_farm (d=16) is a 24/24 sweep FOR
+Powell(grass) (-95.3 vs -72.5), with tennis_doubles a weak second.
+At budget 120, Brent's ~9 evals/line times d=16 directions exceeds
+the whole budget -- Powell(Brent) cannot complete even one direction
+cycle, while cheap lines let Powell cycle freely. Transplant
+condition, roughly: the swap helps iff d x (evals per classical
+line) >~ budget, i.e. budget-starved high dimension; below that,
+Brent's precision is load-bearing.
+
+CLOSING SYNTHESIS. The grass rule's value is inseparable from an
+outer loop built to exploit cheap lines (many random directions,
+best-point hopping) -- it is a strategy pair, not a component
+upgrade -- except in the budget-starved high-d regime, where it
+transplants even into Powell and sweeps. Few evaluations, many
+dimensions, rough or structured landscapes: that is the habitat,
+stated plainly.
+
 STANDING RESULT. Across every experiment the quietly strongest
 general baseline is golden2 -- two full-segment probes per line,
 maximal direction economy with global reach and no model. The grass
