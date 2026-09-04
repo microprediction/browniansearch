@@ -641,8 +641,15 @@ loop that spends eight to ten evaluations per line. It loses to the
 classical loops on smooth low-dimensional objectives, and it loses
 badly on needle landscapes, where the value hides in a spike and no
 placement theory helps. Across the 22 objectives the rule ranks
-first or second for 9. Scripts, seeds, and per-objective results are
-in the paper's repository.
+first or second for 9. As a standalone optimizer, rather than an inner loop, the two-shot
+variant is mid-field against a panel of standard derivative-free
+methods (mean rank near the middle of eleven across the 22
+objectives). Its relative standing is best at the smallest budgets,
+around forty evaluations, and slips as the budget grows and
+population methods such as CMA-ES overtake it. That is the expected
+place for a rule derived from a few-evaluation terminal-placement
+model. Scripts, seeds, and per-objective results are in the paper's
+repository.
 
 \section{The rules in business terms}
 
