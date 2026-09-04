@@ -61,9 +61,10 @@ the frequency of repeated pivots. In practice, strategic search
 involves very few evaluations.
 
 Callander (2011) modeled this kind of search as trial and error on
-an unknown function drawn from a Brownian motion. Each trial is
-implemented and its outcome observed. Most work in this tradition
-assumes myopic agents. Bardhi and Callander (2026) list farsighted
+an unknown function drawn from a Brownian motion. A sequence of
+short-lived agents each implements one trial and observes its
+outcome, so search is myopic by demographic structure rather than by
+assumption. Most later work keeps this feature. Bardhi and Callander (2026) list farsighted
 search with a free choice of location as an open problem.
 
 We solve the smallest such problem exactly. The landscape is the
@@ -588,6 +589,12 @@ is one already seen. Below it, the optimal location is past the
 better end when the news is bad, and between the anchors when the
 news is good.
 
+A related mid-game rule is proved in Appendix~A: a trial that lands
+at or below the process median is abandoned rather than repaired,
+and more generally the stay-or-leave decision after an interior
+trial is a threshold rule in the revealed value, with the measured
+threshold below the anchors.
+
 With one evaluation remaining there is nothing to explore, since no
 discovery at the final point can inform a later choice. The last move is pure placement. The preference for uncertain
 locations comes from Jensen's inequality, not from any value of
@@ -626,6 +633,63 @@ machinery lives in \texttt{verify/check\_inside.py} and
 \texttt{verify/check\_middle.py}, all in the
 \href{https://github.com/microprediction/browniansearch}{browniansearch}
 repository.
+
+\appendix
+\section{The abandonment threshold}\label{app:abandon}
+
+Suppose a bracket has known end log-values $b$ and $d$ and an
+interior trial reveals log-value $v$. The searcher may continue
+inside one of the two sub-brackets or leave past an end.
+
+\begin{proposition}[A bad draw sends the searcher out]
+Let $v \le 0$, the process median or below. Every placement interior
+to the two sub-brackets, and the revisit of $v$, is weakly dominated
+by exiting to $\zeta(\max(b,d))$; strictly if $v < 0$.
+\end{proposition}
+
+\begin{proof}
+Consider the sub-bracket with near end $b$ and far end $v$, and an
+interior point with correlations $\lambda_2$ and $\lambda$ to its
+ends, $\rho_1 = \lambda_2\lambda$. The conditional mean is
+$\mu = Ab + Bv$ with
+$A = \lambda_2(1-\lambda^{2})/(1-\rho_1^{2})$ and
+$B = \lambda(1-\lambda_2^{2})/(1-\rho_1^{2})$, both nonnegative, and
+$A \le \lambda_2$ because $\lambda \ge \rho_1$ implies
+$1-\lambda^{2} \le 1-\rho_1^{2}$. Since $v \le 0$,
+$\mu \le \lambda_2 b$. The conditional variance obeys
+$\nu = (1-\lambda_2^{2})(1-\lambda^{2})/(1-\rho_1^{2})
+\le 1-\lambda_2^{2}$ by the same inequality. Hence
+$\mu + \nu/2 \le \lambda_2 b + (1-\lambda_2^{2})/2 \le
+\sup_{\ell}[\ell b + (1-\ell^{2})/2] = \zeta(b)$, where the last
+identification holds for every real $b$. For $v < 0$ any strictly
+interior point has $B > 0$, so $\mu < \lambda_2 b$. The revisit of
+$v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bound
+applies to the other sub-bracket with $d$ in place of $b$.
+\end{proof}
+
+\begin{proposition}[Monotone value]
+The value of the game is nondecreasing in every observed value.
+\end{proposition}
+
+\begin{proof}
+Every candidate placement's conditional mean is a nonnegative linear
+combination of observed values, and every conditional variance
+depends on locations only. The final payoff is a maximum of terms
+that are nondecreasing in each observed value. For earlier stages,
+raise one observed value and couple the reveal at any placement by
+shifting it with its conditional mean; induction over stages
+preserves monotonicity through the expectation and the maximum.
+\end{proof}
+
+Exits are anchored at the outer values and do not depend on the
+interior reveal $v$, while continuations inside are nondecreasing in
+$v$ by the monotonicity above. The stay-or-leave decision after an
+interior trial is therefore a threshold rule in $v$. The threshold
+lies below the anchors: at $b = d = 0.7$ and bracket correlation
+$\rho = 0.5$, staying is optimal exactly when $v > 0.63$. A trial
+somewhat worse than both anchors is still worth staying for, because
+the sub-bracket keeps one good end and the variance. Verification
+scripts accompany the paper's repository.
 
 \begin{thebibliography}{9}
 
