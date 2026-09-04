@@ -225,14 +225,18 @@ equal measure: a final location with residual uncertainty carries a
 lognormal bonus of half its variance.
 
 Figure~\ref{fig:problem} shows the decision this paper solves.
-Unit variance is a calibration, not a normalization. With payoff
-$e^{\beta X}$ on a unit-variance path, every comparison maximizes
-$\mu + \beta\nu/2$; the two-shot step becomes
-$\lambda^{*}=\operatorname{clip}(b/\beta,0,1)$, and the pitchfork
-and ceiling of Section~7 scale to $\beta\cdot 2\sqrt{\rho}/(1-\rho)$
-and $\beta(1+\rho)/(1-\rho)$. Comparative statics in $\beta$ follow
-directly, and the one-percent figure of Section~9 is specific to
-$\beta=1$.
+The problem has one essential scale parameter. A payoff exponent
+$\beta$ alone is without loss of generality, since $e^{\beta X}$ on
+a unit-variance path equals $e^{Y}$ on a path of standard deviation
+$\beta$; only the product $s=\beta\sigma$ of payoff convexity and
+path scale matters. We calibrate $s=1$. For general $s$ every
+comparison maximizes $\mu + s\nu/2$ with observations in
+path-standard-deviation units, the two-shot step becomes
+$\lambda^{*}=\operatorname{clip}(b/s,0,1)$, and the pitchfork and
+ceiling of Section~7 scale to $s\cdot 2\sqrt{\rho}/(1-\rho)$ and
+$s(1+\rho)/(1-\rho)$. The parameter plays the role Callander's
+complexity $\sigma^{2}/2|\mu|$ plays under drift, and the
+one-percent figure of Section~9 is specific to $s=1$.
 
 Two conventions tidy the boundary cases. A searcher may take a location
 to infinity, which by mean reversion is equivalent to sampling a fresh
