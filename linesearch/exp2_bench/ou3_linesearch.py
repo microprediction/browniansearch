@@ -241,7 +241,11 @@ def brent_inner(max_evals=10):
                 tmp2 = abs(tmp2)
                 dx_temp = deltax
                 deltax = rat
-                if p_ > tmp2 * (a_ - x) and p_ < tmp2 * (b_ - x) and abs(p_) < abs(0.5 * tmp2 * dx_temp):
+                if (
+                    p_ > tmp2 * (a_ - x)
+                    and p_ < tmp2 * (b_ - x)
+                    and abs(p_) < abs(0.5 * tmp2 * dx_temp)
+                ):
                     rat = p_ / tmp2
                     u = x + rat
                     if (u - a_) < tol2 or (b_ - u) < tol2:
@@ -280,12 +284,14 @@ class GrassInner:
     Carries run-level state: the value history for standardization and
     the same-line pair history for the kappa fit."""
 
-    KAPPA_GRID = np.geomspace(2.0, 500.0, 60)
+    KAPPA_GRID = np.geomspace(2.0, 200.0, 60)
+    CHI2_MEDIAN = 0.4549364  # median of chi^2_1: med[(dX)^2] = 2(1-rho)*this
 
     def __init__(self, kappa0=20.0):
         self.kappa = kappa0
         self.values = []  # all raw values seen (for mean/std)
-        self.pairs = []  # (distance, standardized squared increment)
+        self.pairs = []  # (distance, f_i, f_j) raw same-line pairs
+        self.stall = 0  # consecutive lines with no material improvement
 
     def _stats(self):
         if len(self.values) < 2:
@@ -295,13 +301,31 @@ class GrassInner:
         return m, (s if s > 1e-12 else 1.0)
 
     def _fit_kappa(self):
-        if len(self.pairs) < 4:
+        """Variogram fit robust to the chi^2_1 tail: pairs are stored raw
+        and standardized with the CURRENT stats (early pairs measured
+        against a degenerate std would otherwise poison the fit), binned
+        by distance, and the per-bin median increment is matched to its
+        OU expectation 2(1-e^{-kappa D}) * med[chi^2_1]."""
+        if len(self.pairs) < 8:
             return
-        pairs = self.pairs[-64:]
+        _, s = self._stats()
+        pairs = self.pairs[-256:]
         dist = np.array([q[0] for q in pairs])
-        sq = np.array([q[1] for q in pairs])
-        model = 2.0 * (1.0 - np.exp(-np.outer(self.KAPPA_GRID, dist)))
-        sse = ((model - sq[None, :]) ** 2).sum(axis=1)
+        sq = np.array([(q[1] - q[2]) / s for q in pairs]) ** 2
+        edges = np.geomspace(max(dist.min(), 1e-5), dist.max() + 1e-12, 9)
+        dmid, dmed = [], []
+        for a, b in zip(edges[:-1], edges[1:]):
+            mask = (dist >= a) & (dist <= b)
+            if mask.sum() >= 2:
+                dmid.append(np.median(dist[mask]))
+                dmed.append(np.median(sq[mask]))
+        if len(dmid) < 3:
+            return
+        dmid, dmed = np.array(dmid), np.array(dmed)
+        model = (
+            2.0 * self.CHI2_MEDIAN * (1.0 - np.exp(-np.outer(self.KAPPA_GRID, dmid)))
+        )
+        sse = ((model - dmed[None, :]) ** 2).sum(axis=1)
         self.kappa = float(self.KAPPA_GRID[int(np.argmin(sse))])
 
     def __call__(self, budget, p, fp, v, rng):
@@ -323,15 +347,20 @@ class GrassInner:
         if room_fwd < 1e-9:
             return p, fp
 
-        # Shot 2: bracket at the three-shot optimal correlation.
-        r = rho_star(b)
+        # Shot 2: bracket at the three-shot optimal correlation. A run of
+        # barren lines means the observed spread near the anchor is
+        # negligible, in which case every placement ties in the model and
+        # the tie breaks toward the flee branch (the stationary OU model
+        # cannot see a nonstationary plateau; b measured against a
+        # collapsed sample std is an artifact, not an exceptional anchor).
+        r = 0.0 if self.stall >= 3 else rho_star(b)
         t1 = room_fwd if r <= 0.0 else min(-np.log(r) / kap, room_fwd)
         if t1 < 1e-9:
             return p, fp
         alpha1 = side * t1
         f1 = budget(p + alpha1 * v)
         self.values.append(f1)
-        self.pairs.append((t1, (std(fp) - std(f1)) ** 2))
+        self.pairs.append((t1, fp, f1))
         d_val = std(f1)
         best_a, best_f = (alpha1, f1) if f1 < fp else (0.0, fp)
 
@@ -358,10 +387,12 @@ class GrassInner:
                 if abs(alpha2) > 1e-9 and abs(alpha2 - alpha1) > 1e-9:
                     f2 = budget(p + alpha2 * v)
                     self.values.append(f2)
-                    self.pairs.append((abs(alpha2 - alpha1), (std(f1) - std(f2)) ** 2))
+                    self.pairs.append((abs(alpha2 - alpha1), f1, f2))
                     if f2 < best_f:
                         best_a, best_f = alpha2, f2
         self._fit_kappa()
+        tol = 1e-12 + 1e-9 * abs(fp)
+        self.stall = 0 if best_f < fp - tol else self.stall + 1
         return np.clip(p + best_a * v, 0, 1), best_f
 
 

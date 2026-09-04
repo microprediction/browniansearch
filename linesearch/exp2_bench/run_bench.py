@@ -100,17 +100,29 @@ if __name__ == "__main__":
         t0 = time.time()
         rows = {}
         for method in METHODS:
-            vals = [run_method(method, obj, n_dim, n_trials, s)[0] for s in range(seeds)]
+            vals = [
+                run_method(method, obj, n_dim, n_trials, s)[0] for s in range(seeds)
+            ]
             rows[method] = vals
-        out["problems"][name] = {"family": family, "n_dim": n_dim, "seeds": seeds, "results": rows}
+        out["problems"][name] = {
+            "family": family,
+            "n_dim": n_dim,
+            "seeds": seeds,
+            "results": rows,
+        }
         med = {m: float(np.median(v)) for m, v in rows.items()}
         order = sorted(med, key=med.get)
-        print(f"{name:20s} ({family}, d={n_dim}, {time.time() - t0:5.1f}s) " + "  ".join(f"{m}={med[m]:.4g}" for m in order))
+        print(
+            f"{name:20s} ({family}, d={n_dim}, {time.time() - t0:5.1f}s) "
+            + "  ".join(f"{m}={med[m]:.4g}" for m in order)
+        )
         # per-seed win counts of grass3 vs each classical inner
         for rival in ("golden2", "golden6", "brent"):
             wins = sum(g < r for g, r in zip(rows["grass3"], rows[rival]))
             ties = sum(g == r for g, r in zip(rows["grass3"], rows[rival]))
-            print(f"{'':20s}   grass3 vs {rival:7s}: {wins}/{len(rows['grass3'])} wins ({ties} ties)")
+            print(
+                f"{'':20s}   grass3 vs {rival:7s}: {wins}/{len(rows['grass3'])} wins ({ties} ties)"
+            )
     with open(os.path.join(HERE, "results.json"), "w") as fh:
         json.dump(out, fh, indent=2)
     print("wrote results.json")
