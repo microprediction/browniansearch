@@ -89,12 +89,7 @@ The interior option is worth about one percent of expected value at
 the optimum. Most of the value of the final pivot comes from the
 information it produces. On landscapes that decorrelate quickly, it
 is better to probe far away, and the formulas say so: the interior
-premium is first order in the bracket correlation. We check the
-landscape assumption on 77{,}040 WiFi measurements across a
-university floor. The detrended log signal is Gaussian and its
-spatial correlation is exponential with $R^2=0.98$. A replay on
-that data matches the ranking of policies that the formulas predict
-(Section~\ref{sec:wifi}).
+premium is first order in the bracket correlation.
 
 \section{Related work}
 
@@ -164,6 +159,13 @@ $\E[X_t]=0$, unit marginal variance, and covariance kernel
 \begin{equation}
 k(s,t) \;=\; e^{-\kappa|s-t|}.
 \end{equation}
+Exponential decay of correlation with distance is a standard
+empirical model, not an assumption special to this paper: it has
+described shadow fading in radio engineering since Gudmundson
+(1991). On 77{,}040 WiFi measurements across a university floor
+(Feng, Nguyen and Luo 2024), we find the detrended log signal close
+to Gaussian with spatial correlation fitting an exponential at
+$R^{2}=0.98$; the scripts are in the paper's repository.
 The landscape is $f(t)=\exp(X_t)$: locally continuous, mean-reverting in
 its logarithm, with occasional high peaks where excursions are magnified
 by the exponential. A searcher samples $f$ at a first location, which we
@@ -560,63 +562,6 @@ $\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
 symmetric window, yet staying at the second anchor is optimal and
 the exclusion costs nothing.
 
-\section{The landscape premise on real measurements}\label{sec:wifi}
-
-Whether real search fields look like exponentiated OU paths is
-measurable. We use the WiFi positioning dataset of Feng, Nguyen and
-Luo (2024): a university floor of $92\times 15$ meters on a
-$0.6$-meter grid, 642 reference points, 13 access points, 120
-repeated measurements per point over three days, released CC~BY.
-Received power is a search field in the paper's literal sense: a
-deployment seeks the location where signal is strongest, and the
-landscape is rugged for physical reasons.
-
-For each location and access point we form the mean linear power
-over the repeats and take its logarithm, then remove an AP-specific
-log-distance path-loss trend with the access-point position fitted.
-The 4{,}235 surviving location--AP pairs form 50 corridor traces of
-fifteen or more consecutive grid points. The residuals are close to
-Gaussian (skewness $0.008$, excess kurtosis $0.05$), and their
-pooled spatial correlation along corridors is exponential with
-length $6.6$ meters and $R^2=0.98$ (Figure~\ref{fig:wifi}), the
-form proposed for shadow fading by Gudmundson (1991) and standard in
-radio engineering since. Roughly half the variance is a short-scale
-component below the grid resolution: the surface is the paper's
-curve plus fine gravel, and the replay below scores against the
-surface as measured.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.6\textwidth]{figures/wifi_corr.pdf}
-\caption{Pooled correlation of detrended log mean power along 50
-corridor traces of the Feng et al.\ dataset, with the fitted
-exponential. The landscape premise, measured.}
-\label{fig:wifi}
-\end{figure}
-
-A trace-split replay makes the regime point concrete. The model is
-fitted on half the traces; on each held-out trace a random
-incumbent's value is revealed, one further measurement is placed by
-each policy, and a deployment is committed and scored at the
-measured surface. With correlation length near eleven grid units on
-traces of fifteen to ninety-two, far probes are nearly fresh draws,
-and the leading policies are the far-probing ones: probing the far
-end gains $70\%$ of linear payoff over incumbent reuse and an
-empirical knowledge gradient $63\%$, against $33\%$ for the
-three-shot rule probing at the two-shot step. The exact formulas
-predict this ordering: at bracket correlation $\rho$ the interior
-option's premium is
-$\tfrac12(e^{2\Theta}-1)(1-b^{2}e^{-2\Theta})\approx\rho(1-b^{2})$,
-first order in $\rho$, while the fresh-draw variance bonus is order
-one. The revisit machinery governs the opposite regime, search at
-steps within a correlation length; adjacent grid points here sit at
-$\rho=0.91$. Where a firm's feasible pivots are local, the phase
-diagram is the operative map; where they are global, measure far
-and take the best. The replay is a first pass: conditioning the
-comparison on the phase-diagram region of each episode, and
-per-trace intercepts in the fitted model, are the natural
-refinements.
-
 \section{Discussion}
 
 Two distinct comparisons should not be merged. Against a \emph{visited} point of
@@ -643,7 +588,10 @@ switch, since an adverse interior observation can make leaving
 attractive again. The bridge formulas make each
 policy evaluation cheap; the search over adaptive policies that a
 $k$-shot dynamic program requires remains to be analyzed, and we make
-no claim that it is small.
+no claim that it is small. The same placement problem arises as the
+line-search step inside derivative-free optimizers, where one-
+dimensional slices of real objectives can be rough; we pursue that
+use separately in the humpday benchmark package.
 
 The problem solved here is terminal placement: the payoff is the
 value at the final location, not the running maximum of the path.
