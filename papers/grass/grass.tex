@@ -49,7 +49,63 @@ is explained by the extra evaluation itself rather than by the interior
 option.
 \end{abstract}
 
-\section{The problem: three evaluations of an exponentiated OU path}
+\section{Introduction}
+
+How many pivots does a firm get? In randomized samples of startups,
+roughly three quarters pivot zero times over a year of observation, a
+fifth pivot exactly once, and only six to eleven percent more than
+once (Camuffo et al.\ 2020, 2024). The same trials find that teaching
+founders to search more scientifically shifts them toward exactly one
+pivot rather than none or many. Strategic search, as practiced, is a
+game of two or three evaluations.
+
+Callander modeled such search as trial and error on an unknown rugged
+mapping from strategies to outcomes, drawn as the realized path of a
+stochastic process: each trial is a strategy actually enacted, and
+the last one is lived with. The workhorse of the tradition that
+followed is myopic, each step maximizing the current outcome, and the
+survey of Bardhi and Callander lists farsighted search with
+unrestricted direction among its open methodological questions.
+
+This paper solves the smallest farsighted case exactly, on a
+landscape adapted to strategic search in two ways. Performance is the
+exponential of a stationary Ornstein--Uhlenbeck path. Mean reversion
+says that far from anything tried, performance regresses to the
+industry average, so news is good or bad relative to that average.
+The exponential says a strategy that truly hits the sweet spot
+outsells its near neighbors by a wide margin, so residual uncertainty
+about an untried strategy is valuable in itself.
+
+The searcher holds an incumbent whose performance is known, may try
+one more strategy, and then must commit. With two evaluations the
+optimal rule is pivot-or-persevere with exact thresholds: abandon a
+below-average position for fresh ground, keep an exceptional one, and
+otherwise step a distance set by how fast the landscape decorrelates.
+With three, the interesting question is the final move, and the
+answer is a phase diagram. On bad news, leave past the better of the
+two positions tried, in whichever direction that lies. On good news,
+commit to a strategy between them. On news good enough, stay put.
+The between region has structure of its own: moderate good news sends
+the searcher to the midpoint, very good news to a blend hugging the
+better-known position, and the frontier of every regime is closed
+form.
+
+Two further results temper the romance of the pivot. The option to
+settle between past positions adds about one percent of expected
+value at the optimum, so the last pivot's worth lies mostly in the
+information it gathers, not in the blending it enables. And on a
+landscape that decorrelates quickly relative to the strategy space,
+the formulas themselves demote the between option to a second-order
+refinement: bold fresh probes dominate. Both points are visible in
+data. On 77{,}040 radio measurements across a university floor, a
+physical search field with the same mathematical shape, detrended log
+performance is Gaussian with exponential spatial correlation
+($R^2=0.98$), the form radio engineering has used since Gudmundson
+(1991), and the leading policies in a replay on those measurements
+are the far-probing ones this regime predicts
+(Section~\ref{sec:wifi}).
+
+\section{The model: three evaluations of an exponentiated OU path}
 
 Let $X$ be a stationary Ornstein--Uhlenbeck process on $\R$ with
 $\E[X_t]=0$, unit marginal variance, and covariance kernel
@@ -129,7 +185,9 @@ b & b>1 .
 
 A below-median first value is abandoned, and an exceptional one is
 kept: already at two shots, an observed location can be the optimal
-final location. In between, the searcher steps to the distance at which the
+final location. Practitioners know this fork as pivot or persevere
+(Ries 2011); the proposition supplies its thresholds and the size of
+the step when pivoting wins. In between, the searcher steps to the distance at which the
 prior pull toward the mean exactly balances the anchor's height. The
 value $\zeta$ serves as the exterior benchmark throughout: by the
 Markov property, any placement beyond all existing observations faces a
@@ -450,6 +508,63 @@ $\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
 symmetric window, yet staying at the second anchor is optimal and
 the exclusion costs nothing.
 
+\section{The landscape premise on real measurements}\label{sec:wifi}
+
+Whether real search fields look like exponentiated OU paths is
+measurable. We use the WiFi positioning dataset of Feng, Nguyen and
+Luo (2024): a university floor of $92\times 15$ meters on a
+$0.6$-meter grid, 642 reference points, 13 access points, 120
+repeated measurements per point over three days, released CC~BY.
+Received power is a search field in the paper's literal sense: a
+deployment seeks the location where signal is strongest, and the
+landscape is rugged for physical reasons.
+
+For each location and access point we form the mean linear power
+over the repeats and take its logarithm, then remove an AP-specific
+log-distance path-loss trend with the access-point position fitted.
+The 4{,}235 surviving location--AP pairs form 50 corridor traces of
+fifteen or more consecutive grid points. The residuals are close to
+Gaussian (skewness $0.008$, excess kurtosis $0.05$), and their
+pooled spatial correlation along corridors is exponential with
+length $6.6$ meters and $R^2=0.98$ (Figure~\ref{fig:wifi}), the
+form proposed for shadow fading by Gudmundson (1991) and standard in
+radio engineering since. Roughly half the variance is a short-scale
+component below the grid resolution: the surface is the paper's
+curve plus fine gravel, and the replay below scores against the
+surface as measured.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/wifi_corr.pdf}
+\caption{Pooled correlation of detrended log mean power along 50
+corridor traces of the Feng et al.\ dataset, with the fitted
+exponential. The landscape premise, measured.}
+\label{fig:wifi}
+\end{figure}
+
+A trace-split replay makes the regime point concrete. The model is
+fitted on half the traces; on each held-out trace a random
+incumbent's value is revealed, one further measurement is placed by
+each policy, and a deployment is committed and scored at the
+measured surface. With correlation length near eleven grid units on
+traces of fifteen to ninety-two, far probes are nearly fresh draws,
+and the leading policies are the far-probing ones: probing the far
+end gains $70\%$ of linear payoff over incumbent reuse and an
+empirical knowledge gradient $63\%$, against $33\%$ for the
+three-shot rule probing at the two-shot step. The exact formulas
+predict this ordering: at bracket correlation $\rho$ the interior
+option's premium is
+$\tfrac12(e^{2\Theta}-1)(1-b^{2}e^{-2\Theta})\approx\rho(1-b^{2})$,
+first order in $\rho$, while the fresh-draw variance bonus is order
+one. The revisit machinery governs the opposite regime, search at
+steps within a correlation length; adjacent grid points here sit at
+$\rho=0.91$. Where a firm's feasible pivots are local, the phase
+diagram is the operative map; where they are global, measure far
+and take the best. The replay is a first pass: conditioning the
+comparison on the phase-diagram region of each episode, and
+per-trace intercepts in the fitted model, are the natural
+refinements.
+
 \section{Discussion}
 
 The proverb, read as mathematics, is conditional, and two distinct
@@ -493,16 +608,9 @@ rather than to solve an adaptive placement game. The problem instead
 belongs to the correlated-learning
 tradition that Callander introduced, in which each trial is a policy
 actually enacted and the last choice is the one lived with. The
-workhorse of that tradition is myopic --- each period's step
-maximizes the current outcome --- and the few-shot farsighted case
-is not a stylization: across randomized samples of startups, roughly
-three quarters pivot zero times in a year, a fifth exactly once, and
-only six to eleven percent more than once, with interventions that
-improve search shifting firms toward exactly one pivot rather than
-none or many (Camuffo et al.\ 2020, 2024). A searcher holding an
-incumbent position, one further trial, and a final commitment --- at
-most two pivots --- is therefore not a truncation of the empirically
-relevant problem; it is the empirically relevant problem. Within
+pivot-count evidence of the introduction makes the
+incumbent-one-trial-commitment game, at most two pivots, the
+empirically relevant problem rather than a truncation of it. Within
 that tradition, surveyed by Bardhi and Callander, the landscape here
 is the exponential of the $p=1$ member of Bardhi's
 powered-exponential covariance family --- Ornstein--Uhlenbeck, the
@@ -562,6 +670,21 @@ Contiguous search: exploration and ambition on uncharted terrain.
 Y.~F. Wong.
 Forward-looking experimentation of correlated alternatives.
 \emph{Theoretical Economics}, 20, 2025.
+
+\bibitem{feng2024}
+X.~Feng, K.~A. Nguyen, and Z.~Luo.
+WiFi RTT RSS dataset for indoor positioning.
+Zenodo, 2024. doi:10.5281/zenodo.11558192.
+
+\bibitem{gudmundson1991}
+M.~Gudmundson.
+Correlation model for shadow fading in mobile radio systems.
+\emph{Electronics Letters}, 27(23):2145--2146, 1991.
+
+\bibitem{ries2011}
+E.~Ries.
+\emph{The Lean Startup}.
+Crown Business, New York, 2011.
 
 \bibitem{camuffo2020}
 A.~Camuffo, A.~Cordova, A.~Gambardella, and C.~Spina.
