@@ -29,32 +29,24 @@
 \begin{abstract}
 \noindent A searcher evaluates a rugged landscape, the exponential of a
 stationary Ornstein--Uhlenbeck path, at three points chosen
-sequentially, and is paid the value at the final point. This is a
-terminal placement problem, distinct from approximating the path's
-maximum. The
-two-evaluation problem has a three-phase closed form (flee below the
-median; stay above a threshold; otherwise step a distance set by the
-mean-reversion scale). The third evaluation turns on a bracket of two
-observed locations with correlation $\rho$. For equal observed values
-$b$, every interior bracket point shares its conditional mean with an
-explicit exterior point while carrying conditional variance larger by
-the constant factor $(1+\rho)/(1-\rho)=e^{2\Theta}$, where $\Theta$
-is the bracket rapidity. This matched-mean dominance extends to every
-convex payoff by Gaussian convex ordering. The symmetric interior
-problem collapses to a parabola in $m=(\lambda_2+\lambda)/(1+\rho)$,
-namely $bm+\tfrac{C}{2}(1-m^{2})$ with $C=e^{2\Theta}$, whose clipped
-optimizer $b/C$ yields the full phase diagram. The interior beats every
-alternative, observed locations included, exactly for
-$b_{-}(\rho)<b<e^{2\Theta}$ with $b_{-}$ a quadratic root; the optimal
-interior point is the bracket middle only below $b=\sinh 2\tau$, with
-$\tau$ the half-bracket rapidity, beyond which a mirror pair of optima
-slides to the ends, arriving at $b=e^{2\Theta}$, where staying at an
-anchor takes over. Above that ceiling the grass is not greener, since
-mean reversion caps the conditional mean of every unvisited point and
-no variance bonus compensates. Numerically, the interior option is worth
-about one percent of expected value at most (peaking near $b=0.83$),
-and most of the three-shot bracket widening is explained by the extra
-evaluation itself rather than by the interior option.
+sequentially, and is paid the value at the final point: a terminal
+placement problem, distinct from approximating the path's maximum. The
+two-evaluation problem has a three-phase closed form: flee below the
+median, stay above a threshold, otherwise step a distance set by the
+mean-reversion scale. The third evaluation turns on a bracket of two
+observed locations and rests on one identity: every interior bracket
+point shares its conditional mean with an explicit exterior point while
+carrying conditional variance larger by the constant factor
+$(1+\rho)/(1-\rho)$, so matched-mean dominance extends to every convex
+payoff by Gaussian convex ordering. The resulting phase diagram is
+exact: the interior beats every alternative, observed locations
+included, on a stated interval of the observed value $b$, and above an
+explicit ceiling the grass is not greener, since mean reversion caps
+the conditional mean of every unvisited point and no variance bonus
+compensates. Numerically the interior option is worth about one percent
+of expected value at most, and most of the three-shot bracket widening
+is explained by the extra evaluation itself rather than by the interior
+option.
 \end{abstract}
 
 \section{The problem: three evaluations of an exponentiated OU path}
