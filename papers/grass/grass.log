@@ -491,7 +491,7 @@ Package pdftex.def Info: figures/wifi_corr.pdf  used on input line 590.
 [9 <./figures/wifi_corr.pdf>]
 
 [10]
-Underfull \hbox (badness 2772) in paragraph at lines 711--714
+Underfull \hbox (badness 2772) in paragraph at lines 708--711
 []\OT1/cmr/m/n/10.95 S. Callan-der and P. Hum-mel. Pre-emp-tive pol-icy ex-per-
 i-men-ta-tion. \OT1/cmr/m/it/10.95 Econo-met-rica\OT1/cmr/m/n/10.95 ,
  []
@@ -515,7 +515,7 @@ Here is how much of TeX's memory you used:
  34039 multiletter control sequences out of 15000+600000
  568762 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,914b,562s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,914b,564s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -533,7 +533,7 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2025/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/t
 exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on grass.pdf (12 pages, 308081 bytes).
+Output written on grass.pdf (12 pages, 307818 bytes).
 PDF statistics:
  450 PDF objects out of 1000 (max. 8388607)
  272 compressed objects within 3 object streams
