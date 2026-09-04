@@ -205,8 +205,9 @@ extrapolation and convergence logic -- so any difference is the line
 search and nothing else (paired seeds, no rank aggregation).
 
 Result: the grass rule is NOT a drop-in line-search upgrade. Stock
-Powell(Brent) wins 390/488 paired seeds; Powell(grass) loses even on
-plinko (0/16), where grass dominated in the custom outer loop.
+Powell(Brent) wins 373/488 paired seeds (grass 98, ties 17; an
+earlier note said 390 by forgetting the ties); Powell(grass) loses
+even on plinko (0/16), where grass dominated in the custom loop.
 Mechanism: Powell's machinery RELIES on the line search being a
 genuine minimizer -- the per-direction decrease drives the
 direction-set replacement and the extrapolation step -- and a
