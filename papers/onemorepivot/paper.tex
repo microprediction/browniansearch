@@ -1,0 +1,290 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}{-1em}%
+  {\normalfont\normalsize\itshape}}
+\makeatother
+
+\title{\textbf{One More Pivot}\\[0.4em]
+\large Farsighted Search When Trials Are Scarce}
+\author{Peter Cotton}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Firms search for strategy the way Callander's searchers probe
+an unknown correlated landscape: each trial is a strategy actually
+lived, and the last one is the one committed to. Field experiments show
+the search is short --- roughly three quarters of startups pivot zero
+times in a year, a fifth exactly once, and six to eleven percent more
+than once --- so the empirically relevant problem is not an infinite
+horizon truncated but a game of at most two moves, and that game has
+recently been solved exactly on the canonical mean-reverting landscape.
+This paper translates the solution into operating rules: when a
+struggling incumbent should pivot far, how wide to bracket before the
+final commitment, the explicit performance ceiling above which the
+grass is provably not greener, and the threshold --- strictly below the
+performance of positions already held --- at which a disappointing
+pivot should be abandoned rather than repaired. The rules are graded
+and falsifiable, the interior option is worth about one percent of
+expected value at its best, and the same field experiments that
+motivate the model rhyme with its central prediction: better search
+produces exactly one pivot, not many.
+\end{abstract}
+
+\section{Callander's problem}
+
+\citet{callander2011b} posed the problem this way. Strategies sit on a
+line, and the mapping from strategy to outcome is the realized path of
+a Brownian motion: known where it has been tried, unknown elsewhere,
+with nearby strategies performing similarly. A searcher tries a
+strategy, lives its outcome, and decides whether to try another. Trials
+are not laboratory queries; each is a policy enacted, a product
+shipped, a position occupied. In the companion political-economy
+version \citep{callander2011}, the same machinery explains why
+policymaking is incremental and why search stalls at mediocre policies
+that nobody can improve on locally.
+
+The workhorse of the tradition that grew from these papers is myopic:
+each period's move maximizes the current outcome, and the theory asks
+where such a searcher drifts, when she stops, and what she leaves
+undiscovered. The survey of \citet{bardhicallander2026} lists
+farsighted search --- a searcher who plans her few remaining trials
+jointly --- among the tradition's open methodological problems, and
+recent progress has bought tractability with restrictions: contiguous
+movement along a vein \citep{urgunyariv2025, wong2025}, or exact
+few-point placement under an information objective \citep{bardhi2024}.
+The management literature on rugged landscapes
+\citep{baumann2019} runs on simulation for the same reason.
+
+\section{The evidence: search is short}
+
+Field evidence indicates that real ventures make very few strategic
+pivots. In the randomized trial of \citet{camuffo2020}, 74\% of firms
+pivoted zero times over roughly a year, 19\% exactly once, and 7\% more
+than once. The four-trial replication \citep{camuffo2024}, with 759
+firms, found the same shape: mode zero, 11\% more than once, 6\% more
+than twice. Practitioner folklore agrees on the mechanism ---
+``the true measure of runway is how many pivots a startup has left''
+\citep{ries2011} --- though no peer-reviewed cost-per-pivot measurement
+exists, and pivot counts should be read with the construct caution of
+\citet{kirtley2023}, who show pivots are often accumulated increments
+rather than single jumps.
+
+The treatment effect is the striking part. Teaching firms a scientific
+approach to search raised the probability of pivoting exactly once by
+8.3 percentage points, left twice unchanged, and \emph{lowered} the
+probability of pivoting more than twice by 3.7 points
+\citep{camuffo2024}. Better search does not produce more search. It
+produces one good pivot.
+
+A searcher holding an incumbent position, one further trial, and a
+final commitment --- at most two pivots --- is therefore not a
+truncation of the empirically relevant problem. It is the empirically
+relevant problem.
+
+\section{The model, in business terms}
+
+The landscape is the exponential of a stationary Ornstein--Uhlenbeck
+path: log-performance mean-reverts, so there is no free lunch far from
+what is known, and the exponential makes rewards right-skewed, as
+venture outcomes are. The firm holds an incumbent position of known
+performance, may run one more trial anywhere, and then must commit ---
+to the incumbent, to the tested alternative, or to an untested position
+between or beyond them. The payoff is the performance of the final
+position, not the best ever visited: the strategy committed to is the
+one lived with.
+
+Mean reversion is what makes the pivot a trade. On a pure random walk
+landscape, moving far from the incumbent keeps its expected performance
+while adding variance without bound, and a skew-loving searcher would
+walk to the horizon; the model would recommend infinite pivots and
+contradict the evidence in the first sentence. Under mean reversion,
+distance buys variance but surrenders expected performance toward the
+population median, and the exact solution below prices that trade.
+
+The exact solution is developed in a companion paper
+\citep{cotton2026grass}; here we state what it says operationally.
+
+\section{Operating rules from the exact solution}
+
+\paragraph{Go far on bad news.} With one trial and then commitment, the
+optimal placement has three phases. An incumbent below the median
+performance should be abandoned with a distant trial: its information
+is not worth anchoring on. A strong incumbent, above an explicit
+threshold, should be held without experimentation. In between, the
+trial goes a distance set by the mean-reversion scale of the industry,
+not by the firm's ambition.
+
+\paragraph{Bracket before committing.} With two trials, the searcher
+first establishes a bracket of two known positions and then faces the
+signature question: commit to a tested position, or to untested ground
+between them? Every interior position matches the expected performance
+of an explicit tested-side alternative while carrying strictly more
+uncertainty, so the interior is preferred exactly when the payoff is
+convex --- when upside is what is being bought. For a risk-averse
+operator judged on expected utility rather than expected value, the
+same identity flips the verdict: the grass between two tested positions
+is provably browner.
+
+\paragraph{The ceiling.} Above an explicit performance level, the grass
+is not greener anywhere: mean reversion caps the expected performance
+of every unvisited position, and no amount of variance-loving
+compensates. A firm whose incumbent clears the ceiling has nothing to
+gain from further search, and the ceiling is a formula, not a
+sentiment.
+
+\paragraph{A bad pivot is abandoned, not repaired.} Entering a bracket
+is not a commitment. If the trial between two known positions comes in
+at or below the median, every further move inside the spoiled bracket
+--- including repairing the disappointing position --- is weakly
+dominated by leaving for the best outside option; strictly, if the draw
+is strictly below median. The general rule is a threshold: stay inside
+exactly when the interior draw beats a cutoff that sits strictly
+\emph{below} the performance of the positions already held (in a
+representative calibration, 0.63 against anchors of 0.70). A pivot that
+lands somewhat worse than both of its neighbors is still worth
+developing; one that lands badly is walked away from. The asymmetry is
+the model's sharpest managerial statement.
+
+\paragraph{The size of the cleverness.} The interior option --- the
+right to commit to untested ground between two tested positions --- is
+worth about one percent of expected value at its best. Most of the
+value of a second trial is the trial itself, not the sophistication of
+where the commitment lands afterward. The model prices its own
+subtlety, and prices it small.
+
+\section{The rhyme with the experiments}
+
+The exact solution has a revisit window: an interval of incumbent
+performance in which the optimal play is one trial and a considered
+commitment, bounded below by the flee region and above by the ceiling.
+The randomized trials found that better search shifts firms toward
+exactly one pivot and away from both zero and many. The two shapes
+rhyme. We state this as a rhyme and not an identity: the treatment
+effect in \citet{camuffo2024} is a nonlinearity in an intervention's
+effect on pivot counts, not a causal estimate that a third pivot
+destroys value, and the model's window is an interval in incumbent
+quality, not in pivot count. A design that measured incumbent quality
+at baseline could test the correspondence directly.
+
+\section{One last trial in operations}
+
+The same three-move structure appears wherever a process owner holds an
+incumbent operating point, has time for one more pilot, and must then
+deploy: the final ``shot'' is the deployment decision, not a
+laboratory run. The rules above apply verbatim, with one qualification
+that decides applicability: the commitment set must genuinely include
+untested interpolated settings within an approved operating range. If
+deployment is restricted to individually validated settings, the
+interior option is off the table and the problem reduces to the
+simpler tested-side rules.
+
+For the experimental-design community the model is a benchmark rather
+than a rival. The trial-placement step maximizes the expected value of
+the best deployable setting after one more observation, which is the
+knowledge-gradient criterion of \citet{frazier2008} with an
+exponential objective; no new selection principle is claimed. What the
+model contributes is an unusually explicit instance --- exact interior
+maximization, an exact phase diagram --- against which
+knowledge-gradient implementations and their approximations can be
+checked, and possibly undercut in computation, since on a Markov
+landscape a new observation changes only its containing interval.
+
+\section{Closing}
+
+Neither the myopic workhorse nor the infinite-horizon limit describes
+the search the evidence shows firms conducting. The scarce-trial regime
+is its own theory, it now has an exactly solved case, and its rules are
+concrete: go far on bad news, bracket before committing, respect the
+ceiling, abandon bad pivots at a threshold below your anchors, and
+expect the cleverness premium to be small. We leave to future work the
+$k$-shot game, information-motivated trials, and the field test the
+rhyme of Section~5 invites.
+
+\begin{thebibliography}{99}
+
+\bibitem[Bardhi(2024)]{bardhi2024}
+Bardhi, A. (2024).
+Attributes: selective learning and influence.
+\emph{Econometrica}, 92(2):311--353.
+
+\bibitem[Bardhi and Callander(2026)]{bardhicallander2026}
+Bardhi, A., and Callander, S. (2026).
+Learning in a correlated world.
+\emph{Annual Review of Economics}, forthcoming.
+
+\bibitem[Baumann et al.(2019)]{baumann2019}
+Baumann, O., Schmidt, J., and Stieglitz, N. (2019).
+Effective search in rugged performance landscapes: a review and
+outlook.
+\emph{Journal of Management}, 45(1):285--318.
+
+\bibitem[Callander(2011a)]{callander2011}
+Callander, S. (2011a).
+Searching for good policies.
+\emph{American Political Science Review}, 105(4):643--662.
+
+\bibitem[Callander(2011b)]{callander2011b}
+Callander, S. (2011b).
+Searching and learning by trial and error.
+\emph{American Economic Review}, 101(6):2277--2308.
+
+\bibitem[Camuffo et al.(2020)]{camuffo2020}
+Camuffo, A., Cordova, A., Gambardella, A., and Spina, C. (2020).
+A scientific approach to entrepreneurial decision making: evidence
+from a randomized control trial.
+\emph{Management Science}, 66(2):564--586.
+
+\bibitem[Camuffo et al.(2024)]{camuffo2024}
+Camuffo, A., Gambardella, A., Messinese, D., Novelli, E., Paolucci,
+E., and Spina, C. (2024).
+A scientific approach to entrepreneurial decision making: large scale
+replication and extension.
+\emph{Strategic Management Journal}, 45(6):1209--1237.
+
+\bibitem[Cotton(2026)]{cotton2026grass}
+Cotton, P. (2026).
+When the grass is greener: three-shot search on an exponentiated
+Ornstein--Uhlenbeck landscape.
+Working paper, \texttt{github.com/microprediction/browniansearch}.
+
+\bibitem[Frazier et al.(2008)]{frazier2008}
+Frazier, P. I., Powell, W. B., and Dayanik, S. (2008).
+A knowledge-gradient policy for sequential information collection.
+\emph{SIAM Journal on Control and Optimization}, 47(5):2410--2439.
+
+\bibitem[Kirtley and O'Mahony(2023)]{kirtley2023}
+Kirtley, J., and O'Mahony, S. (2023).
+What is a pivot? Explaining when and how entrepreneurial firms decide
+to make strategic change and pivot.
+\emph{Strategic Management Journal}, 44(1):197--230.
+
+\bibitem[Ries(2011)]{ries2011}
+Ries, E. (2011).
+\emph{The Lean Startup}. Crown Business.
+
+\bibitem[Urgun and Yariv(2025)]{urgunyariv2025}
+Urgun, C., and Yariv, L. (2025).
+Contiguous search: exploration and ambition on uncharted terrain.
+\emph{Journal of Political Economy}, 133.
+
+\bibitem[Wong(2025)]{wong2025}
+Wong, Y. F. (2025).
+Forward-looking experimentation of correlated alternatives.
+\emph{Theoretical Economics}, 20.
+
+\end{thebibliography}
+
+\end{document}
