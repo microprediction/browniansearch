@@ -165,7 +165,19 @@ described shadow fading in radio engineering since Gudmundson
 (1991). On 77{,}040 WiFi measurements across a university floor
 (Feng, Nguyen and Luo 2024), we find the detrended log signal close
 to Gaussian with spatial correlation fitting an exponential at
-$R^{2}=0.98$; the scripts are in the paper's repository.
+$R^{2}=0.98$; the scripts are in the paper's repository. The same
+shape is standard in several other fields. In Gaussian-process
+modeling the exponential kernel is the Mat\'ern class at $\nu=1/2$
+and is the covariance of the OU process (Rasmussen and Williams
+2006, \S4.2.1). Practical Bayesian optimization prefers Mat\'ern
+kernels because squared-exponential sample paths are too smooth for
+real objectives (Snoek, Larochelle and Adams 2012). Weinberger
+(1990) measures the ruggedness of a fitness landscape by the
+exponential decay rate of a random walk's autocorrelation and shows
+that Kauffman's NK model is generically of this type. In
+evolutionary biology the OU process is the standard model of a
+trait held near an adaptive optimum (Hansen 1997; Butler and King
+2004).
 The landscape is $f(t)=\exp(X_t)$: locally continuous, mean-reverting in
 its logarithm, with occasional high peaks where excursions are magnified
 by the exponential. A searcher samples $f$ at a first location, which we
@@ -731,6 +743,33 @@ Working paper, arXiv:2504.19761, 2025.
 J.~Grosse, C.~Zhang, and P.~Hennig.
 Optimistic optimization of Gaussian process samples.
 \emph{Transactions on Machine Learning Research}, 2023.
+
+\bibitem{butlerking2004}
+M.~A. Butler and A.~A. King.
+Phylogenetic comparative analysis: a modeling approach for adaptive
+evolution.
+\emph{The American Naturalist}, 164(6):683--695, 2004.
+
+\bibitem{hansen1997}
+T.~F. Hansen.
+Stabilizing selection and the comparative analysis of adaptation.
+\emph{Evolution}, 51(5):1341--1351, 1997.
+
+\bibitem{rasmussen2006}
+C.~E. Rasmussen and C.~K.~I. Williams.
+\emph{Gaussian Processes for Machine Learning}.
+MIT Press, 2006.
+
+\bibitem{snoek2012}
+J.~Snoek, H.~Larochelle, and R.~P. Adams.
+Practical Bayesian optimization of machine learning algorithms.
+In \emph{Advances in Neural Information Processing Systems~25}, 2012.
+
+\bibitem{weinberger1990}
+E.~Weinberger.
+Correlated and uncorrelated fitness landscapes and how to tell the
+difference.
+\emph{Biological Cybernetics}, 63(5):325--336, 1990.
 
 \bibitem{feng2024}
 X.~Feng, K.~A. Nguyen, and Z.~Luo.
