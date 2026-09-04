@@ -27,27 +27,28 @@
 \maketitle
 
 \begin{abstract}
-\noindent A searcher evaluates a random landscape at three points, one at a
-time, and is paid the value at the final point. The landscape is the
-exponential of a stationary Ornstein--Uhlenbeck path. We solve the
-problem exactly. With two evaluations the optimal rule has three
-regimes: abandon a below-average start, keep an exceptional one, and
-otherwise step a distance given in closed form. With three
-evaluations the question is where to commit after observing values
-$b$ and $d$ at bracket correlation $\rho$. For $b=d$, every interior
-point of the bracket has the same conditional mean as some exterior
-point, and conditional variance larger by the constant factor
-$(1+\rho)/(1-\rho)=e^{2\Theta}$. The interior problem reduces to a
-parabola on an interval. The best interior point beats every
-alternative exactly when $b$ lies between a quadratic root and
-$e^{2\Theta}$. The optimal interior point is the midpoint for
-moderate $b$; it splits into a pair that moves toward the ends as
-$b$ grows, and reaches them at $b=e^{2\Theta}$, above which the
-searcher should stay at an observed point. The interior option
-raises expected value by about one percent at most. We verify the
-landscape assumption on 77{,}040 WiFi measurements and interpret the
-three evaluations as an incumbent strategy, one pivot, and a
-commitment.
+\noindent How should a firm spend its last pivot? In field experiments most
+startups pivot at most once or twice before committing. We solve
+this scarce-trial search problem exactly. A searcher knows the
+performance of an incumbent strategy, may run one more trial, and
+must then commit. Performance is the exponential of a stationary
+Ornstein--Uhlenbeck path: unexplored performance regresses to the
+industry average, and correlation decays exponentially with
+distance, a shape standard in radio engineering, Gaussian-process
+modeling, and fitness-landscape theory. The optimal policy is a
+phase diagram with every boundary in closed form. A below-average
+incumbent is abandoned. A disappointing trial sends the searcher out
+past the better of her two positions. When both positions are good
+she commits between them, at the midpoint for moderate values and
+nearer the better-known position for higher ones, and above an exact
+ceiling she stays put. The commitment between positions rests on a
+constant-variance result: an interior position has the same expected
+performance as some bolder alternative and $(1+\rho)/(1-\rho)$ times
+its variance, where $\rho$ is the correlation between the two known
+positions. The interior option adds about one percent of expected
+value at the optimum, so most of the last pivot's worth is the
+information it produces. We verify the correlation assumption on
+77{,}040 WiFi measurements.
 \end{abstract}
 
 \section{Introduction}
