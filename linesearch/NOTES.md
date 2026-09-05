@@ -259,6 +259,30 @@ myopic worst-case; the grass paper = exact farsighted Bayes on OU,
 three shots; the practical winner = NOT-QUITE-MYOPIC BAYES, myopic
 Bayes wearing one farsighted number.
 
+## exp2k: the full-fidelity JS demos (run 2026-09-04) -- exp1 correction
+Peter pointed out the JS side is the larger, truer collection: the
+docs/applications pages run FULL Matter.js physics where five Python
+ports are reduced-order stand-ins. js_objective_server.js runs the
+real pages headless (black-hole DOM, deterministic, 0.4-3 ms/eval).
+
+CORRECTION TO exp1: the "smooth ballistics, p=1.91-1.99" row
+described the SIMPLIFIED PYTHON PORTS, not the demos. The actual
+landscapes: pool 0.15, mini_golf 0.18, curling 0.07, slingshot 0.45,
+trebuchet slices constant-dominated (plateaus + cliffs). The real
+pool table is collision-cascade rough, not smooth -- any downstream
+statement citing those smooth p values must be re-scoped to the
+reduced-order ports.
+
+Benchmark on the real physics (budget 120, 24 seeds): trebuchet_js
+is a grass2U rout (-85.3 vs ~0 for golden/Brent, 23/24 paired);
+slingshot_js goes to the grass family; ultra-rough pool/curling
+(p<=0.15) repeat the Morton lesson -- near-white roughness favors
+broad probes (golden2/EI edge grass2U). grassEI beats grass2U on 4
+of 5 JS demos: at p~0.1-0.2 the EI acquisition's closer probes and
+softer flee gate travel better than the Table-1 bracket, so the
+acquisition ordering FLIPS below the OU point -- table above p~0.3,
+EI below. The rough family is much larger than exp2b thought.
+
 STANDING RESULT. Across every experiment the quietly strongest
 general baseline is golden2 -- two full-segment probes per line,
 maximal direction economy with global reach and no model. The grass
