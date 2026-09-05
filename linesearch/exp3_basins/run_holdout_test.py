@@ -13,7 +13,7 @@ DISCOVERY = {"bowling","plinko_funnel","plinko","boids_flocking","boids",
  "darts_aim","darts","robot_arm","rocket_landing","satellite_phasing",
  "wind_farm","cart_pole_policy","cart_pole","walking_creature","creature",
  "brachistochrone","bridge_truss","lennard_jones_cluster","tuned_mass_damper",
- "pool","curling","mini_golf","trebuchet","slingshot"}
+ "pool","curling","mini_golf","trebuchet","slingshot","punt_the_wire"}
 
 def stem(fn):
     return os.path.basename(fn)[:-8].replace("_js","")  # strip _js.json

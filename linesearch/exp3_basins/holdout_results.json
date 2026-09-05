@@ -1,8 +1,8 @@
 {
-  "n": 34,
-  "rho": 0.45230143433793835,
-  "p_two": 0.007238426902920433,
-  "p_one": 0.0036192134514602165,
+  "n": 33,
+  "rho": 0.4550982279738981,
+  "p_two": 0.007788293569875992,
+  "p_one": 0.003894146784937996,
   "verdict": "SUPPORTED",
   "rows": [
     {
@@ -144,12 +144,6 @@
       "rank": 3.0
     },
     {
-      "name": "punt_the_wire",
-      "d": 4,
-      "basins": 1.5,
-      "rank": 3.0
-    },
-    {
       "name": "reservoir_release",
       "d": 12,
       "basins": 1.5,
@@ -220,6 +214,7 @@
     "free_kick",
     "mini_golf",
     "pool",
+    "punt_the_wire",
     "robot_arm",
     "rocket_landing",
     "satellite_phasing",

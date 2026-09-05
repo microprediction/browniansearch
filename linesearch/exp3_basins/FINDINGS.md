@@ -46,3 +46,11 @@ so the signal is carried by the rougher tail; this is one pre-
 registered holdout correlation, stated as such in the paper, not a
 law. Per the pre-registration, one sentence added to the line-search
 discussion; the economy/spread-vs-correlate wording is unchanged.
+
+## Correction (2026-09-05): punt_the_wire excluded, n=33 of record
+The humpday session flagged punt-the-wire.html as goalkeeper_punt's
+JS original (lock-step parity, same objective/constants -- a standing
+demo-pair rule, not a name inference), so the locked exclusion "any
+JS page whose objective is one of the discovery 22" applies. Rerun on
+33: Spearman(basins, grass_rank) = +0.455, one-sided p=0.0039 --
+verdict unchanged, SUPPORTED. Paper carries the n=33 figures.
