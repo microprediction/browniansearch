@@ -740,7 +740,8 @@ smooth-slice case is rarer than reduced-order surrogates suggest,
 since the real collision and ballistics simulators are rough.
 
 Across the 22 objectives \texttt{grass3} ranks first or second for
-nine among the five inner loops, by median over seeds. A separate
+nine among the five inner loops, by median over seeds
+(Table~\ref{tab:linesearch}). A separate
 question is whether a variant of the rule can stand alone as a
 derivative-free optimizer in its own right. A budget-truncated
 two-shot form, \texttt{grass2U}, is mid-field against a panel of
@@ -749,6 +750,33 @@ standing is best at the smallest budgets, around forty evaluations,
 and slips as the budget grows and population methods such as CMA-ES
 overtake it. That is the expected place for a rule derived from a
 few-evaluation terminal-placement model.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccccc}
+\toprule
+Objective & $d$ & \texttt{grass3} & rank & best rival & seed wins \\
+\midrule
+plinko\_funnel & 7  & $-57.0$  & 1/5 & golden6 $-50.8$  & 13/16 \\
+wind\_farm     & 16 & $-94.1$  & 1/5 & golden6 $-93.6$  & 16/24 \\
+bowling        & 4  & $-105.0$ & 1/5 & golden2 $-104.0$ & 4/8   \\
+free\_kick     & 4  & $-32.9$  & 5/5 & golden2 $-105.2$ & 3/24  \\
+\bottomrule
+\end{tabular}
+\caption{The three-evaluation rule as an inner loop
+(\texttt{grass3}), median objective over seeds against four fixed
+inner loops (golden-section with two and six evaluations, Brent,
+random) in a shared random-direction outer loop at budget 120; lower
+is better. Rank is among the five inner loops; seed wins count seeds
+on which \texttt{grass3} beats the best rival. Across all 22
+objectives \texttt{grass3} has mean rank $2.86/5$ and is first or
+second on nine; \texttt{free\_kick} is a representative loss. As a
+standalone optimizer the two-shot form \texttt{grass2U} has mean rank
+$5.73/11$ against the eleven-method panel of
+Section~\ref{sec:linesearch}.}
+\label{tab:linesearch}
+\end{table}
 
 We ran a control on exact exponentiated-OU fields, the model's own
 landscape. The rule loses there; broad probing wins. The reported
