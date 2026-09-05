@@ -180,7 +180,23 @@ evaluations on an OU landscape, exactly. The knowledge-gradient
 policy of Frazier, Powell and Dayanik (2009) is the closest on
 payoff, since it scores the improvement in the finally recommended
 point, a terminal-recommendation objective like ours, though it looks
-one step ahead. A recurring finding in this literature is that
+one step ahead.
+
+The rule is itself an acquisition function, and it sits at a
+specific place in the standard taxonomy (Shahriari et al.\ 2016). Acquisition functions
+sort on two axes. One is myopic versus lookahead: expected
+improvement (Mockus et al.\ 1978; Jones et al.\ 1998), probability of
+improvement (Kushner 1964), the upper confidence bound (Srinivas et
+al.\ 2010), and the entropy-search family (Hennig and Schuler 2012;
+Wang and Jegelka 2017) are one-step rules, while multi-step-optimal
+acquisitions exist only in approximate form. The other is
+cumulative-regret versus terminal-recommendation payoff: the upper
+confidence bound bounds cumulative regret, whereas knowledge gradient
+and entropy search score a finally reported point. Our rule is
+lookahead and terminal-recommendation, the knowledge-gradient corner,
+and it fills the cell that is otherwise empty, an acquisition that is
+exact and closed-form for a small multi-step budget rather than
+one-step or approximate. A recurring finding in this literature is that
 multi-step lookahead buys only modest gains over the myopic rule (Wu
 and Frazier 2019); the one-percent value of the interior option in
 Section~9 is that gain computed exactly rather than measured.
@@ -973,6 +989,46 @@ P.~Cotton.
 HumpDay: pure Python derivative-free optimization and its application
 suite.
 \url{https://github.com/microprediction/humpday}, 2021.
+
+\bibitem{kushner1964}
+H.~J. Kushner.
+A new method of locating the maximum point of an arbitrary multipeak
+curve in the presence of noise.
+\emph{Journal of Basic Engineering}, 86(1):97--106, 1964.
+
+\bibitem{mockus1978}
+J.~Mockus, V.~Tiesis, and A.~Zilinskas.
+The application of Bayesian methods for seeking the extremum.
+In \emph{Towards Global Optimization}, volume~2, pages 117--129.
+North-Holland, 1978.
+
+\bibitem{jones1998}
+D.~R. Jones, M.~Schonlau, and W.~J. Welch.
+Efficient global optimization of expensive black-box functions.
+\emph{Journal of Global Optimization}, 13(4):455--492, 1998.
+
+\bibitem{srinivas2010}
+N.~Srinivas, A.~Krause, S.~Kakade, and M.~Seeger.
+Gaussian process optimization in the bandit setting: no regret and
+experimental design.
+In \emph{Proceedings of the 27th International Conference on Machine
+Learning}, 2010.
+
+\bibitem{hennig2012}
+P.~Hennig and C.~J. Schuler.
+Entropy search for information-efficient global optimization.
+\emph{Journal of Machine Learning Research}, 13:1809--1837, 2012.
+
+\bibitem{wang2017mes}
+Z.~Wang and S.~Jegelka.
+Max-value entropy search for efficient Bayesian optimization.
+In \emph{Proceedings of the 34th International Conference on Machine
+Learning}, 2017.
+
+\bibitem{shahriari2016}
+B.~Shahriari, K.~Swersky, Z.~Wang, R.~P. Adams, and N.~de~Freitas.
+Taking the human out of the loop: a review of Bayesian optimization.
+\emph{Proceedings of the IEEE}, 104(1):148--175, 2016.
 
 \bibitem{ginsbourger2010}
 D.~Ginsbourger and R.~Le~Riche.
