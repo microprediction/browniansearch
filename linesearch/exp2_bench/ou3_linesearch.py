@@ -362,7 +362,10 @@ class GrassInner:
         """The value -> standardized-X map. Rank mode: normal scores
         (Gaussian copula), exact N(0,1) marginal under any monotone
         warp of the field; linear mode: running mean/std."""
-        if self.standardize == "rank" and len(self.values) >= 4:
+        if self.standardize == "rank" and len(self.values) >= 1:
+            # order-invariant from the first value on: any linear fallback
+            # here would break monotone-warp invariance for the whole run
+            # (caught by verify_rank_invariance.py, divergence at eval 3)
             vals = np.sort(np.asarray(self.values, dtype=float))
             n = len(vals)
 
