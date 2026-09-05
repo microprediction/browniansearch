@@ -342,7 +342,7 @@ rises from zero at the ends to a maximum at the middle.
 A caution on what is additive. Correlations across consecutive
 intervals multiply, $\rho(t+s)=\rho(t)\,\rho(s)$, so the additive
 coordinate for composing intervals is $\kappa t=-\log\rho$, not the
-rapidity. The rapidity earns its keep through a different identity:
+rapidity. The rapidity enters through a different identity:
 for equal anchors $d=b$ the bridge mean is
 \begin{equation}\label{eq:meanadd}
 \mu \;=\; b\,\frac{\lambda_2+\lambda}{1+\lambda_2\lambda}
@@ -670,8 +670,8 @@ loop that spends eight to ten evaluations per line. This last win is
 budget-starved rather than general: it appears when the dimension
 times a classical line search's cost exceeds the whole evaluation
 budget, so a method with a fixed number of directions per iteration
-cannot complete one pass. The value is the pairing of the rule with
-a cheap-line outer loop, not a drop-in replacement for the line
+cannot complete one pass. The rule works in this pairing with a
+cheap-line outer loop, not as a drop-in replacement for the line
 search inside an existing optimizer; substituted into Powell, whose
 direction updates rely on genuine line minimization, the rule loses
 to Brent. It loses in two regimes. On landscapes too rough to carry navigable
