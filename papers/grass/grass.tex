@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1.15in]{geometry}
+\usepackage{url}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -645,8 +646,18 @@ from Section~9, with the mean, scale, and correlation length
 estimated online from the optimizer's own history --- and benchmarked
 it inside a common outer loop (iterated random-direction search,
 budget 120 evaluations, matched directions and seeds) against
-golden-section, Brent, and random placement on 22 physics-simulation
-objectives.
+golden-section, Brent, and random placement.
+
+The objectives are the application suite of the HumpDay
+derivative-free optimization package (Cotton 2021). Each is a small
+physics or engineering problem in which a point in the unit cube sets
+the controls of a deterministic simulator and the objective is the
+outcome: a break in a game of pool, the pins felled in bowling, the
+range of a trebuchet, the layout of a wind farm. We use the 22
+dynamics-simulating problems. Their one-dimensional slices range from
+smooth to collision-cascade rough, which is why they exercise a line
+search across the regimes the theory distinguishes; roughness is
+measured per slice by the exponent of the small-lag variogram.
 
 The rule wins in two regimes and loses in two. On collision and
 agent-chaos objectives with rough but structured slices it is the
@@ -933,6 +944,12 @@ D.~Glick and C.~D. Myers.
 Learning from others: an experimental test of Brownian motion
 uncertainty models.
 \emph{Journal of Theoretical Politics}, 27(4):588--612, 2015.
+
+\bibitem{humpday2021}
+P.~Cotton.
+HumpDay: pure Python derivative-free optimization and its application
+suite.
+\url{https://github.com/microprediction/humpday}, 2021.
 
 \bibitem{ginsbourger2010}
 D.~Ginsbourger and R.~Le~Riche.
