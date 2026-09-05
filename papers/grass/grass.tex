@@ -52,7 +52,7 @@ worth is the information it produces. The rule also works as an
 algorithm: used as the line search inside a derivative-free
 optimizer, it beats golden-section and Brent inner loops on rough
 and on high-dimensional physical objectives in a public benchmark,
-and loses on smooth low-dimensional ones.
+and loses on needle landscapes and on genuinely smooth slices.
 \end{abstract}
 
 \section{Introduction}
@@ -663,10 +663,14 @@ cannot complete one pass. The value is the pairing of the rule with
 a cheap-line outer loop, not a drop-in replacement for the line
 search inside an existing optimizer; substituted into Powell, whose
 direction updates rely on genuine line minimization, the rule loses
-to Brent. It loses to the
-classical loops on smooth low-dimensional objectives, and it loses
-badly on needle landscapes, where the value hides in a spike and no
-placement theory helps. Across the 22 objectives the rule ranks
+to Brent. It loses in two regimes. On landscapes too rough to carry navigable
+structure, broad sampling wins and placement theory has nothing to
+exploit; on needle landscapes, where the value hides in a spike, the
+fixed full-segment probes of golden-section search are the right
+move. On genuinely smooth slices the classical loops are preferable
+in principle, though among these physics objectives the smooth-slice
+case is rarer than reduced-order surrogates suggest: the real
+collision and ballistics simulators are rough. Across the 22 objectives the rule ranks
 first or second for 9. As a standalone optimizer, rather than an inner loop, the two-shot
 variant is mid-field against a panel of standard derivative-free
 methods (mean rank near the middle of eleven across the 22
