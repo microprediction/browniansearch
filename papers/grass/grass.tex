@@ -173,6 +173,24 @@ integrated-Wiener model, without closed-form placement. We are not
 aware of a closed-form solution for a small fixed budget of
 adaptive, derivative-free evaluations under a Bayesian prior.
 
+The closest methodological neighbor is non-myopic Bayesian
+optimization. Ginsbourger and Le Riche (2010) observed that the usual
+one-step expected-improvement rule is suboptimal under a fixed finite
+budget, since it treats each evaluation as the last. Lam, Willcox and
+Wolpert (2016) cast finite-budget optimization as a dynamic program
+and solve it approximately by rollout, and Jiang et al.\ (2020)
+optimize the full multi-step lookahead tree in one shot. These
+methods approximate the lookahead dynamic program on general
+Gaussian-process priors; we solve the smallest nontrivial case, three
+evaluations on an OU landscape, exactly. The knowledge-gradient
+policy of Frazier, Powell and Dayanik (2009) is the closest on
+payoff, since it scores the improvement in the finally recommended
+point, a terminal-recommendation objective like ours, though it looks
+one step ahead. A recurring finding in this literature is that
+multi-step lookahead buys only modest gains over the myopic rule (Wu
+and Frazier 2019); the one-percent value of the interior option in
+Section~9 is that gain computed exactly rather than measured.
+
 Glick and Myers (2015) tested the one-evaluation problem on lab
 subjects. Subjects respond to the Brownian structure but modify too
 much when the variance is high.
@@ -900,6 +918,35 @@ D.~Glick and C.~D. Myers.
 Learning from others: an experimental test of Brownian motion
 uncertainty models.
 \emph{Journal of Theoretical Politics}, 27(4):588--612, 2015.
+
+\bibitem{ginsbourger2010}
+D.~Ginsbourger and R.~Le~Riche.
+Towards Gaussian process-based optimization with finite time horizon.
+In \emph{mODa 9 --- Advances in Model-Oriented Design and Analysis},
+pages 89--96. Physica-Verlag, 2010.
+
+\bibitem{lam2016}
+R.~Lam, K.~Willcox, and D.~H. Wolpert.
+Bayesian optimization with a finite budget: an approximate dynamic
+programming approach.
+In \emph{Advances in Neural Information Processing Systems~29}, 2016.
+
+\bibitem{jiang2020}
+S.~Jiang, D.~R. Jiang, M.~Balandat, B.~Karrer, J.~R. Gardner, and
+R.~Garnett.
+Efficient nonmyopic Bayesian optimization via one-shot multi-step
+trees.
+In \emph{Advances in Neural Information Processing Systems~33}, 2020.
+
+\bibitem{frazier2009}
+P.~I. Frazier, W.~B. Powell, and S.~Dayanik.
+The knowledge-gradient policy for correlated normal beliefs.
+\emph{INFORMS Journal on Computing}, 21(4):599--613, 2009.
+
+\bibitem{wu2019}
+J.~Wu and P.~I. Frazier.
+Practical two-step lookahead Bayesian optimization.
+In \emph{Advances in Neural Information Processing Systems~32}, 2019.
 
 \bibitem{mahsereci2017}
 M.~Mahsereci and P.~Hennig.
