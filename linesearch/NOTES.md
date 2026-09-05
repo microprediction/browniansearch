@@ -320,6 +320,40 @@ optimizer wins BECAUSE slices are OU; it wins where its mechanisms
 suit the landscape, and the theory's honest role is scaffold, not
 model match.
 
+## exp2m: the basin hypothesis, pre-registered and confirmed
+(run 2026-09-04/05; hypothesis Peter's, analysis of record the grass
+session's exp3_basins, data emit ours at b32532a)
+Hypothesis: the rule wins when the evaluation budget is comparable
+to the number of local minima -- few basins reward the correlated
+bracket, many basins reward spread. Discovery (the 22 Python ports)
+showed the OPPOSITE sign (-0.49), confounded by the reduced-order
+ports; the grass session pre-registered direction, membership,
+proxy and rank definition BEFORE our holdout emit (their
+PREREGISTRATION.md, timestamped ahead of the sweep).
+
+Holdout: 50 of 55 docs/applications pages served headless
+(bridge_truss and tuned_mass_damper fail on DOM, espresso and
+plinko are nondeterministic AT PAGE LEVEL -- plinko's discovery
+numbers therefore noisier than assumed -- tetris has no objective).
+After locked exclusions (discovery-overlapping pages, incl.
+punt_the_wire once identified as goalkeeper_punt's lock-step twin):
+n=33 out-of-sample, Spearman(basins, grass2U rank) = +0.455,
+one-sided p = 0.0039 -- SUPPORTED in Peter's predicted direction,
+robust to dropping its own worst point (chess, high basins yet good
+rank: +0.509, p=0.0029), honestly caveated that 16/33 pages are
+smooth (basins tied at 1) so the rough tail carries the signal.
+
+This is now the organizing law of the study, subsuming the earlier
+fragments: exp(OU)'s home-turf loss (kappa^d basins >> budget), the
+Morton too-rough failures, the wind_farm/allocation wins (few
+effective basins at moderate-high d), golden2 keeping the needles.
+Bonus standing result from the sweep, outside the locked test:
+grass2U prints rank 1/6 on 13 of 50 faithful pages, with an
+unpredicted cluster on operations/allocation problems at d=8-24
+(microgrid_dispatch, index_tracking, signal_deconvolution,
+heat_exchanger_network, groundwater_remediation, ebola,
+diet_problem).
+
 STANDING RESULT. Across every experiment the quietly strongest
 general baseline is golden2 -- two full-segment probes per line,
 maximal direction economy with global reach and no model. The grass
