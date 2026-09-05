@@ -343,10 +343,10 @@ robust to dropping its own worst point (chess, high basins yet good
 rank: +0.509, p=0.0029), honestly caveated that 16/33 pages are
 smooth (basins tied at 1) so the rough tail carries the signal.
 
-This is now the organizing law of the study, subsuming the earlier
-fragments: exp(OU)'s home-turf loss (kappa^d basins >> budget), the
-Morton too-rough failures, the wind_farm/allocation wins (few
-effective basins at moderate-high d), golden2 keeping the needles.
+The basin-vs-budget tradeoff subsumes the earlier fragments:
+exp(OU)'s home-turf loss (kappa^d basins >> budget), the Morton
+too-rough failures, the wind_farm/allocation wins (few effective
+basins at moderate-high d), golden2 keeping the needles.
 Bonus standing result from the sweep, outside the locked test:
 grass2U prints rank 1/6 on 13 of 50 faithful pages, with an
 unpredicted cluster on operations/allocation problems at d=8-24
