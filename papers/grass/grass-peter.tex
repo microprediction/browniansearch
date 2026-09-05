@@ -51,30 +51,39 @@ loops on rough and high-dimensional objectives in a public benchmark.
 
 How many pivots does a firm get? Across four randomized trials
 covering 759 startups, 59\% never pivoted radically during the
-observation window, about 30\% pivoted exactly once, and 11\%
+observation window, 24\% pivoted exactly once, and 17\%
 pivoted more than once (Camuffo et al.\ 2024; the shares in the
 smaller 2020 trial are 74\%, 19\%, and 7\%). These are one-year
-observation windows; over a startup's life a budget of only a few
+observation windows, and over a startup's life a budget of only a few
 major pivots is a plausible order of magnitude. Training founders to search
 more scientifically raised the frequency of a single pivot and
-lowered the frequency of repeated pivots. In practice, strategic search
-involves very few evaluations.
+lowered the frequency of repeated pivots. Strategic search, in short,
+is a small-sample problem, and the interesting version of it is
+farsighted rather than reactive.
 
 Callander (2011) modeled this kind of search as trial and error on
 an unknown function drawn from a Brownian motion. A sequence of
 short-lived agents each implements one trial and observes its
 outcome, so search is myopic by demographic structure rather than by
 assumption. Most later work keeps this feature. Bardhi and Callander (2026) list farsighted
-search with a free choice of location as an open problem.
+search with a free choice of location as an open problem. The
+smallest instance of it is a single searcher who observes an
+incumbent, places one informative trial while already anticipating
+where she will commit, and then commits.
 
-We solve the smallest such problem exactly. The landscape is the
-exponential of a stationary Ornstein--Uhlenbeck path. Mean reversion
-means that performance far from known territory regresses to the
-industry average. The exponential means that small differences in
-fit produce large differences in sales, so an untried strategy has
-extra value on average. The exponential is a production or revenue
-mapping from log-performance to money, not a convex utility over a
-fixed prize; the searcher is risk neutral in dollars.
+That same horizon is where the optimization literature stands on
+firm ground. With one informative trial before a terminal
+recommendation, the knowledge-gradient policy is optimal by
+construction (Frazier, Powell and Dayanik 2009); on general priors it
+is evaluated numerically, and on our landscape we give it in closed
+form. The landscape is the exponential of a stationary
+Ornstein--Uhlenbeck path: mean reversion means performance far from
+known territory regresses to the industry average, and the exponential
+means small differences in fit produce large differences in sales, so
+an untried strategy carries extra value on average. The exponential is
+a production or revenue mapping from log-performance to money, not a
+convex utility over a fixed prize, and the searcher is risk neutral in
+dollars.
 
 The searcher knows the performance of an incumbent strategy. She may
 try one more. Then she must commit. With two evaluations the optimal
@@ -174,18 +183,18 @@ adaptive, derivative-free evaluations under a Bayesian prior.
 
 The closest methodological neighbor is non-myopic Bayesian
 optimization. Ginsbourger and Le Riche (2010) observed that the usual
-one-step expected-improvement rule is suboptimal under a fixed finite
-budget, since it treats each evaluation as the last. Lam, Willcox and
-Wolpert (2016) cast finite-budget optimization as a dynamic program
-and solve it approximately by rollout, and Jiang et al.\ (2020)
-optimize the full multi-step lookahead tree in one shot. These
+one-step expected-improvement rule is suboptimal under a genuine
+multi-evaluation budget, since it treats each evaluation as the last.
+Lam, Willcox and Wolpert (2016) cast finite-budget optimization as a
+dynamic program and solve it approximately by rollout, Wu and Frazier
+(2019) implement a practical two-step lookahead, and Jiang et al.\
+(2020) optimize the full multi-step lookahead tree in one shot. These
 methods approximate the lookahead dynamic program on general
-Gaussian-process priors; we solve the smallest nontrivial case, three
-evaluations on an OU landscape, exactly. The knowledge-gradient
-policy of Frazier, Powell and Dayanik (2009) is the closest on
-payoff, since it scores the improvement in the finally recommended
-point, a terminal-recommendation objective like ours, though it looks
-one step ahead.
+Gaussian-process priors. Our horizon is smaller and cleaner: with one
+informative trial before a terminal recommendation, the
+knowledge-gradient policy of Frazier, Powell and Dayanik (2009) is
+optimal by construction, and we characterize it exactly on the OU
+landscape rather than approximately.
 
 The rule is itself an acquisition function, and it can be located
 using two familiar distinctions in Bayesian optimization (Shahriari et
@@ -201,15 +210,16 @@ the payoff of a finally reported point, and entropy search is
 information-directed toward the terminal optimizer. Our rule is
 lookahead and terminal-recommendation, the knowledge-gradient corner.
 
-Within that corner it is a rare exactly characterized multi-step
-acquisition: the final placement is algebraic, quartic in the unequal
-case, and the opening action reduces to one-dimensional quadrature and
-optimization. A recurring finding in this literature is that
-multi-step lookahead buys only modest gains over the myopic rule (Wu
-and Frazier 2019). The roughly one-percent figure in Section~9 is a
-different quantity: it isolates the incremental value of permitting
-interior terminal recommendations relative to a restricted but still
-farsighted policy.
+Within that corner our contribution is not a new objective but an
+exact characterization. Because the horizon carries a single
+informative trial, knowledge gradient is optimal here by construction,
+so the closed forms describe the optimal policy rather than an
+approximation to it: the final placement is algebraic, quartic in the
+unequal case, and the opening trial reduces to one-dimensional
+quadrature and optimization. The roughly one-percent figure in
+Section~9 is a separate quantity: it isolates the incremental value of
+permitting interior terminal recommendations relative to a restricted
+but still farsighted policy.
 
 Glick and Myers (2015) tested the one-evaluation problem on lab
 subjects. Subjects respond to the Brownian structure but modify too
