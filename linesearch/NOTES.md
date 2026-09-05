@@ -232,6 +232,33 @@ transplants even into Powell and sweeps. Few evaluations, many
 dimensions, rough or structured landscapes: that is the habitat,
 stated plainly.
 
+## exp2j: the acquisition race -- not-quite-myopic Bayes wins
+(run 2026-09-04, run_ei.py; Peter's waste-a-call point made formal)
+The paper's rule optimizes TERMINAL placement; an optimizer keeps
+the incumbent, whose matched acquisition is expected improvement --
+1-D Bayesian optimization on the OU line, closed form:
+EI(rho) = sigma phi(delta/sigma) - delta Phi(-delta/sigma),
+delta = b(1-rho), sigma = sqrt(1-rho^2), with rho = 0 (the fresh
+global draw) inside the same maximization, so each call chooses
+local-vs-global by expected value -- dlib's MaxLIPO+TR architecture
+(Malherbe-Vayatis Lipschitz gate) with a probabilistic bound.
+
+Race: grassEI (pure myopic EI) vs grass2U (myopic execution carrying
+the paper's farsighted Table-1 bracket), 14 problems, paired seeds.
+THE FARSIGHTED PARAMETER EARNS ITS KEEP: grass2U wins 143/296
+decided pairs to EI's 116 (37 ties) and takes the median on 9 of 14,
+including every signature win (plinko, wind_farm, robot_arm,
+bowling); EI collapses on free_kick (-49 vs -100, its high-b probes
+hug the anchor). Reading: one-step EI is payoff-correct for a single
+call, but the run has many calls left -- the terminal game's wider
+bracket buys exploration whose option value one-step myopia cannot
+see. Lookahead-in-a-parameter beats correctness-in-one-step-payoff.
+Caveats: one ei_margin (1.05), one grid; untuned. Family placement
+(Peter's coinage): Kushner/Mockus = myopic Bayes on Wiener; LIPO =
+myopic worst-case; the grass paper = exact farsighted Bayes on OU,
+three shots; the practical winner = NOT-QUITE-MYOPIC BAYES, myopic
+Bayes wearing one farsighted number.
+
 STANDING RESULT. Across every experiment the quietly strongest
 general baseline is golden2 -- two full-segment probes per line,
 maximal direction economy with global reach and no model. The grass

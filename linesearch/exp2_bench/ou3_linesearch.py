@@ -25,6 +25,7 @@ Adaptations forced by the optimization context, all listed here:
 """
 
 import numpy as np
+from scipy.special import erf as _erf
 
 # ---------------------------------------------------------------------------
 # Exact policy pieces (ported from papers/grass/numerics2.py)
@@ -288,7 +289,13 @@ class GrassInner:
     CHI2_MEDIAN = 0.4549364  # median of chi^2_1: med[(dX)^2] = 2(1-rho)*this
 
     def __init__(
-        self, kappa0=20.0, skip_third=False, adapt_kappa=True, uniform_flee=False
+        self,
+        kappa0=20.0,
+        skip_third=False,
+        adapt_kappa=True,
+        uniform_flee=False,
+        placement="table",
+        ei_margin=1.05,
     ):
         self.kappa = kappa0
         self.values = []  # all raw values seen (for mean/std)
@@ -300,6 +307,40 @@ class GrassInner:
         self.uniform_flee = uniform_flee  # flee to a uniform point on the
         # far half of the segment instead of its end (removes the
         # cube-boundary bias of end-of-segment flight)
+        # exp2j: acquisition choice. "table" = the paper's terminal-payoff
+        # bracket rho*(b); "ei" = expected improvement over the incumbent
+        # -- the payoff an OPTIMIZER actually collects, since it keeps the
+        # running best and an unspent call is worth nothing at the end.
+        # This is 1-D Bayesian optimization on the OU line: probe at
+        # correlation rho has X ~ N(b rho, 1 - rho^2), and
+        # EI(rho) = sigma phi(delta/sigma) - delta Phi(-delta/sigma) with
+        # delta = b(1 - rho), sigma = sqrt(1 - rho^2). rho = 0 IS the
+        # global fresh draw, so maximizing EI over [0, 1) endogenizes the
+        # local-vs-global choice (dlib's MaxLIPO+TR architecture, with a
+        # probabilistic bound in place of the Lipschitz one). ei_margin:
+        # go global unless the local probe's EI beats the fresh draw's by
+        # this factor -- "don't waste a call locally when the difference
+        # is likely small."
+        self.placement = placement
+        self.ei_margin = ei_margin
+
+    _EI_RHO_GRID = np.linspace(0.0, 0.995, 200)
+
+    def _ei_rho(self, b):
+        """EI-optimal probe correlation, with the fresh draw (rho=0) as
+        the standing rival. Returns 0.0 when the model's local edge is
+        within the margin -- the call goes global instead."""
+        rho = self._EI_RHO_GRID
+        delta = b * (1.0 - rho)
+        sig = np.sqrt(1.0 - rho**2)
+        z = delta / np.maximum(sig, 1e-12)
+        phi = np.exp(-0.5 * z * z) / np.sqrt(2 * np.pi)
+        big_phi = 0.5 * (1.0 + _erf(z / np.sqrt(2.0)))
+        ei = sig * phi - delta * (1.0 - big_phi)
+        i = int(np.argmax(ei))
+        if ei[i] <= self.ei_margin * ei[0]:
+            return 0.0  # local edge too small: spend the call globally
+        return float(rho[i])
 
     def _stats(self):
         if len(self.values) < 2:
@@ -361,7 +402,12 @@ class GrassInner:
         # the tie breaks toward the flee branch (the stationary OU model
         # cannot see a nonstationary plateau; b measured against a
         # collapsed sample std is an artifact, not an exceptional anchor).
-        r = 0.0 if self.stall >= 3 else rho_star(b)
+        if self.stall >= 3:
+            r = 0.0
+        elif self.placement == "ei":
+            r = self._ei_rho(b)
+        else:
+            r = rho_star(b)
         if r <= 0.0:
             t1 = rng.uniform(0.4, 1.0) * room_fwd if self.uniform_flee else room_fwd
         else:
