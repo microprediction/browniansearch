@@ -75,7 +75,9 @@ The searcher knows the performance of an incumbent strategy. She may
 try one more. Then she must commit. With two evaluations the optimal
 rule is a threshold rule: abandon a below-median incumbent, keep an
 exceptional one, and otherwise step a distance that we give in
-closed form. With three evaluations the question is where to commit
+closed form.
+
+With three evaluations the question is where to commit
 after the trial: between the two known strategies, beyond the better
 one, or at one of them. We compute the answer exactly. Commitment
 between the two is optimal when both values are good but not
@@ -108,7 +110,9 @@ search. An agent experiments when the incumbent outcome is worse
 than $\alpha=\sigma^{2}/2|\mu|$ and stops otherwise. Search ends
 almost surely, often at a mediocre policy. Simulated runs change
 policy between one and four times, which is consistent with the
-pivot counts above. Later papers derive similar thresholds for
+pivot counts above.
+
+Later papers derive similar thresholds for
 precedent (Callander and Clark 2017), agenda control (Callander and
 McCarty 2024), and risk-averse learning (Callander and Matouschek
 2019). In all of these the number of evaluations is endogenous and
@@ -136,8 +140,9 @@ and Yariv (2023) extend this to teams and Wong (2025) to flow
 payoffs. Bardhi (2024) chooses $k$ sample locations at once to
 estimate a project. Garfagnini and Strulovici (2016), Carnehl and
 Schneider (2025), and Callander, Lambert and Matouschek
-(forthcoming) study infinite sequences of short-lived agents. Aybas
-and Callander (2025) allow Ito diffusion landscapes, including the
+(forthcoming) study infinite sequences of short-lived agents.
+
+Aybas and Callander (2025) allow Ito diffusion landscapes, including the
 Ornstein--Uhlenbeck case, in a one-shot cheap-talk game. That is the
 only mean-reverting landscape we know of in this literature. Bardhi
 (2024) also proves that the OU kernel is the only powered-exponential
@@ -150,8 +155,9 @@ Wiener measure. Grill, Valko and Munos (2018) approximate the
 maximum of a Brownian path. Grosse, Zhang and Hennig (2023) extend
 this to Gaussian-process samples and prove regret rates. Alabert and
 Caballero (2018) compute the law of the minimum of a conditioned
-bridge in order to compare fixed sampling designs. Malladi (2025)
-and Banchio and Malladi (2025) solve worst-case versions with no
+bridge in order to compare fixed sampling designs.
+
+Malladi (2025) and Banchio and Malladi (2025) solve worst-case versions with no
 prior and a Lipschitz bound in place of volatility. Hodgson and
 Lewis (2025) estimate a Gaussian-process search model on clickstream
 data and solve the policy numerically. The probabilistic line search of Mahsereci and Hennig (2017) is the
@@ -197,14 +203,16 @@ described shadow fading in radio engineering since Gudmundson
 (Feng, Nguyen and Luo 2024), we find the detrended log signal close
 to Gaussian with spatial correlation fitting an exponential at
 $R^{2}=0.98$, alongside a short-scale component of comparable size;
-the scripts are in the paper's repository. The same
-shape is standard in several other fields. In Gaussian-process
+the scripts are in the paper's repository.
+
+The same shape is standard in several other fields. In Gaussian-process
 modeling the exponential kernel is the Mat\'ern class at $\nu=1/2$
 and is the covariance of the OU process (Rasmussen and Williams
 2006, \S4.2.1). Practical Bayesian optimization prefers Mat\'ern
 kernels because squared-exponential sample paths are too smooth for
-real objectives (Snoek, Larochelle and Adams 2012). Weinberger
-(1990) measures the ruggedness of a fitness landscape by the
+real objectives (Snoek, Larochelle and Adams 2012).
+
+Weinberger (1990) measures the ruggedness of a fitness landscape by the
 exponential decay rate of a random walk's autocorrelation and shows
 that Kauffman's NK model is generically of this type. In
 evolutionary biology the OU process is the standard model of a
@@ -231,12 +239,14 @@ equal measure: a final location with residual uncertainty carries a
 lognormal bonus of half its variance.
 
 Figure~\ref{fig:problem} shows the decision this paper solves.
+
 The problem has one essential scale parameter. A payoff exponent
 $\beta$ alone is without loss of generality, since $e^{\beta X}$ on
 a unit-variance path equals $e^{Y}$ on a path of standard deviation
 $\beta$; only the product $s=\beta\sigma$ of payoff convexity and
-path scale matters. We calibrate $s=1$. For general $s$ every
-comparison maximizes $\mu + s\nu/2$ with observations in
+path scale matters. We calibrate $s=1$.
+
+For general $s$ every comparison maximizes $\mu + s\nu/2$ with observations in
 path-standard-deviation units, the two-shot step becomes
 $\lambda^{*}=\operatorname{clip}(b/s,0,1)$, and the pitchfork and
 ceiling of Section~7 scale to $s\cdot 2\sqrt{\rho}/(1-\rho)$ and
@@ -609,13 +619,16 @@ two-shot policy steps to $\rho=0.5$, excluding interior placement
 already widens the optimum to $\rho=0.323$, and admitting it widens
 further to $\rho=0.289$. The extra evaluation and the choice it
 enables account for most of the stretch; the interior option adds a
-further, smaller pull. Third, the interior option's worth peaks near
+further, smaller pull.
+
+Third, the interior option's worth peaks near
 $1.1\%$ of expected value around $b\approx 0.83$ and vanishes at both
 extremes. Excluding interior placement is thus cheap by value; it is
 the prescription that errs, and for equal anchors it errs exactly on
 the revisit window \eqref{eq:region} --- high, but below the ceiling
-$e^{2\Theta}$ above which both policies stay. For unequal
-observations the erring region is a joint condition on
+$e^{2\Theta}$ above which both policies stay.
+
+For unequal observations the erring region is a joint condition on
 $\left(b,d,\rho\right)$, decided by the quartic \eqref{eq:quartic}, not membership of each value separately: at
 $\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
 symmetric window, yet staying at the second anchor is optimal and
@@ -646,43 +659,50 @@ smooth to collision-cascade rough, which is why they exercise a line
 search across the regimes the theory distinguishes; roughness is
 measured per slice by the exponent of the small-lag variogram.
 
-The rule wins in two regimes and loses in two. On collision and
+The rule wins on two kinds of objective. On collision and
 agent-chaos objectives with rough but structured slices it is the
-best inner loop: on a plinko objective it beats every rival on 20 or
-21 of 24 seeds. On high-dimensional objectives it also wins even
-when slices are smooth --- a sixteen-dimensional wind-farm layout on
-21 or 22 of 24 seeds --- because its one- or two-evaluation lines
-let the outer loop try several times more directions than an inner
-loop that spends eight to ten evaluations per line. This last win is
-budget-starved rather than general: it appears when the dimension
-times a classical line search's cost exceeds the whole evaluation
-budget, so a method with a fixed number of directions per iteration
-cannot complete one pass. The rule works in this pairing with a
-cheap-line outer loop, not as a drop-in replacement for the line
-search inside an existing optimizer; substituted into Powell, whose
-direction updates rely on genuine line minimization, the rule loses
-to Brent. It loses in two regimes. On landscapes too rough to carry navigable
-structure, broad sampling wins and placement theory has nothing to
-exploit; on needle landscapes, where the value hides in a spike, the
-fixed full-segment probes of golden-section search are the right
-move. On genuinely smooth slices the classical loops are preferable
-in principle, though among these physics objectives the smooth-slice
-case is rarer than reduced-order surrogates suggest: the real
-collision and ballistics simulators are rough. Across the 22 objectives the rule ranks
-first or second for 9. As a standalone optimizer, rather than an inner loop, the two-shot
+best inner loop; on a plinko objective it beats every rival on 20 or
+21 of 24 seeds. It also wins on high-dimensional objectives even
+when slices are smooth, a sixteen-dimensional wind-farm layout on 21
+or 22 of 24 seeds.
+
+The high-dimensional win comes from evaluation economy. The rule's
+one- or two-evaluation lines let the outer loop try several times
+more directions than an inner loop that spends eight to ten
+evaluations per line. The win is budget-starved rather than general:
+it appears when the dimension times a classical line search's cost
+exceeds the whole budget, so a method with a fixed number of
+directions per iteration cannot complete one pass.
+
+The rule works only in this pairing with a cheap-line outer loop. It
+is not a drop-in replacement for the line search inside an existing
+optimizer. Substituted into Powell, whose direction updates rely on
+genuine line minimization, it loses to Brent.
+
+The rule loses in two regimes. On landscapes too rough to carry
+navigable structure, broad sampling wins and placement theory has
+nothing to exploit. On needle landscapes, where the value hides in a
+spike, the fixed full-segment probes of golden-section search are the
+right move. On genuinely smooth slices the classical loops are
+preferable in principle, though among these physics objectives the
+smooth-slice case is rarer than reduced-order surrogates suggest,
+since the real collision and ballistics simulators are rough.
+
+Across the 22 objectives the rule ranks first or second for nine. As
+a standalone optimizer, rather than an inner loop, the two-shot
 variant is mid-field against a panel of standard derivative-free
-methods (mean rank near the middle of eleven across the 22
-objectives). Its relative standing is best at the smallest budgets,
-around forty evaluations, and slips as the budget grows and
-population methods such as CMA-ES overtake it. That is the expected
-place for a rule derived from a few-evaluation terminal-placement
-model.
+methods, with mean rank near the middle of eleven. Its relative
+standing is best at the smallest budgets, around forty evaluations,
+and slips as the budget grows and population methods such as CMA-ES
+overtake it. That is the expected place for a rule derived from a
+few-evaluation terminal-placement model.
 
 We ran a control on exact exponentiated-OU fields, the model's own
 landscape. The rule loses there; broad probing wins. The reported
 wins come from the rule's evaluation economy and its online step-size
-adaptation, not from the objectives resembling an OU path. This fits
-the theory. A terminal-placement payoff rewards correlated trials,
+adaptation, not from the objectives resembling an OU path.
+
+This fits the theory. A terminal-placement payoff rewards correlated trials,
 which the bracket supplies. A running-maximum payoff over many calls
 rewards spread, since a stationary field holds many nearly
 independent regions, so the correlated placement is partly redundant.
@@ -730,8 +750,11 @@ matching conditional mean, any unvisited location wins by Jensen
 alone: it carries variance, the known value carries none. Between two
 \emph{unvisited} rivals of matching mean, an interior point and its
 constructed exterior counterpart, Theorem~\ref{thm:dominance}
-gives the constant variance ratio $e^{2\Theta}$. Neither comparison guarantees that a matched-mean unvisited point
-exists when the observed value is high. Mean reversion caps the conditional mean of every unvisited point.
+gives the constant variance ratio $e^{2\Theta}$. Neither comparison
+guarantees that a matched-mean unvisited point exists when the
+observed value is high.
+
+Mean reversion caps the conditional mean of every unvisited point.
 Above $b=e^{2\Theta}$ the cap binds and the optimal final location
 is one already seen. Below it, the optimal location is past the
 better end when the news is bad, and between the anchors when the
@@ -747,6 +770,7 @@ With one evaluation remaining there is nothing to explore, since no
 discovery at the final point can inform a later choice. The last move is pure placement. The preference for uncertain
 locations comes from Jensen's inequality, not from any value of
 information.
+
 Exploration proper enters only with more shots remaining. One might
 guess a two-phase policy, stepping out while values climb and then
 refining between the two best, but a direct implementation of that
@@ -754,9 +778,10 @@ heuristic on rough one-dimensional landscapes showed no systematic
 gain over applying the two-shot rule repeatedly, so we advance no
 conjecture about its form. The $k$-shot dynamic program is
 well defined and each policy evaluation is cheap through the bridge
-formulas; the adaptive optimization it requires remains to be
-analyzed. The same placement problem arises as the
-line-search step inside derivative-free optimizers, where one-
+formulas; the adaptive optimization it requires remains to be analyzed.
+
+The same placement problem arises as the line-search step inside
+derivative-free optimizers, where one-
 dimensional slices of real objectives can be rough; we pursue that
 use separately in the humpday benchmark package.
 
@@ -809,8 +834,10 @@ $\nu = (1-\lambda_2^{2})(1-\lambda^{2})/(1-\rho_1^{2})
 \le 1-\lambda_2^{2}$ by the same inequality. Hence
 $\mu + \nu/2 \le \lambda_2 b + (1-\lambda_2^{2})/2 \le
 \sup_{\ell}[\ell b + (1-\ell^{2})/2] = \zeta(b)$, where the last
-identification holds for every real $b$. For $v < 0$ any strictly
-interior point has $B > 0$, so $\mu < \lambda_2 b$. The revisit of
+identification holds for every real $b$.
+
+For $v < 0$ any strictly interior point has $B > 0$, so
+$\mu < \lambda_2 b$. The revisit of
 $v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bound
 applies to the other sub-bracket with $d$ in place of $b$.
 \end{proof}
