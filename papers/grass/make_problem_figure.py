@@ -31,7 +31,10 @@ fig, ax = plt.subplots(figsize=(7.2, 3.2))
 ax.fill_between(ts, np.exp(mu - sd), np.exp(mu + sd),
                 color="tab:blue", alpha=0.15,
                 label="posterior band for $f$")
-ax.plot(ts, np.exp(mu), "tab:blue", lw=1.1, label="posterior mean")
+ax.plot(ts, np.exp(mu), "tab:blue", lw=1.0, ls="--",
+        label="posterior median $e^{\\mu}$")
+ax.plot(ts, np.exp(mu + 0.5*np.diag(cov)), "tab:blue", lw=1.3,
+        label="posterior mean $e^{\\mu+\\nu/2}$")
 ax.plot(ts, np.exp(path), color="0.55", lw=0.8, alpha=0.9,
         label="one landscape consistent with the data")
 ax.plot([0, t1], [np.exp(b)] * 2, "ko", ms=6, zorder=5)

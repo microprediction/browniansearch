@@ -6,6 +6,7 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+\hypersetup{pdftitle={When the Grass Is Greener},pdfauthor={Peter Cotton}}
 
 \newtheoremstyle{itheads}{\topsep}{\topsep}{}{}{\itshape}{.}{.5em}{}
 \theoremstyle{itheads}
@@ -22,7 +23,7 @@
 \title{When the Grass Is Greener\\[4pt]
 {\large Three-Shot Search on an Exponentiated Ornstein--Uhlenbeck Landscape}}
 \author{Peter Cotton}
-\date{\normalsize First version: April 6, 2022. This version: September 3, 2026.}
+\date{\normalsize First version: April 6, 2022. This version: September 5, 2026.}
 
 \begin{document}
 \maketitle
@@ -36,9 +37,9 @@ give a closed-form phase diagram for the case of equal observations:
 abandon a below-median incumbent, leave past the better position
 after a disappointing trial, commit between two good positions, and
 stay put above an exact ceiling. The commitment between positions
-rests on a constant-variance identity, that an interior position has
-the same expected performance as a bolder alternative and
-$(1+\rho)/(1-\rho)$ times its variance. The same rule, used as the
+rests on a constant-variance identity: every interior position has
+the same conditional mean log-performance as an explicit exterior
+alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. The same rule, used as the
 line search inside a derivative-free optimizer, beats classical inner
 loops on rough and high-dimensional objectives in a public benchmark.
 \end{abstract}
@@ -50,9 +51,8 @@ covering 759 startups, 59\% never pivoted radically during the
 observation window, about 30\% pivoted exactly once, and 11\%
 pivoted more than once (Camuffo et al.\ 2024; the shares in the
 smaller 2020 trial are 74\%, 19\%, and 7\%). These are one-year
-observation windows; at the implied rate of roughly half a pivot per
-year, a startup's three-to-five-year life carries a budget on the
-order of two or three pivots in total. Training founders to search
+observation windows; over a startup's life a budget of only a few
+major pivots is a plausible order of magnitude. Training founders to search
 more scientifically raised the frequency of a single pivot and
 lowered the frequency of repeated pivots. In practice, strategic search
 involves very few evaluations.
@@ -69,7 +69,9 @@ exponential of a stationary Ornstein--Uhlenbeck path. Mean reversion
 means that performance far from known territory regresses to the
 industry average. The exponential means that small differences in
 fit produce large differences in sales, so an untried strategy has
-extra value on average.
+extra value on average. The exponential is a production or revenue
+mapping from log-performance to money, not a convex utility over a
+fixed prize; the searcher is risk neutral in dollars.
 
 The searcher knows the performance of an incumbent strategy. She may
 try one more. Then she must commit. With two evaluations the optimal
@@ -282,8 +284,9 @@ changes the substance of any result.
 \centering
 \includegraphics[width=0.92\textwidth]{figures/problem.pdf}
 \caption{The problem. Two locations have been evaluated and returned
-equal values (dots); the shaded region is the posterior band for the
-landscape and the grey curve one landscape consistent with the data.
+equal values (dots); the shaded region is the posterior band, the dashed
+curve the posterior median $e^{\mu}$ and the solid curve the posterior
+mean $e^{\mu+\nu/2}$.
 The final evaluation is the consequential one: settle between the
 anchors, step out past an end, or stay at an observed point. The
 paper computes which, exactly, as a function of the anchor value and
@@ -547,6 +550,20 @@ higher anchors demand a larger bracket correlation, which is a
 \emph{shorter} physical bracket. Very good news is forgiven only by
 narrow brackets; on a wide bracket, very good news means stay.
 
+\begin{corollary}[Below-median start]\label{cor:bneg}
+For $d=b<0$ the interior option is worthless: the searcher flees to
+$\zeta(b)=\tfrac12$, and as $b\to-\infty$ the optimal bracket
+correlation tends to zero, so with three shots the limiting log-value
+is $\tfrac12+\log(1+1/\sqrt{2\pi})=0.8357\ldots$ Together with
+Theorem~\ref{thm:boundary} this settles the symmetric game for every
+real anchor.
+\end{corollary}
+
+\noindent Throughout, $\rho\in(0,1)$: at $\rho=0$ the anchors are
+independent and every position is a fresh draw, while $\rho=1$
+collapses the bracket to a point, so both are degenerate limits rather
+than cases of the phase diagram.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/phase.pdf}
@@ -656,13 +673,16 @@ Derivative-free optimizers spend most of their budget on
 one-dimensional subproblems: pick a direction, place a few
 evaluations along it, return a point. Classical inner loops
 (golden-section search, Brent's method) assume smooth unimodal
-slices. We implemented the three-evaluation rule as an inner loop
---- the exact final placement of Sections 5--8, the opening step
-from Section~9, with the mean, scale, and correlation length
-estimated online from the optimizer's own history --- and benchmarked
-it inside a common outer loop (iterated random-direction search,
-budget 120 evaluations, matched directions and seeds) against
-golden-section, Brent, and random placement.
+slices. We implemented the three-evaluation rule as an inner loop, which we
+call \texttt{grass3}: the exact final placement of Sections 5--8 and
+the opening step from Section~9, with the mean, scale, and correlation
+length estimated online from the optimizer's own history. It flees or
+stays after one or two evaluations when the rule dictates and places
+the third otherwise. We benchmarked it inside a common outer loop
+(iterated random-direction search, budget 120 evaluations, matched
+directions and seeds) against four fixed inner loops: golden-section
+with two and with six evaluations, Brent's method, and random
+placement.
 
 The objectives are the application suite of the HumpDay
 derivative-free optimization package (Cotton 2021). Each is a small
@@ -683,7 +703,7 @@ when slices are smooth, a sixteen-dimensional wind-farm layout on 21
 or 22 of 24 seeds.
 
 The high-dimensional win comes from evaluation economy. The rule's
-one- or two-evaluation lines let the outer loop try several times
+early exits, one or two evaluations on many lines, let the outer loop try several times
 more directions than an inner loop that spends eight to ten
 evaluations per line. The win is budget-starved rather than general:
 it appears when the dimension times a classical line search's cost
@@ -704,10 +724,12 @@ preferable in principle, though among these physics objectives the
 smooth-slice case is rarer than reduced-order surrogates suggest,
 since the real collision and ballistics simulators are rough.
 
-Across the 22 objectives the rule ranks first or second for nine. As
-a standalone optimizer, rather than an inner loop, the two-shot
-variant is mid-field against a panel of standard derivative-free
-methods, with mean rank near the middle of eleven. Its relative
+Across the 22 objectives \texttt{grass3} ranks first or second for
+nine among the five inner loops, by median over seeds. A separate
+question is whether a variant of the rule can stand alone as a
+derivative-free optimizer in its own right. A budget-truncated
+two-shot form, \texttt{grass2U}, is mid-field against a panel of
+eleven standard methods, with mean rank near the middle. Its relative
 standing is best at the smallest budgets, around forty evaluations,
 and slips as the budget grows and population methods such as CMA-ES
 overtake it. That is the expected place for a rule derived from a
@@ -729,11 +751,16 @@ The rule helps when the evaluation budget is comparable to the
 number of local minima a slice presents. When the minima greatly
 outnumber the budget, spread wins. A pre-registered out-of-sample test bears
 this out: on 33 further HumpDay pages held out from the objectives
-that suggested the pattern, the rule's rank correlates with a
+that suggested the pattern, the standalone \texttt{grass2U} rank
+correlates with a
 slice's local-minimum count in the predicted direction (Spearman
 0.46, one-sided $p=0.004$; stronger with the single highest-count
-page, which runs against the pattern, removed). Scripts, seeds, the
-pre-registration, and per-objective results are in the repository.
+page, which runs against the pattern, removed). The association was
+largely a separation between single-basin and multi-basin problems
+rather than a resolved monotone relation within the rough subset,
+where the rank correlation is weak (Spearman 0.13, $p=0.31$).
+Scripts, seeds, the pre-registration, and per-objective results are
+in the repository.
 
 \section{The rules in business terms}
 
@@ -797,8 +824,7 @@ well defined and each policy evaluation is cheap through the bridge
 formulas; the adaptive optimization it requires remains to be analyzed.
 
 The same placement problem arises as the line-search step inside
-derivative-free optimizers, where one-
-dimensional slices of real objectives can be rough; we pursue that
+derivative-free optimizers, where one-dimensional slices of real objectives can be rough; we pursue that
 use separately in the humpday benchmark package.
 
 The problem solved here is terminal placement: the payoff is the
@@ -813,15 +839,20 @@ amplification $e^{2\Theta}$, and constrained parabola
 
 \subsection*{Reproducibility}
 
-All numbers and the figure are produced by \texttt{numerics2.py}
-alongside this source; the review-driven identities (the constant
-variance ratio, the $d=1$ factorization, the stationarity quartic,
-the exact flee limit) are independently checked in
-\texttt{verify/check\_review.py}, and the earlier counterexample
-machinery lives in \texttt{verify/check\_inside.py} and
-\texttt{verify/check\_middle.py}, all in the
+The results are reproduced by scripts in the
 \href{https://github.com/microprediction/browniansearch}{browniansearch}
-repository.
+repository. The three-shot table and phase-diagram figure come from
+\texttt{papers/grass/numerics2.py}; the problem figure from
+\texttt{make\_problem\_figure.py}; the identities (the constant
+variance ratio, the $d=1$ factorization, the stationarity quartic,
+the flee limit) from \texttt{verify/check\_review.py}, with earlier
+counterexample checks in \texttt{verify/check\_inside.py} and
+\texttt{check\_middle.py}; the WiFi diagnostic from
+\texttt{casestudy/wifi/}; the line-search benchmark from
+\texttt{linesearch/}; and the basin holdout, with its
+pre-registration committed before the results, from
+\texttt{linesearch/exp3\_basins/} (\texttt{PREREGISTRATION.md} at
+commit \texttt{98f7997}).
 
 \appendix
 \section{The abandonment threshold}\label{app:abandon}
@@ -868,15 +899,17 @@ combination of observed values, and every conditional variance
 depends on locations only. The final payoff is a maximum of terms
 that are nondecreasing in each observed value. For earlier stages,
 raise one observed value and couple the reveal at any placement by
-shifting it with its conditional mean; induction over stages
-preserves monotonicity through the expectation and the maximum.
+shifting it with its conditional mean. By the Markov property of the
+OU landscape each continuation is a fresh game anchored at the
+current observations, so induction over stages preserves monotonicity
+through the expectation and the maximum.
 \end{proof}
 
 Exits are anchored at the outer values and do not depend on the
 interior reveal $v$, while continuations inside are nondecreasing in
 $v$ by the monotonicity above. The stay-or-leave decision after an
 interior trial is therefore a threshold rule in $v$. The threshold
-lies below the anchors: at $b = d = 0.7$ and bracket correlation
+can lie below both anchors: at $b = d = 0.7$ and bracket correlation
 $\rho = 0.5$, staying is optimal exactly when $v > 0.63$. A trial
 somewhat worse than both anchors is still worth staying for, because
 the sub-bracket keeps one good end and the variance. Verification
