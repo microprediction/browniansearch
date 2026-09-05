@@ -678,8 +678,23 @@ objectives). Its relative standing is best at the smallest budgets,
 around forty evaluations, and slips as the budget grows and
 population methods such as CMA-ES overtake it. That is the expected
 place for a rule derived from a few-evaluation terminal-placement
-model. Scripts, seeds, and per-objective results are in the paper's
-repository.
+model.
+
+One control is worth stating because it clarifies the mechanism. On
+exact exponentiated-OU fields, the model's own landscape, the rule
+does not win: broad, near-uniform probing does. The wins reported
+above are not a model match. They come from the rule's economy and
+from its online step-size adaptation, not from the objectives
+resembling an OU path. The control also sharpens the theory. Under a
+terminal-placement payoff the searcher should correlate its trials,
+which is what the bracket does; under a running-maximum payoff
+evaluated over many calls, a stationary field holds many nearly
+independent regions and decorrelated probing is better, so the same
+correlated placement becomes partly redundant. Terminal placement
+rewards correlation; many-call optimization rewards spread. The
+paper's policy is optimal for the first and was never claimed for
+the second. Scripts, seeds, and per-objective results are in the
+paper's repository.
 
 \section{The rules in business terms}
 
