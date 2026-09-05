@@ -187,24 +187,29 @@ payoff, since it scores the improvement in the finally recommended
 point, a terminal-recommendation objective like ours, though it looks
 one step ahead.
 
-The rule is itself an acquisition function, and it sits at a
-specific place in the standard taxonomy (Shahriari et al.\ 2016). Acquisition functions
-sort on two axes. One is myopic versus lookahead: expected
+The rule is itself an acquisition function, and it can be located
+using two familiar distinctions in Bayesian optimization (Shahriari et
+al.\ 2016). One is myopic versus lookahead: expected
 improvement (Mockus et al.\ 1978; Jones et al.\ 1998), probability of
 improvement (Kushner 1964), the upper confidence bound (Srinivas et
 al.\ 2010), and the entropy-search family (Hennig and Schuler 2012;
 Wang and Jegelka 2017) are one-step rules, while multi-step-optimal
 acquisitions exist only in approximate form. The other is
 cumulative-regret versus terminal-recommendation payoff: the upper
-confidence bound bounds cumulative regret, whereas knowledge gradient
-and entropy search score a finally reported point. Our rule is
-lookahead and terminal-recommendation, the knowledge-gradient corner,
-and it fills the cell that is otherwise empty, an acquisition that is
-exact and closed-form for a small multi-step budget rather than
-one-step or approximate. A recurring finding in this literature is that
+confidence bound bounds cumulative regret, knowledge gradient scores
+the payoff of a finally reported point, and entropy search is
+information-directed toward the terminal optimizer. Our rule is
+lookahead and terminal-recommendation, the knowledge-gradient corner.
+
+Within that corner it is a rare exactly characterized multi-step
+acquisition: the final placement is algebraic, quartic in the unequal
+case, and the opening action reduces to one-dimensional quadrature and
+optimization. A recurring finding in this literature is that
 multi-step lookahead buys only modest gains over the myopic rule (Wu
-and Frazier 2019); the one-percent value of the interior option in
-Section~9 is that gain computed exactly rather than measured.
+and Frazier 2019). The roughly one-percent figure in Section~9 is a
+different quantity: it isolates the incremental value of permitting
+interior terminal recommendations relative to a restricted but still
+farsighted policy.
 
 Glick and Myers (2015) tested the one-evaluation problem on lab
 subjects. Subjects respond to the Brownian structure but modify too
@@ -553,19 +558,26 @@ higher anchors demand a larger bracket correlation, which is a
 \emph{shorter} physical bracket. Very good news is forgiven only by
 narrow brackets; on a wide bracket, very good news means stay.
 
-\begin{corollary}[Below-median start]\label{cor:bneg}
-For $d=b<0$ the interior option is worthless: the searcher flees to
-$\zeta(b)=\tfrac12$, and as $b\to-\infty$ the optimal bracket
-correlation tends to zero, so with three shots the limiting log-value
-is $\tfrac12+\log(1+1/\sqrt{2\pi})=0.8357\ldots$ Together with
-Theorem~\ref{thm:boundary} this settles the symmetric game for every
-real anchor.
+\begin{corollary}[Below-median anchors]\label{cor:bneg}
+For equal anchors $d=b<0$ every interior point is dominated by
+flight, whose log-value is $\tfrac12$.
 \end{corollary}
 
-\noindent Throughout, $\rho\in(0,1)$: at $\rho=0$ the anchors are
-independent and every position is a fresh draw, while $\rho=1$
-collapses the bracket to a point, so both are degenerate limits rather
-than cases of the phase diagram.
+\begin{proof}
+An interior point's conditional mean is a nonnegative combination of
+the two negative anchors with positive weight on at least one, so
+$\mu<0$, and its conditional variance is $\nu<1$; hence
+$\mu+\nu/2<\tfrac12=\zeta(b)$.
+\end{proof}
+
+\noindent With Theorem~\ref{thm:boundary} this settles the symmetric
+final-placement game for every real anchor.
+
+\noindent Throughout, $\rho\in(0,1)$. As $\rho\downarrow0$ the
+anchors separate infinitely: a candidate can remain correlated with at
+most one anchor, while points far from both converge to fresh draws.
+As $\rho\uparrow1$ the bracket collapses to a point. Both are
+degenerate limits rather than cases of the phase diagram.
 
 \begin{figure}[t]
 \centering
@@ -648,7 +660,10 @@ $\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)=0.8357\ldots$}
 
 Three observations, all in Table~\ref{tab:threeshot} and
 Figure~\ref{fig:phase}. First, a below-median start still means
-flight, and the interior option is then worthless. Second, the
+flight, and the interior option is then worthless; as the start
+$b\to-\infty$ the optimal opening correlation tends to zero and the
+three-shot log-value tends to
+$\tfrac12+\log(1+1/\sqrt{2\pi})=0.8357\ldots$ Second, the
 three-shot bracket is wider than the two-shot step, but most of the
 widening is \emph{not} bought by the interior option: at $b=0.5$ the
 two-shot policy steps to $\rho=0.5$, excluding interior placement
@@ -878,18 +893,21 @@ $\mu = Ab + Bv$ with
 $A = \lambda_2(1-\lambda^{2})/(1-\rho_1^{2})$ and
 $B = \lambda(1-\lambda_2^{2})/(1-\rho_1^{2})$, both nonnegative, and
 $A \le \lambda_2$ because $\lambda \ge \rho_1$ implies
-$1-\lambda^{2} \le 1-\rho_1^{2}$. Since $v \le 0$,
-$\mu \le \lambda_2 b$. The conditional variance obeys
+$1-\lambda^{2} \le 1-\rho_1^{2}$. The conditional variance obeys
 $\nu = (1-\lambda_2^{2})(1-\lambda^{2})/(1-\rho_1^{2})
-\le 1-\lambda_2^{2}$ by the same inequality. Hence
-$\mu + \nu/2 \le \lambda_2 b + (1-\lambda_2^{2})/2 \le
-\sup_{\ell}[\ell b + (1-\ell^{2})/2] = \zeta(b)$, where the last
-identification holds for every real $b$.
+\le 1-\lambda_2^{2} \le 1$ by the same inequality. If $b \ge 0$,
+then $Ab \le \lambda_2 b$ and $Bv \le 0$ give $\mu \le \lambda_2 b$,
+so $\mu + \nu/2 \le \lambda_2 b + (1-\lambda_2^{2})/2 \le
+\sup_{\ell}[\ell b + (1-\ell^{2})/2] = \zeta(b)$. If $b < 0$, then
+$b, v \le 0$ with $A, B \ge 0$ give $\mu \le 0$, so
+$\mu + \nu/2 \le \tfrac12 = \zeta(b)$. Either way the placement
+loses to $\zeta(b) \le \zeta(\max(b,d))$.
 
-For $v < 0$ any strictly interior point has $B > 0$, so
-$\mu < \lambda_2 b$. The revisit of
-$v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bound
-applies to the other sub-bracket with $d$ in place of $b$.
+For $v < 0$ a strictly interior point has $B > 0$, so $Bv < 0$; since
+$Ab \le \lambda_2 b$ for $b\ge0$ and $Ab \le 0$ for $b<0$, the mean
+bound is strict and $\mu + \nu/2 < \zeta(b)$. The revisit of
+$v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bounds
+apply to the other sub-bracket with $d$ in place of $b$.
 \end{proof}
 
 \begin{proposition}[Monotone value]
