@@ -1,0 +1,231 @@
+{
+  "n": 34,
+  "rho": 0.45230143433793835,
+  "p_two": 0.007238426902920433,
+  "p_one": 0.0036192134514602165,
+  "verdict": "SUPPORTED",
+  "rows": [
+    {
+      "name": "ad_budget_allocation",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 2.0
+    },
+    {
+      "name": "battery_dispatch",
+      "d": 24,
+      "basins": 1.0,
+      "rank": 4.0
+    },
+    {
+      "name": "crop_irrigation",
+      "d": 12,
+      "basins": 1.0,
+      "rank": 3.0
+    },
+    {
+      "name": "diet_problem",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "ebola",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "ev_fleet_charging",
+      "d": 24,
+      "basins": 1.0,
+      "rank": 2.0
+    },
+    {
+      "name": "genetic_art",
+      "d": 60,
+      "basins": 1.0,
+      "rank": 3.5
+    },
+    {
+      "name": "groundwater_remediation",
+      "d": 6,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "heat_exchanger_network",
+      "d": 6,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "index_tracking",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "microgrid_dispatch",
+      "d": 24,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "options_hedging",
+      "d": 12,
+      "basins": 1.0,
+      "rank": 4.0
+    },
+    {
+      "name": "queue_staffing",
+      "d": 6,
+      "basins": 1.0,
+      "rank": 3.0
+    },
+    {
+      "name": "signal_deconvolution",
+      "d": 12,
+      "basins": 1.0,
+      "rank": 1.0
+    },
+    {
+      "name": "traffic_signal",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 2.0
+    },
+    {
+      "name": "vaccine_allocation",
+      "d": 8,
+      "basins": 1.0,
+      "rank": 2.0
+    },
+    {
+      "name": "district_cooling",
+      "d": 5,
+      "basins": 1.25,
+      "rank": 4.0
+    },
+    {
+      "name": "hvac_nyc",
+      "d": 24,
+      "basins": 1.25,
+      "rank": 2.0
+    },
+    {
+      "name": "reactor_tprofile",
+      "d": 10,
+      "basins": 1.25,
+      "rank": 3.0
+    },
+    {
+      "name": "solar_farm_layout",
+      "d": 8,
+      "basins": 1.25,
+      "rank": 2.0
+    },
+    {
+      "name": "cell_tower_power",
+      "d": 6,
+      "basins": 1.5,
+      "rank": 4.0
+    },
+    {
+      "name": "fin_array_cooling",
+      "d": 8,
+      "basins": 1.5,
+      "rank": 2.0
+    },
+    {
+      "name": "fir_filter_design",
+      "d": 11,
+      "basins": 1.5,
+      "rank": 3.0
+    },
+    {
+      "name": "punt_the_wire",
+      "d": 4,
+      "basins": 1.5,
+      "rank": 3.0
+    },
+    {
+      "name": "reservoir_release",
+      "d": 12,
+      "basins": 1.5,
+      "rank": 2.0
+    },
+    {
+      "name": "revenue_pricing",
+      "d": 8,
+      "basins": 1.5,
+      "rank": 3.0
+    },
+    {
+      "name": "water_distribution",
+      "d": 8,
+      "basins": 1.5,
+      "rank": 4.0
+    },
+    {
+      "name": "welded_beam",
+      "d": 4,
+      "basins": 1.5,
+      "rank": 5.0
+    },
+    {
+      "name": "packing",
+      "d": 12,
+      "basins": 2.0,
+      "rank": 3.0
+    },
+    {
+      "name": "fm_synth",
+      "d": 4,
+      "basins": 3.0,
+      "rank": 3.0
+    },
+    {
+      "name": "antenna",
+      "d": 7,
+      "basins": 3.75,
+      "rank": 5.0
+    },
+    {
+      "name": "protein_fold_toy",
+      "d": 11,
+      "basins": 5.25,
+      "rank": 2.0
+    },
+    {
+      "name": "lens",
+      "d": 4,
+      "basins": 8.0,
+      "rank": 5.0
+    },
+    {
+      "name": "chess",
+      "d": 8,
+      "basins": 48.75,
+      "rank": 2.0
+    }
+  ],
+  "excluded": [
+    "boids",
+    "bowling",
+    "brachistochrone",
+    "cart_pole",
+    "creature",
+    "curling",
+    "free_kick",
+    "mini_golf",
+    "pool",
+    "robot_arm",
+    "rocket_landing",
+    "satellite_phasing",
+    "slingshot",
+    "tennis_doubles",
+    "trebuchet",
+    "wind_farm"
+  ]
+}

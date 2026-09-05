@@ -700,8 +700,18 @@ which the bracket supplies. A running-maximum payoff over many calls
 rewards spread, since a stationary field holds many nearly
 independent regions, so the correlated placement is partly redundant.
 The policy is optimal for terminal placement and we do not claim it
-for many-call optimization. Scripts, seeds, and per-objective results
-are in the repository.
+for many-call optimization.
+
+One regularity organizes when the rule helps. Its advantage
+concentrates where the evaluation budget is comparable to the number
+of local minima a slice presents; when the minima greatly outnumber
+the budget, spread wins. A pre-registered out-of-sample test bears
+this out: on 34 further HumpDay pages held out from the objectives
+that suggested the pattern, the rule's rank correlates with a
+slice's local-minimum count in the predicted direction (Spearman
+0.45, one-sided $p=0.004$; 0.51 with the single highest-count page,
+which runs against the pattern, removed). Scripts, seeds, the
+pre-registration, and per-objective results are in the repository.
 
 \section{The rules in business terms}
 

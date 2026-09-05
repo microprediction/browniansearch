@@ -32,3 +32,17 @@ should be built there, not by duplicating 79 ports here. Do NOT put
 the basin hypothesis in the paper until the faithful-port holdout
 decides it; the paper's current regime wording (economy + spread-vs-
 correlate) stands and does not depend on it.
+
+## HOLDOUT VERDICT (2026-09-05): SUPPORTED, pre-registered
+Locked test on the js_holdout sweep (run_holdout_test.py): 34 out-of-
+sample pages after the pre-registered exclusions (16 discovery-
+overlapping/seen demos dropped). Spearman(basins, grass2U_rank) =
++0.452, one-sided p=0.0036 -- predicted sign, past the pre-registered
+p<0.05 threshold. Robustness: the highest-basin page (chess, 48.8
+basins, rank 2.0) runs AGAINST the hypothesis, so dropping it
+strengthens to +0.506 (p=0.0026); the result is not propped up by an
+outlier. Caveat retained: 16/34 pages are smooth (basins=1.0 tied),
+so the signal is carried by the rougher tail; this is one pre-
+registered holdout correlation, stated as such in the paper, not a
+law. Per the pre-registration, one sentence added to the line-search
+discussion; the economy/spread-vs-correlate wording is unchanged.
