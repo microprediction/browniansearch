@@ -26,6 +26,7 @@ Adaptations forced by the optimization context, all listed here:
 
 import numpy as np
 from scipy.special import erf as _erf
+from scipy.special import ndtri as _ndtri
 
 # ---------------------------------------------------------------------------
 # Exact policy pieces (ported from papers/grass/numerics2.py)
@@ -296,6 +297,7 @@ class GrassInner:
         uniform_flee=False,
         placement="table",
         ei_margin=1.05,
+        standardize="linear",
     ):
         self.kappa = kappa0
         self.values = []  # all raw values seen (for mean/std)
@@ -323,6 +325,13 @@ class GrassInner:
         # is likely small."
         self.placement = placement
         self.ei_margin = ei_margin
+        # exp2l: "linear" standardizes by running mean/std -- wrong when
+        # the landscape is a monotone warp of the Gaussian field (on
+        # actual exp(OU) the values are lognormal and one peak dominates
+        # the std). "rank" Gaussianizes by normal scores, restoring the
+        # model's N(0,1) marginal under ANY monotone warp (Gaussian
+        # copula view); increments for the kappa fit use the same map.
+        self.standardize = standardize
 
     _EI_RHO_GRID = np.linspace(0.0, 0.995, 200)
 
@@ -349,6 +358,23 @@ class GrassInner:
         s = float(np.std(self.values))
         return m, (s if s > 1e-12 else 1.0)
 
+    def _make_std(self):
+        """The value -> standardized-X map. Rank mode: normal scores
+        (Gaussian copula), exact N(0,1) marginal under any monotone
+        warp of the field; linear mode: running mean/std."""
+        if self.standardize == "rank" and len(self.values) >= 4:
+            vals = np.sort(np.asarray(self.values, dtype=float))
+            n = len(vals)
+
+            def x_of(f):
+                k = float(np.searchsorted(vals, f, side="left"))
+                q = (n - k + 0.5) / (n + 1.0)
+                return float(_ndtri(min(max(q, 1e-12), 1 - 1e-12)))
+
+            return x_of
+        m, s = self._stats()
+        return lambda f: (m - f) / s
+
     def _fit_kappa(self):
         """Variogram fit robust to the chi^2_1 tail: pairs are stored raw
         and standardized with the CURRENT stats (early pairs measured
@@ -357,10 +383,10 @@ class GrassInner:
         OU expectation 2(1-e^{-kappa D}) * med[chi^2_1]."""
         if len(self.pairs) < 8 or not self.adapt_kappa:
             return
-        _, s = self._stats()
+        x_of = self._make_std()
         pairs = self.pairs[-256:]
         dist = np.array([q[0] for q in pairs])
-        sq = np.array([(q[1] - q[2]) / s for q in pairs]) ** 2
+        sq = np.array([x_of(q[1]) - x_of(q[2]) for q in pairs]) ** 2
         edges = np.geomspace(max(dist.min(), 1e-5), dist.max() + 1e-12, 9)
         dmid, dmed = [], []
         for a, b in zip(edges[:-1], edges[1:]):
@@ -381,11 +407,7 @@ class GrassInner:
         lo, hi = alpha_range(p, v)
         if hi - lo < 1e-9 or budget.remaining() <= 0:
             return p, fp
-        m, s = self._stats()
-
-        def std(f):
-            return (m - f) / s  # minimize f == maximize X
-
+        std = self._make_std()  # minimize f == maximize X
         b = std(fp)
         kap = self.kappa
 

@@ -283,6 +283,43 @@ softer flee gate travel better than the Table-1 bracket, so the
 acquisition ordering FLIPS below the OU point -- table above p~0.3,
 EI below. The rough family is much larger than exp2b thought.
 
+## exp2l: the home-turf control (run 2026-09-04; Peter: "see how it
+## goes on actual high dim exp(OU)") -- THE STUDY'S MOST FALSIFYING RESULT
+Objective: X a Gaussian field with isotropic exponential covariance
+exp(-kappa r) on [0,1]^d -- OU along every line, p=1 by construction
+-- f = -exp(X), sampled lazily and exactly by sequential
+conditioning (run_expou.py). d in {4,16,64}, kappa in {3,10,30}.
+
+VERDICT: THE GRASS FAMILY LOSES ON ITS OWN MODEL. golden6 wins
+almost every case; grass2U ranks 4-6 of 8. Two rescue attempts,
+both properly motivated, both insufficient: (1) rank-Gaussianized
+standardization (normal scores; the linear mean/std feed was
+handing the rule a lognormal b) -- implemented, helps marginally;
+(2) a smooth-funnel composite (rough OU texture on a navigable
+quadratic trend) -- golden still wins.
+
+READING, deflationary and coherent. On a stationary field with
+correlation length 1/kappa the cube holds ~kappa^d quasi-independent
+cells; with 120 calls the winning many-shot policy is DECORRELATED
+probing, and the rule's correlated probes -- the very substance of
+its terminal-placement logic -- are partially redundant draws.
+Terminal placement says correlate (you live at your final point);
+running-max over many calls says spread. So: the optimizer's real
+wins (chaotic sims, budget-starved high-d) are NOT explained by
+landscape-OU match. The exp1-born hypothesis "the OU line search
+lives where slices are OU-like" is REFUTED as causation; the p-band
+was correlation. What the machinery actually contributes, per the
+ablations, is economy + online step-size adaptation (the kappa fit
+as a 1/5-rule-like mechanism) + stall-triggered restarts -- a sound
+adaptive local-global alternation whose constants the OU theory
+supplied. This lens also unifies exp2j and exp2k: wider placement
+beats narrower on running-max problems (table > EI, golden6 > both
+on stationary fields; EI > table only in the ultra-rough regime
+where locality pays). The paper should not claim the derived
+optimizer wins BECAUSE slices are OU; it wins where its mechanisms
+suit the landscape, and the theory's honest role is scaffold, not
+model match.
+
 STANDING RESULT. Across every experiment the quietly strongest
 general baseline is golden2 -- two full-segment probes per line,
 maximal direction economy with global reach and no model. The grass
