@@ -104,7 +104,10 @@ let failures = 0;
 while ((m = re.exec(html)) !== null) {
   blocks += 1;
   try {
-    vm.runInContext(m[1], sandbox, { filename: `${htmlPath}#script${blocks}` });
+    vm.runInContext(m[1], sandbox, {
+      filename: `${htmlPath}#script${blocks}`,
+      timeout: 15000,
+    });
   } catch (e) {
     failures += 1;
     process.stderr.write(`script block ${blocks} failed: ${String(e).slice(0, 120)}\n`);

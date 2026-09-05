@@ -23,8 +23,13 @@ JS_DEMOS = {
 
 
 class JsObjective:
-    def __init__(self, demo):
-        html, self.n_dim = JS_DEMOS[demo]
+    def __init__(self, demo, n_dim=None, startup_timeout=30.0):
+        if demo in JS_DEMOS:
+            html, self.n_dim = JS_DEMOS[demo]
+        else:
+            html, self.n_dim = demo, n_dim  # any docs/applications page
+        if self.n_dim is None:
+            raise ValueError(f"n_dim required for {demo}")
         self.proc = subprocess.Popen(
             [
                 "node",
@@ -37,11 +42,23 @@ class JsObjective:
             text=True,
             bufsize=1,
         )
-        # wait for the ready line (or an early failure)
-        line = self.proc.stderr.readline()
+        # wait for the ready line (or an early failure) with a timeout --
+        # a page whose scripts hang must not hang the sweep
+        import queue
+        import threading
+
+        q = queue.Queue()
+        threading.Thread(
+            target=lambda: q.put(self.proc.stderr.readline()), daemon=True
+        ).start()
+        try:
+            line = q.get(timeout=startup_timeout)
+        except queue.Empty:
+            self.proc.kill()
+            raise RuntimeError(f"{demo} server startup timed out")
         if "ready" not in line:
-            rest = self.proc.stderr.read()
-            raise RuntimeError(f"{demo} server failed: {line}{rest}")
+            self.proc.kill()
+            raise RuntimeError(f"{demo} server failed: {line.strip()}")
 
     def __call__(self, u):
         self.proc.stdin.write(json.dumps([float(x) for x in u]) + "\n")
