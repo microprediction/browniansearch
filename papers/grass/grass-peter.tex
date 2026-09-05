@@ -1,0 +1,1104 @@
+% grass-peter.tex -- Peter's manual editing copy of grass.tex.
+% Diverge freely here; grass.tex is the automated/build copy.
+% Reconcile before submission (diff grass.tex grass-peter.tex).
+\documentclass[11pt]{article}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{url}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+
+\newtheoremstyle{itheads}{\topsep}{\topsep}{}{}{\itshape}{.}{.5em}{}
+\theoremstyle{itheads}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\artanh}{\operatorname{artanh}}
+
+\title{When the Grass Is Greener\\[4pt]
+{\large Three-Shot Search on an Exponentiated Ornstein--Uhlenbeck Landscape}}
+\author{Peter Cotton}
+\date{\normalsize First version: April 6, 2022. This version: September 5, 2026.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent How should a firm spend its last pivot? A searcher knows an
+incumbent strategy's performance, may run one more trial, and must
+then commit, on a landscape given by the exponential of a stationary
+Ornstein--Uhlenbeck path. We solve the final placement exactly and
+give a closed-form phase diagram for the case of equal observations:
+abandon a below-median incumbent, leave past the better position
+after a disappointing trial, commit between two good positions, and
+stay put above an exact ceiling. The commitment between positions
+rests on a constant-variance identity, that an interior position has
+the same expected performance as a bolder alternative and
+$(1+\rho)/(1-\rho)$ times its variance. The same rule, used as the
+line search inside a derivative-free optimizer, beats classical inner
+loops on rough and high-dimensional objectives in a public benchmark.
+\end{abstract}
+
+\section{Introduction}
+
+How many pivots does a firm get? Across four randomized trials
+covering 759 startups, 59\% never pivoted radically during the
+observation window, about 30\% pivoted exactly once, and 11\%
+pivoted more than once (Camuffo et al.\ 2024; the shares in the
+smaller 2020 trial are 74\%, 19\%, and 7\%). These are one-year
+observation windows; at the implied rate of roughly half a pivot per
+year, a startup's three-to-five-year life carries a budget on the
+order of two or three pivots in total. Training founders to search
+more scientifically raised the frequency of a single pivot and
+lowered the frequency of repeated pivots. In practice, strategic search
+involves very few evaluations.
+
+Callander (2011) modeled this kind of search as trial and error on
+an unknown function drawn from a Brownian motion. A sequence of
+short-lived agents each implements one trial and observes its
+outcome, so search is myopic by demographic structure rather than by
+assumption. Most later work keeps this feature. Bardhi and Callander (2026) list farsighted
+search with a free choice of location as an open problem.
+
+We solve the smallest such problem exactly. The landscape is the
+exponential of a stationary Ornstein--Uhlenbeck path. Mean reversion
+means that performance far from known territory regresses to the
+industry average. The exponential means that small differences in
+fit produce large differences in sales, so an untried strategy has
+extra value on average.
+
+The searcher knows the performance of an incumbent strategy. She may
+try one more. Then she must commit. With two evaluations the optimal
+rule is a threshold rule: abandon a below-median incumbent, keep an
+exceptional one, and otherwise step a distance that we give in
+closed form.
+
+With three evaluations the question is where to commit
+after the trial: between the two known strategies, beyond the better
+one, or at one of them. We compute the answer exactly. Commitment
+between the two is optimal when both values are good but not
+exceptional. The commitment point is the midpoint for moderate
+values and moves toward the better-known end as the values improve.
+Above an exact ceiling the searcher should stay where she is.
+
+The interior option is worth about one percent of expected value at
+the optimum in our calibration. Most of the value of the final pivot
+comes from the information it produces. On landscapes that
+decorrelate quickly, it is better to probe far away, and the
+formulas say so: the interior premium is first order in the bracket
+correlation.
+
+The rule is also an algorithm, and the direction of trade is
+unusual: a policy derived in the economics of search outperforms
+classical line searches on their own ground. Used as the inner loop
+of a derivative-free optimizer, the three-evaluation rule beats
+golden-section and Brent on collision and agent-chaos objectives and
+on high-dimensional ones, where its one- or two-evaluation lines buy
+several times more search directions per budget
+(Section~\ref{sec:linesearch}).
+
+\section{Related work}
+
+Callander (2008) introduced the Brownian policy landscape. In that
+paper, delegation to a biased expert survives only when the bias is
+below $\sigma^{2}/2\mu$. The 2011 papers use the landscape for
+search. An agent experiments when the incumbent outcome is worse
+than $\alpha=\sigma^{2}/2|\mu|$ and stops otherwise. Search ends
+almost surely, often at a mediocre policy. Simulated runs change
+policy between one and four times, which is consistent with the
+pivot counts above.
+
+Later papers derive similar thresholds for
+precedent (Callander and Clark 2017), agenda control (Callander and
+McCarty 2024), and risk-averse learning (Callander and Matouschek
+2019). In all of these the number of evaluations is endogenous and
+payoffs accrue every period. In our problem the number of
+evaluations is fixed at three, only the final placement is paid, and
+the landscape mean-reverts.
+
+Callander and Hummel (2014) analyze a two-period game in which each
+of two policymakers can experiment once. The equilibrium has two
+exact cutoffs, and the first mover sometimes experiments although
+the status quo already delivers his ideal outcome. The players are
+strategic and payoffs accrue in both periods. Ganz (2020) studies an
+organization that allows a manager one offline trial before an
+online choice. That is a two-evaluation problem in which only the
+second evaluation is paid, and some of its boundaries are computed
+numerically. We solve the three-evaluation single-agent problem: the final
+placement exactly and, for equal observed values, with every phase
+boundary in closed form; the opening trial reduces to a
+one-dimensional numerical optimization.
+
+Other papers obtain farsighted results under other restrictions.
+Urgun and Yariv (2025) require search to be contiguous; the searcher
+chooses speed and stops at a closed-form drawdown. Cetemen, Urgun
+and Yariv (2023) extend this to teams and Wong (2025) to flow
+payoffs. Bardhi (2024) chooses $k$ sample locations at once to
+estimate a project. Garfagnini and Strulovici (2016), Carnehl and
+Schneider (2025), and Callander, Lambert and Matouschek
+(forthcoming) study infinite sequences of short-lived agents.
+
+Aybas and Callander (2025) allow Ito diffusion landscapes, including the
+Ornstein--Uhlenbeck case, in a one-shot cheap-talk game. That is the
+only mean-reverting landscape we know of in this literature. Bardhi
+(2024) also proves that the OU kernel is the only powered-exponential
+covariance with the Markov property, which supports our choice of
+landscape.
+
+In the optimization literature the same object appears with large
+budgets. Calvin (1997) derives average-case convergence rates under
+Wiener measure. Grill, Valko and Munos (2018) approximate the
+maximum of a Brownian path. Grosse, Zhang and Hennig (2023) extend
+this to Gaussian-process samples and prove regret rates. Alabert and
+Caballero (2018) compute the law of the minimum of a conditioned
+bridge in order to compare fixed sampling designs.
+
+Malladi (2025) and Banchio and Malladi (2025) solve worst-case versions with no
+prior and a Lipschitz bound in place of volatility. Hodgson and
+Lewis (2025) estimate a Gaussian-process search model on clickstream
+data and solve the policy numerically. The probabilistic line search of Mahsereci and Hennig (2017) is the
+nearest algorithmic relative: a Gaussian-process line search for
+stochastic gradient descent, built on gradient observations and an
+integrated-Wiener model, without closed-form placement. We are not
+aware of a closed-form solution for a small fixed budget of
+adaptive, derivative-free evaluations under a Bayesian prior.
+
+The closest methodological neighbor is non-myopic Bayesian
+optimization. Ginsbourger and Le Riche (2010) observed that the usual
+one-step expected-improvement rule is suboptimal under a fixed finite
+budget, since it treats each evaluation as the last. Lam, Willcox and
+Wolpert (2016) cast finite-budget optimization as a dynamic program
+and solve it approximately by rollout, and Jiang et al.\ (2020)
+optimize the full multi-step lookahead tree in one shot. These
+methods approximate the lookahead dynamic program on general
+Gaussian-process priors; we solve the smallest nontrivial case, three
+evaluations on an OU landscape, exactly. The knowledge-gradient
+policy of Frazier, Powell and Dayanik (2009) is the closest on
+payoff, since it scores the improvement in the finally recommended
+point, a terminal-recommendation objective like ours, though it looks
+one step ahead. A recurring finding in this literature is that
+multi-step lookahead buys only modest gains over the myopic rule (Wu
+and Frazier 2019); the one-percent value of the interior option in
+Section~9 is that gain computed exactly rather than measured.
+
+Glick and Myers (2015) tested the one-evaluation problem on lab
+subjects. Subjects respond to the Brownian structure but modify too
+much when the variance is high.
+
+\section{The model: three evaluations of an exponentiated OU path}
+
+Let $X$ be a stationary Ornstein--Uhlenbeck process on $\R$ with
+$\E[X_t]=0$, unit marginal variance, and covariance kernel
+\begin{equation}
+k(s,t) \;=\; e^{-\kappa|s-t|}.
+\end{equation}
+Exponential decay of correlation with distance is a standard
+empirical model, not an assumption special to this paper: it has
+described shadow fading in radio engineering since Gudmundson
+(1991). On 77{,}040 WiFi measurements across a university floor
+(Feng, Nguyen and Luo 2024), we find the detrended log signal close
+to Gaussian with spatial correlation fitting an exponential at
+$R^{2}=0.98$, alongside a short-scale component of comparable size;
+the scripts are in the paper's repository.
+
+The same shape is standard in several other fields. In Gaussian-process
+modeling the exponential kernel is the Mat\'ern class at $\nu=1/2$
+and is the covariance of the OU process (Rasmussen and Williams
+2006, \S4.2.1). Practical Bayesian optimization prefers Mat\'ern
+kernels because squared-exponential sample paths are too smooth for
+real objectives (Snoek, Larochelle and Adams 2012).
+
+Weinberger (1990) measures the ruggedness of a fitness landscape by the
+exponential decay rate of a random walk's autocorrelation and shows
+that Kauffman's NK model is generically of this type. In
+evolutionary biology the OU process is the standard model of a
+trait held near an adaptive optimum (Hansen 1997; Butler and King
+2004).
+The landscape is $f(t)=\exp(X_t)$: locally continuous, mean-reverting in
+its logarithm, with occasional high peaks where excursions are magnified
+by the exponential. A searcher samples $f$ at a first location, which we
+take to be $t_0=0$ by translation invariance, discovering $X_0=b$. Two
+further evaluations at locations $t_1$ and then $t_2$ follow, each
+chosen with knowledge of all values so far, and the payoff is the value
+at the final location, $u=\E\left[f(t_2)\right]$. Conditional on the
+observations gathered by the time $t_2$ is chosen, $X_{t_2}$ is
+Gaussian with some mean $\mu$ and variance $\nu$, and
+\begin{equation}\label{eq:lognormal}
+\log \E\!\left[e^{X_{t_2}}\,\middle|\,\mathcal{F}\right]
+\;=\; \mu + \tfrac{1}{2}\nu ,
+\end{equation}
+where $\mathcal{F}$ denotes the observed locations and values. (The
+unconditional distribution after adaptive placement need not be
+Gaussian; every use of \eqref{eq:lognormal} below is conditional.) The
+searcher is thus paid for conditional mean and conditional variance in
+equal measure: a final location with residual uncertainty carries a
+lognormal bonus of half its variance.
+
+Figure~\ref{fig:problem} shows the decision this paper solves.
+
+The problem has one essential scale parameter. A payoff exponent
+$\beta$ alone is without loss of generality, since $e^{\beta X}$ on
+a unit-variance path equals $e^{Y}$ on a path of standard deviation
+$\beta$; only the product $s=\beta\sigma$ of payoff convexity and
+path scale matters. We calibrate $s=1$.
+
+For general $s$ every comparison maximizes $\mu + s\nu/2$ with observations in
+path-standard-deviation units, the two-shot step becomes
+$\lambda^{*}=\operatorname{clip}(b/s,0,1)$, and the pitchfork and
+ceiling of Section~7 scale to $s\cdot 2\sqrt{\rho}/(1-\rho)$ and
+$s(1+\rho)/(1-\rho)$; equivalently, the phase diagram is universal
+in the coordinates $(\rho, b/s)$. The length scale $\kappa$, by
+contrast, is fully absorbed by working in correlations. The parameter plays the role Callander's
+complexity $\sigma^{2}/2|\mu|$ plays under drift, and the
+one-percent figure of Section~9 is specific to $s=1$.
+
+Two conventions tidy the boundary cases. A searcher may take a location
+to infinity, which by mean reversion is equivalent to sampling a fresh
+$N(0,1)$ value independent of everything seen; and a searcher may
+finish at an observed location, receiving its known value. Neither
+changes the substance of any result.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/problem.pdf}
+\caption{The problem. Two locations have been evaluated and returned
+equal values (dots); the shaded region is the posterior band for the
+landscape and the grey curve one landscape consistent with the data.
+The final evaluation is the consequential one: settle between the
+anchors, step out past an end, or stay at an observed point. The
+paper computes which, exactly, as a function of the anchor value and
+the bracket correlation.}
+\label{fig:problem}
+\end{figure}
+
+\section{Two evaluations: flee, explore, or stay}
+
+Given only $X_0=b$, a candidate second location at distance $t$ has
+$X_t \sim N\!\left(b\lambda,\,1-\lambda^{2}\right)$ with
+$\lambda=e^{-\kappa t}\in(0,1]$. From \eqref{eq:lognormal},
+\begin{equation}
+\log \E\!\left[e^{X_t}\,\middle|\,X_0=b\right]
+\;=\; b\lambda + \tfrac{1}{2}\!\left(1-\lambda^{2}\right)
+\;=\; -\tfrac{1}{2}\left(\lambda-b\right)^{2} + \tfrac{1}{2}\left(b^{2}+1\right),
+\end{equation}
+maximized over $\lambda\in[0,1]$ at $\lambda^{*}=\min\{\max\{b,0\},1\}$.
+
+\begin{proposition}[Two-shot policy]\label{prop:twoshot}
+The optimal second location and its log-value $\zeta(b)$ are
+\begin{equation}
+t^{*} \;=\;
+\begin{cases}
+\infty & b<0 \quad(\text{flee}),\\[2pt]
+-\tfrac{1}{\kappa}\log b & 0\le b\le 1 \quad(\text{explore}),\\[2pt]
+0 & b>1 \quad(\text{stay}),
+\end{cases}
+\qquad
+\zeta(b) \;=\;
+\begin{cases}
+\tfrac{1}{2} & b<0,\\[2pt]
+\tfrac{1}{2}\left(b^{2}+1\right) & 0\le b\le 1,\\[2pt]
+b & b>1 .
+\end{cases}
+\end{equation}
+\end{proposition}
+
+A below-median first value is abandoned, and an exceptional one is
+kept: already at two shots, an observed location can be the optimal
+final location. Practitioners know this fork as pivot or persevere
+(Ries 2011); the proposition supplies its thresholds and the size of
+the step when pivoting wins. In between, the searcher steps to the distance at which the
+prior pull toward the mean exactly balances the anchor's height. The
+value $\zeta$ serves as the exterior benchmark throughout: by the
+Markov property, any placement beyond all existing observations faces a
+fresh copy of this problem anchored at the nearest observation.
+
+\section{Bridge moments, and what composes how}
+
+Suppose values $X_0=b$ and $X_{t_1}=d$ are known, with bracket
+correlation $\rho=e^{-\kappa t_1}$ and rapidity
+$\Theta=\artanh\rho$. For an interior location let
+$\lambda_2=e^{-\kappa t_2}$ and $\lambda=e^{-\kappa(t_1-t_2)}$ be the
+correlations to the two ends, $\lambda_2\lambda=\rho$, with rapidities
+$\theta_2=\artanh\lambda_2$ and $\theta=\artanh\lambda$. Gaussian
+conditioning gives the bridge moments
+\begin{equation}\label{eq:bridge}
+\mu \;=\; \frac{\lambda_2\!\left(1-\lambda^{2}\right)b
++ \lambda\!\left(1-\lambda_2^{2}\right)d}{1-\rho^{2}},
+\qquad
+\nu \;=\; \frac{\left(1-\lambda_2^{2}\right)\left(1-\lambda^{2}\right)}
+{1-\rho^{2}} .
+\end{equation}
+For $b=d>0$ the bridge sags: the mean is below $b$ everywhere
+strictly inside, pulled toward the process mean, while the variance
+rises from zero at the ends to a maximum at the middle.
+
+A caution on what is additive. Correlations across consecutive
+intervals multiply, $\rho(t+s)=\rho(t)\,\rho(s)$, so the additive
+coordinate for composing intervals is $\kappa t=-\log\rho$, not the
+rapidity. The rapidity enters through a different identity:
+for equal anchors $d=b$ the bridge mean is
+\begin{equation}\label{eq:meanadd}
+\mu \;=\; b\,\frac{\lambda_2+\lambda}{1+\lambda_2\lambda}
+\;=\; b\tanh\!\left(\theta_2+\theta\right),
+\end{equation}
+which matches the mean of the exterior point at correlation
+$\tanh(\theta_2+\theta)$ to its anchor. This is a mean-matching device
+we use next, not a composition law. The bridge variance also takes a
+hyperbolic product form: substituting $1-\tanh^{2}=\sech^{2}$ into
+\eqref{eq:bridge},
+\begin{equation}\label{eq:varprod}
+\nu \;=\; \sech\!\left(\theta_2+\theta\right)
+\sech\!\left(\theta_2-\theta\right),
+\end{equation}
+while an exterior point at correlation $\lambda'=\tanh\theta'$ to its
+anchor has variance $1-\tanh^{2}\theta'=\sech^{2}\theta'$.
+
+\section{Matched-mean dominance at a constant variance ratio}
+
+\begin{theorem}[Bridge dominance, equal anchors]\label{thm:dominance}
+Let $d=b$ and let $t_2\in(0,t_1)$ be an interior location with
+rapidities $(\theta_2,\theta)$. The exterior location at composed
+rapidity $\theta'=\theta_2+\theta$ has the same conditional mean
+$b\tanh(\theta_2+\theta)$, and the ratio of conditional variances is
+the same at every interior point:
+\begin{equation}\label{eq:constratio}
+\frac{\nu_{\mathrm{inside}}}{\nu_{\mathrm{outside}}}
+\;=\; \frac{\cosh(\theta_2+\theta)}{\cosh(\theta_2-\theta)}
+\;=\; \frac{1+\tanh\theta_2\tanh\theta}{1-\tanh\theta_2\tanh\theta}
+\;=\; \frac{1+\rho}{1-\rho} \;=\; e^{2\Theta} \;>\; 1 .
+\end{equation}
+Consequently the interior point's conditional distribution dominates
+its mean-matched exterior rival in the Gaussian convex order, and its
+expected payoff is at least as large for every convex payoff with
+finite expectation, strictly so for the exponential.
+\end{theorem}
+
+\begin{proof}
+The mean statement is \eqref{eq:meanadd}. The ratio of
+\eqref{eq:varprod} to $\sech^{2}(\theta_2+\theta)$ is
+$\cosh(\theta_2+\theta)/\cosh(\theta_2-\theta)$, and expanding both
+via $\cosh(A\pm B)=\cosh A\cosh B\pm\sinh A\sinh B$ gives
+$(1+\tanh\theta_2\tanh\theta)/(1-\tanh\theta_2\tanh\theta)$, which is
+$(1+\rho)/(1-\rho)$ because $\tanh\theta_2\tanh\theta
+=\lambda_2\lambda=\rho$ on the bracket. Two Gaussians with equal
+means and ordered variances are ordered in the convex order (the
+wider equals the narrower plus independent noise), and
+\eqref{eq:lognormal} is the exponential case.
+\end{proof}
+
+The amplification is a property of the bracket, not the position:
+threefold at $\rho=\tfrac12$, nineteenfold at $\rho=0.9$, unbounded as
+$\rho\uparrow 1$. At the bracket's ends both variances vanish; their
+ratio still tends to $e^{2\Theta}$. Dominance over mean-matched
+exterior rivals, which the theorem explicitly constructs, decides
+nothing by itself: the exterior player may choose any
+correlation, and an observed anchor may simply be kept. The object
+that can fail to exist is different: an \emph{unvisited} point whose
+conditional mean matches the best \emph{observed} value. Mean
+reversion caps unvisited conditional means strictly below a high
+anchor, and whether the variance bonus makes up the shortfall is
+precisely the question the phase diagram answers. The next section
+makes this exact.
+
+\section{The constrained parabola and the complete symmetric solution}
+
+Parametrize the interior by $x=\lambda_2\in(\rho,1)$ and set
+\begin{equation}\label{eq:mdef}
+C \;=\; \frac{1+\rho}{1-\rho}\;=\;e^{2\Theta},
+\qquad
+m \;=\; \frac{x+\rho/x}{1+\rho}
+\;\in\;\left[\frac{2\sqrt{\rho}}{1+\rho},\,1\right),
+\end{equation}
+under which mirror points $x\leftrightarrow\rho/x$ coincide, the lower
+endpoint of $m$ is the bracket middle, and, using
+$\left(1-x^{2}\right)\left(1-\rho^{2}/x^{2}\right)
+=\left(1+\rho\right)^{2}\left(1-m^{2}\right)$, the equal-anchor
+interior log-utility becomes a constrained parabola:
+\begin{equation}\label{eq:parabola}
+L_{\mathrm{inside}}(m) \;=\; b\,m + \frac{C}{2}\left(1-m^{2}\right),
+\qquad
+m^{*} \;=\; \operatorname{clip}\!\left(\frac{b}{C};\;
+\frac{2\sqrt{\rho}}{1+\rho},\,1\right).
+\end{equation}
+This is the organizing object of the paper: the entire symmetric
+analysis reads off the position of the unconstrained peak $b/C$
+relative to the interval.
+
+\begin{theorem}[Pitchfork]\label{thm:pitchfork}
+The bracket middle is the interior optimum iff
+$b/C\le 2\sqrt{\rho}/(1+\rho)$, i.e.
+\begin{equation}
+b \;\le\; \frac{2\sqrt{\rho}}{1-\rho} \;=\; \sinh 2\tau,
+\qquad \tau=\artanh\sqrt{\rho}.
+\end{equation}
+For $\sinh 2\tau<b<e^{2\Theta}$ the peak is interior and attained by
+the mirror pair
+\begin{equation}\label{eq:offmid}
+x_{\pm} \;=\; \frac{b\left(1-\rho\right)
+\pm\sqrt{b^{2}\left(1-\rho\right)^{2}-4\rho}}{2},
+\qquad x_{+}x_{-}=\rho,
+\end{equation}
+with optimal value
+\begin{equation}\label{eq:uoff}
+U_{\mathrm{off}} \;=\; \frac{C}{2}+\frac{b^{2}}{2C}
+\;=\;\tfrac12\!\left(b^{2}e^{-2\Theta}+e^{2\Theta}\right).
+\end{equation}
+For $b\ge e^{2\Theta}$ the peak $b/C\ge 1$ lies at or beyond the
+interval's open end: $L_{\mathrm{inside}}$ is increasing in $m$, no
+interior maximum is attained, and the interior supremum is the end
+limit $b$.
+\end{theorem}
+
+\begin{proof}
+$dL/dm=b-Cm$ vanishes at $m=b/C$; the interval endpoints translate
+via \eqref{eq:mdef} into the stated $b$-thresholds
+($b/C=2\sqrt{\rho}/(1+\rho)$ is $b=2\sqrt{\rho}/(1-\rho)$, and
+$b/C=1$ is $b=(1+\rho)/(1-\rho)$; the hyperbolic forms follow from
+$\tanh\tau=\sqrt{\rho}$). Solving $x+\rho/x=(1+\rho)\,b/C
+=b\left(1-\rho\right)$ gives \eqref{eq:offmid}, and substituting
+$m=b/C$ into \eqref{eq:parabola} gives \eqref{eq:uoff}.
+\end{proof}
+
+\begin{theorem}[Symmetric phase diagram]\label{thm:boundary}
+For $d=b\ge 0$ the best interior point strictly beats every
+alternative --- exterior placements and observed anchors alike ---
+precisely for
+\begin{equation}\label{eq:region}
+b_{-}(\rho) \;<\; b \;<\; e^{2\Theta},
+\qquad
+b_{-}(\rho)=\frac{\sqrt{\rho}\left(2-\sqrt{2\left(1-\rho\right)}\right)}{1+\rho},
+\end{equation}
+the lower edge being the smaller root of
+$b^{2}\left(1+\rho\right)-4b\sqrt{\rho}+2\rho=0$. For
+$b\ge e^{2\Theta}$ the optimal final location is an \emph{observed}
+one: staying at an anchor beats every unvisited point, interior or
+exterior.
+\end{theorem}
+
+\begin{proof}
+If $b\ge e^{2\Theta}$, Theorem~\ref{thm:pitchfork} gives interior
+supremum $b$, unattained, while every exterior point loses to the
+anchor pointwise: for $b>1$ and any $\lambda\in[0,1)$,
+\begin{equation}
+b-\left[b\lambda+\tfrac12\left(1-\lambda^{2}\right)\right]
+\;=\;\left(1-\lambda\right)\!\left[b-\tfrac{1+\lambda}{2}\right]
+\;>\;0
+\end{equation}
+(the suprema coincide at $b$; the dominance is strict at every
+unvisited point): staying at an anchor wins. If $\sinh 2\tau<b<e^{2\Theta}$ the interior optimum
+is $U_{\mathrm{off}}$, and both comparisons are one line: for $b>1$,
+\begin{equation}
+U_{\mathrm{off}} - b \;=\;
+\tfrac12\,e^{-2\Theta}\!\left(b-e^{2\Theta}\right)^{2} \;>\;0,
+\end{equation}
+the arithmetic--geometric mean inequality applied to the two terms of
+\eqref{eq:uoff}, with equality only at the tangency $b=e^{2\Theta}$
+defining the upper edge; for $b\le 1$,
+\begin{equation}
+U_{\mathrm{off}} - \tfrac12\!\left(b^{2}+1\right) \;=\;
+\tfrac12\!\left(e^{2\Theta}-1\right)\!\left(1-b^{2}e^{-2\Theta}\right)
+\;>\;0 .
+\end{equation}
+If $b\le\sinh 2\tau$ the optimum is the middle, with value
+$U_{\mathrm{mid}}=b\,\tfrac{2\sqrt{\rho}}{1+\rho}
++\tfrac{1-\rho}{2\left(1+\rho\right)}$; for $b\le 1$,
+$U_{\mathrm{mid}}>\zeta(b)$ is the stated quadratic, and
+$b_{-}\le 2\sqrt{\rho}/\left(1+\rho\right)<\sinh 2\tau$ places the
+lower edge inside this regime. No gap opens above the middle regime:
+when $\sinh 2\tau\le 1$ (i.e.\ $\rho\le 3-2\sqrt{2}$), the larger
+quadratic root satisfies $b_{+}\ge\sinh 2\tau$, equivalent to
+$\left(1-\rho\right)^{3}\ge 8\rho^{2}$, which holds on that range
+(left side decreasing, right increasing, valid at the endpoint);
+when $\sinh 2\tau>1$, $b_{+}\ge 1$ reduces, with $u=\sqrt{\rho}$, to
+$2u^{2}\left(1+u\right)\ge\left(1-u\right)^{3}$, true at
+$u=\sqrt{2}-1$ (it reads $20\sqrt{2}\ge 28$) and increasingly so; and
+on $1<b\le\sinh 2\tau$, $U_{\mathrm{mid}}\ge b$ reduces to
+$b\le\left(1+u\right)/\left(2\left(1-u\right)\right)$, which covers
+the stretch because $\sinh 2\tau\le
+\left(1+u\right)/\left(2\left(1-u\right)\right)$ is
+$\left(1-u\right)^{2}\ge 0$.
+\end{proof}
+
+Along the two-shot-inherited bracket $\rho=b$ the region opens at
+$b^{*}=0.4233\ldots$, the root of $U_{\mathrm{mid}}(b,b)=\zeta(b)$.
+The geometry of the upper edge is easy to misread: for $b>1$,
+interior dominance requires $\rho>\left(b-1\right)/\left(b+1\right)$, so
+higher anchors demand a larger bracket correlation, which is a
+\emph{shorter} physical bracket. Very good news is forgiven only by
+narrow brackets; on a wide bracket, very good news means stay.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/phase.pdf}
+\caption{Left: the exact symmetric revisit region \eqref{eq:region}
+in the plane of bracket correlation $\rho$ and anchor value $b=d$,
+bounded below by the quadratic root $b_{-}$ and above by
+$e^{2\Theta}$. The dotted curve is the pitchfork $b=\sinh 2\tau$:
+below it the optimal interior point is the bracket middle, above it
+the mirror pair \eqref{eq:offmid} hugging the ends. The dashed line
+is the two-shot bracket $\rho=b$, entering the region at
+$b^{*}=0.4233$; the upper boundary continues beyond the plotted
+range. Right: the value of the interior option --- the
+percentage increase in expected payoff of the full three-shot optimum
+over the best policy denied interior placements (it may still place
+on either exterior ray) --- as a function of the first discovered
+value $b$, with the bracket optimized in both cases.}
+\label{fig:phase}
+\end{figure}
+
+\section{Beyond equal anchors}
+
+For general $\left(b,d\right)$ the interior stationary points solve
+the quartic
+\begin{equation}\label{eq:quartic}
+x^{4}-\left(b-\rho d\right)x^{3}+\rho\left(d-\rho b\right)x-\rho^{2}
+\;=\;0,
+\end{equation}
+obtained by differentiating \eqref{eq:bridge}; its real roots in
+$\left(\rho,1\right)$, compared against $\zeta(b)$ and $\zeta(d)$,
+decide the move exactly and replace any grid. The symmetric window
+does not extend indefinitely in $d$. At $b=\tfrac12$,
+$\rho=\tfrac12$, the interior wins precisely for
+$d\in\left(\approx 0.4715,\,1\right)$: below, the ray past the better end
+wins; at $d=1$ every strictly interior point loses, by the identity
+\begin{equation}
+L(x)-1 \;=\;
+-\frac{\left(2x-1\right)^{2}\left(x^{2}+x+1\right)}{6x^{2}}
+\;<\;0, \qquad \tfrac12<x<1,
+\end{equation}
+and for $d\ge 1$ staying at the second anchor is optimal, since
+$d$'s coefficient in the bridge mean is below one and raising $d$
+only widens the loss. Symmetric dominance is a window, not a half-line.
+
+\section{The three-shot policy, computed}
+
+Writing $V\left(b,d,\rho\right)$ for the best of $\zeta(b)$,
+$\zeta(d)$ and the interior optimum (via \eqref{eq:quartic}), the
+three-shot value of a bracket $\rho$ is
+$\log\E_d\!\left[e^{V\left(b,d,\rho\right)}\right]$ with
+$d\sim N\!\left(b\rho,1-\rho^{2}\right)$, computed by adaptive
+quadrature and optimized over $\rho$. The comparison policy denies interior placement but keeps both
+exterior rays. It is not a ban on reversing direction.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{rcccc}
+\toprule
+$b$ & optimal $\rho$ & value & value, interior excluded & interior worth \\
+\midrule
+$0.1$ & $0.053$ & $0.8396$ & $0.8393$ & $0.03\%$ \\
+$0.3$ & $0.167$ & $0.8723$ & $0.8692$ & $0.31\%$ \\
+$0.5$ & $0.289$ & $0.9386$ & $0.9314$ & $0.73\%$ \\
+$0.7$ & $0.402$ & $1.0375$ & $1.0271$ & $1.05\%$ \\
+$0.83$ & $0.469$ & $1.1183$ & $1.1072$ & $1.12\%$ \\
+$0.9$ & $0.502$ & $1.1670$ & $1.1562$ & $1.09\%$ \\
+$1.2$ & $0.622$ & $1.4059$ & $1.3991$ & $0.68\%$ \\
+\bottomrule
+\end{tabular}
+\caption{The three-shot game: optimal bracket correlation, log-value,
+the log-value with interior placement excluded (exterior rays in both
+directions permitted), and the percentage the interior option adds to
+expected payoff. Adaptive quadrature over the second value $d$;
+interior optima exact via the stationarity quartic
+\eqref{eq:quartic}. For $b<0$ the optimal bracket correlation tends
+to zero and the limiting log-value is exactly
+$\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)=0.8357\ldots$}
+\label{tab:threeshot}
+\end{table}
+
+Three observations, all in Table~\ref{tab:threeshot} and
+Figure~\ref{fig:phase}. First, a below-median start still means
+flight, and the interior option is then worthless. Second, the
+three-shot bracket is wider than the two-shot step, but most of the
+widening is \emph{not} bought by the interior option: at $b=0.5$ the
+two-shot policy steps to $\rho=0.5$, excluding interior placement
+already widens the optimum to $\rho=0.323$, and admitting it widens
+further to $\rho=0.289$. The extra evaluation and the choice it
+enables account for most of the stretch; the interior option adds a
+further, smaller pull.
+
+Third, the interior option's worth peaks near
+$1.1\%$ of expected value around $b\approx 0.83$ and vanishes at both
+extremes. Excluding interior placement is thus cheap by value; it is
+the prescription that errs, and for equal anchors it errs exactly on
+the revisit window \eqref{eq:region} --- high, but below the ceiling
+$e^{2\Theta}$ above which both policies stay.
+
+For unequal observations the erring region is a joint condition on
+$\left(b,d,\rho\right)$, decided by the quartic \eqref{eq:quartic}, not membership of each value separately: at
+$\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
+symmetric window, yet staying at the second anchor is optimal and
+the exclusion costs nothing.
+
+\section{The rule as a line search}\label{sec:linesearch}
+
+Derivative-free optimizers spend most of their budget on
+one-dimensional subproblems: pick a direction, place a few
+evaluations along it, return a point. Classical inner loops
+(golden-section search, Brent's method) assume smooth unimodal
+slices. We implemented the three-evaluation rule as an inner loop
+--- the exact final placement of Sections 5--8, the opening step
+from Section~9, with the mean, scale, and correlation length
+estimated online from the optimizer's own history --- and benchmarked
+it inside a common outer loop (iterated random-direction search,
+budget 120 evaluations, matched directions and seeds) against
+golden-section, Brent, and random placement.
+
+The objectives are the application suite of the HumpDay
+derivative-free optimization package (Cotton 2021). Each is a small
+physics or engineering problem in which a point in the unit cube sets
+the controls of a deterministic simulator and the objective is the
+outcome: a break in a game of pool, the pins felled in bowling, the
+range of a trebuchet, the layout of a wind farm. We use the 22
+dynamics-simulating problems. Their one-dimensional slices range from
+smooth to collision-cascade rough, which is why they exercise a line
+search across the regimes the theory distinguishes; roughness is
+measured per slice by the exponent of the small-lag variogram.
+
+The rule wins on two kinds of objective. On collision and
+agent-chaos objectives with rough but structured slices it is the
+best inner loop; on a plinko objective it beats every rival on 20 or
+21 of 24 seeds. It also wins on high-dimensional objectives even
+when slices are smooth, a sixteen-dimensional wind-farm layout on 21
+or 22 of 24 seeds.
+
+The high-dimensional win comes from evaluation economy. The rule's
+one- or two-evaluation lines let the outer loop try several times
+more directions than an inner loop that spends eight to ten
+evaluations per line. The win is budget-starved rather than general:
+it appears when the dimension times a classical line search's cost
+exceeds the whole budget, so a method with a fixed number of
+directions per iteration cannot complete one pass.
+
+The rule works only in this pairing with a cheap-line outer loop. It
+is not a drop-in replacement for the line search inside an existing
+optimizer. Substituted into Powell, whose direction updates rely on
+genuine line minimization, it loses to Brent.
+
+The rule loses in two regimes. On landscapes too rough to carry
+navigable structure, broad sampling wins and placement theory has
+nothing to exploit. On needle landscapes, where the value hides in a
+spike, the fixed full-segment probes of golden-section search are the
+right move. On genuinely smooth slices the classical loops are
+preferable in principle, though among these physics objectives the
+smooth-slice case is rarer than reduced-order surrogates suggest,
+since the real collision and ballistics simulators are rough.
+
+Across the 22 objectives the rule ranks first or second for nine. As
+a standalone optimizer, rather than an inner loop, the two-shot
+variant is mid-field against a panel of standard derivative-free
+methods, with mean rank near the middle of eleven. Its relative
+standing is best at the smallest budgets, around forty evaluations,
+and slips as the budget grows and population methods such as CMA-ES
+overtake it. That is the expected place for a rule derived from a
+few-evaluation terminal-placement model.
+
+We ran a control on exact exponentiated-OU fields, the model's own
+landscape. The rule loses there; broad probing wins. The reported
+wins come from the rule's evaluation economy and its online step-size
+adaptation, not from the objectives resembling an OU path.
+
+This fits the theory. A terminal-placement payoff rewards correlated trials,
+which the bracket supplies. A running-maximum payoff over many calls
+rewards spread, since a stationary field holds many nearly
+independent regions, so the correlated placement is partly redundant.
+The policy is optimal for terminal placement and we do not claim it
+for many-call optimization.
+
+The rule helps when the evaluation budget is comparable to the
+number of local minima a slice presents. When the minima greatly
+outnumber the budget, spread wins. A pre-registered out-of-sample test bears
+this out: on 33 further HumpDay pages held out from the objectives
+that suggested the pattern, the rule's rank correlates with a
+slice's local-minimum count in the predicted direction (Spearman
+0.46, one-sided $p=0.004$; stronger with the single highest-count
+page, which runs against the pattern, removed). Scripts, seeds, the
+pre-registration, and per-objective results are in the repository.
+
+\section{The rules in business terms}
+
+The correlation length sets the regime. A searcher who can place
+trials many correlation lengths apart should probe far and take the
+best; the interior premium is first order in the bracket correlation
+while the value of a fresh draw is not. A venture is usually
+tethered. Capabilities, customers, and identity keep the next
+position within roughly one correlation length of the incumbent, and
+that is the regime in which the results above carry the decision.
+
+The rules are short. Abandon a below-median incumbent for fresh
+ground. If the trial lands at or below the median, leave past the
+better of the two positions rather than repair the bracket
+(Appendix~A); a trial only somewhat below the anchors can still be
+worth keeping. If both positions are good, reasonably balanced, and
+below the ceiling, commit between them: at the midpoint for moderate
+values, closer to the better-known position for high ones. If either
+position is exceptional, or the two are very uneven, stay at the
+best observed. The interior option is worth about one percent at the
+optimum, measured against a policy already free to leave in either
+direction, so most of the value of the last pivot is the information
+it produces, and the case for making the trial at all is much
+stronger than the case for any particular refinement afterward.
+
+\section{Discussion}
+
+Two distinct comparisons should not be merged. Against a \emph{visited} point of
+matching conditional mean, any unvisited location wins by Jensen
+alone: it carries variance, the known value carries none. Between two
+\emph{unvisited} rivals of matching mean, an interior point and its
+constructed exterior counterpart, Theorem~\ref{thm:dominance}
+gives the constant variance ratio $e^{2\Theta}$. Neither comparison
+guarantees that a matched-mean unvisited point exists when the
+observed value is high.
+
+Mean reversion caps the conditional mean of every unvisited point.
+Above $b=e^{2\Theta}$ the cap binds and the optimal final location
+is one already seen. Below it, the optimal location is past the
+better end when the news is bad, and between the anchors when the
+news is good.
+
+A related mid-game rule is proved in Appendix~A: a trial that lands
+at or below the process median is abandoned rather than repaired,
+and more generally the stay-or-leave decision after an interior
+trial is a threshold rule in the revealed value, with the measured
+threshold below the anchors.
+
+With one evaluation remaining there is nothing to explore, since no
+discovery at the final point can inform a later choice. The last move is pure placement. The preference for uncertain
+locations comes from Jensen's inequality, not from any value of
+information.
+
+Exploration proper enters only with more shots remaining. One might
+guess a two-phase policy, stepping out while values climb and then
+refining between the two best, but a direct implementation of that
+heuristic on rough one-dimensional landscapes showed no systematic
+gain over applying the two-shot rule repeatedly, so we advance no
+conjecture about its form. The $k$-shot dynamic program is
+well defined and each policy evaluation is cheap through the bridge
+formulas; the adaptive optimization it requires remains to be analyzed.
+
+The same placement problem arises as the line-search step inside
+derivative-free optimizers, where one-
+dimensional slices of real objectives can be rough; we pursue that
+use separately in the humpday benchmark package.
+
+The problem solved here is terminal placement: the payoff is the
+value at the final location, not the running maximum of the path.
+Section~2 locates it in the literature; the short version is that
+the tradition's exact objects are thresholds in
+$\sigma^{2}/|\mu|$ on drifting Brownian paths with endogenous
+evaluations and flow payoffs, and the fixed-budget, terminal-payoff,
+mean-reverting combination, with its phase diagram, constant
+amplification $e^{2\Theta}$, and constrained parabola
+\eqref{eq:parabola}, is new.
+
+\subsection*{Reproducibility}
+
+All numbers and the figure are produced by \texttt{numerics2.py}
+alongside this source; the review-driven identities (the constant
+variance ratio, the $d=1$ factorization, the stationarity quartic,
+the exact flee limit) are independently checked in
+\texttt{verify/check\_review.py}, and the earlier counterexample
+machinery lives in \texttt{verify/check\_inside.py} and
+\texttt{verify/check\_middle.py}, all in the
+\href{https://github.com/microprediction/browniansearch}{browniansearch}
+repository.
+
+\appendix
+\section{The abandonment threshold}\label{app:abandon}
+
+Suppose a bracket has known end log-values $b$ and $d$ and an
+interior trial reveals log-value $v$. The searcher may continue
+inside one of the two sub-brackets or leave past an end.
+
+\begin{proposition}[A bad draw sends the searcher out]
+Let $v \le 0$, the process median or below. Every placement interior
+to the two sub-brackets, and the revisit of $v$, is weakly dominated
+by exiting to $\zeta(\max(b,d))$; strictly if $v < 0$.
+\end{proposition}
+
+\begin{proof}
+Consider the sub-bracket with near end $b$ and far end $v$, and an
+interior point with correlations $\lambda_2$ and $\lambda$ to its
+ends, $\rho_1 = \lambda_2\lambda$. The conditional mean is
+$\mu = Ab + Bv$ with
+$A = \lambda_2(1-\lambda^{2})/(1-\rho_1^{2})$ and
+$B = \lambda(1-\lambda_2^{2})/(1-\rho_1^{2})$, both nonnegative, and
+$A \le \lambda_2$ because $\lambda \ge \rho_1$ implies
+$1-\lambda^{2} \le 1-\rho_1^{2}$. Since $v \le 0$,
+$\mu \le \lambda_2 b$. The conditional variance obeys
+$\nu = (1-\lambda_2^{2})(1-\lambda^{2})/(1-\rho_1^{2})
+\le 1-\lambda_2^{2}$ by the same inequality. Hence
+$\mu + \nu/2 \le \lambda_2 b + (1-\lambda_2^{2})/2 \le
+\sup_{\ell}[\ell b + (1-\ell^{2})/2] = \zeta(b)$, where the last
+identification holds for every real $b$.
+
+For $v < 0$ any strictly interior point has $B > 0$, so
+$\mu < \lambda_2 b$. The revisit of
+$v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bound
+applies to the other sub-bracket with $d$ in place of $b$.
+\end{proof}
+
+\begin{proposition}[Monotone value]
+The value of the game is nondecreasing in every observed value.
+\end{proposition}
+
+\begin{proof}
+Every candidate placement's conditional mean is a nonnegative linear
+combination of observed values, and every conditional variance
+depends on locations only. The final payoff is a maximum of terms
+that are nondecreasing in each observed value. For earlier stages,
+raise one observed value and couple the reveal at any placement by
+shifting it with its conditional mean; induction over stages
+preserves monotonicity through the expectation and the maximum.
+\end{proof}
+
+Exits are anchored at the outer values and do not depend on the
+interior reveal $v$, while continuations inside are nondecreasing in
+$v$ by the monotonicity above. The stay-or-leave decision after an
+interior trial is therefore a threshold rule in $v$. The threshold
+lies below the anchors: at $b = d = 0.7$ and bracket correlation
+$\rho = 0.5$, staying is optimal exactly when $v > 0.63$. A trial
+somewhat worse than both anchors is still worth staying for, because
+the sub-bracket keeps one good end and the variance. Verification
+scripts accompany the paper's repository.
+
+\begin{thebibliography}{9}
+
+\bibitem{callander2011}
+S.~Callander.
+Searching for good policies.
+\emph{American Political Science Review}, 105(4):643--662, 2011.
+
+\bibitem{callander2011b}
+S.~Callander.
+Searching and learning by trial and error.
+\emph{American Economic Review}, 101(6):2277--2308, 2011.
+
+\bibitem{bardhicallander2026}
+A.~Bardhi and S.~Callander.
+Learning in a correlated world.
+\emph{Annual Review of Economics}, forthcoming.
+
+\bibitem{bardhi2024}
+A.~Bardhi.
+Attributes: selective learning and influence.
+\emph{Econometrica}, 92(2):311--353, 2024.
+
+\bibitem{urgunyariv2025}
+C.~Urgun and L.~Yariv.
+Contiguous search: exploration and ambition on uncharted terrain.
+\emph{Journal of Political Economy}, 133, 2025.
+
+\bibitem{wong2025}
+Y.~F. Wong.
+Forward-looking experimentation of correlated alternatives.
+\emph{Theoretical Economics}, 20, 2025.
+
+\bibitem{callander2008}
+S.~Callander.
+A theory of policy expertise.
+\emph{Quarterly Journal of Political Science}, 3(2):123--140, 2008.
+
+\bibitem{callanderhummel2014}
+S.~Callander and P.~Hummel.
+Preemptive policy experimentation.
+\emph{Econometrica}, 82(4):1509--1528, 2014.
+
+\bibitem{callanderclark2017}
+S.~Callander and T.~S. Clark.
+Precedent and doctrine in a complicated world.
+\emph{American Political Science Review}, 111(1):184--203, 2017.
+
+\bibitem{callandermatouschek2019}
+S.~Callander and N.~Matouschek.
+The risk of failure: trial and error learning and long-run
+performance.
+\emph{American Economic Journal: Microeconomics}, 11(1):44--78, 2019.
+
+\bibitem{callandermccarty2024}
+S.~Callander and N.~McCarty.
+Agenda control under policy uncertainty.
+\emph{American Journal of Political Science}, 68(1):210--226, 2024.
+
+\bibitem{clm2025}
+S.~Callander, N.~S. Lambert, and N.~Matouschek.
+Innovation and competition on a rugged technological landscape.
+\emph{American Economic Journal: Microeconomics}, forthcoming.
+
+\bibitem{aybas2025}
+Y.~C. Aybas and S.~Callander.
+Cheap talk in complex environments.
+Working paper, 2025.
+
+\bibitem{ganz2020}
+S.~C. Ganz.
+Hyperopic search: organizations learning about managers learning
+about strategies.
+\emph{Organization Science}, 31(4):821--838, 2020.
+
+\bibitem{garfagnini2016}
+U.~Garfagnini and B.~Strulovici.
+Social experimentation with interdependent and expanding
+technologies.
+\emph{Review of Economic Studies}, 83(4):1579--1613, 2016.
+
+\bibitem{cetemen2023}
+D.~Cetemen, C.~Urgun, and L.~Yariv.
+Collective progress: dynamics of exit waves.
+\emph{Journal of Political Economy}, 131(9):2402--2450, 2023.
+
+\bibitem{carnehl2025}
+C.~Carnehl and J.~Schneider.
+A quest for knowledge.
+\emph{Econometrica}, 93(2):623--659, 2025.
+
+\bibitem{hodgson2025}
+C.~Hodgson and G.~Lewis.
+You can lead a horse to water: spatial learning and path dependence
+in consumer search.
+\emph{Econometrica}, 93(4):1299--1332, 2025.
+
+\bibitem{glick2015}
+D.~Glick and C.~D. Myers.
+Learning from others: an experimental test of Brownian motion
+uncertainty models.
+\emph{Journal of Theoretical Politics}, 27(4):588--612, 2015.
+
+\bibitem{humpday2021}
+P.~Cotton.
+HumpDay: pure Python derivative-free optimization and its application
+suite.
+\url{https://github.com/microprediction/humpday}, 2021.
+
+\bibitem{ginsbourger2010}
+D.~Ginsbourger and R.~Le~Riche.
+Towards Gaussian process-based optimization with finite time horizon.
+In \emph{mODa 9 --- Advances in Model-Oriented Design and Analysis},
+pages 89--96. Physica-Verlag, 2010.
+
+\bibitem{lam2016}
+R.~Lam, K.~Willcox, and D.~H. Wolpert.
+Bayesian optimization with a finite budget: an approximate dynamic
+programming approach.
+In \emph{Advances in Neural Information Processing Systems~29}, 2016.
+
+\bibitem{jiang2020}
+S.~Jiang, D.~R. Jiang, M.~Balandat, B.~Karrer, J.~R. Gardner, and
+R.~Garnett.
+Efficient nonmyopic Bayesian optimization via one-shot multi-step
+trees.
+In \emph{Advances in Neural Information Processing Systems~33}, 2020.
+
+\bibitem{frazier2009}
+P.~I. Frazier, W.~B. Powell, and S.~Dayanik.
+The knowledge-gradient policy for correlated normal beliefs.
+\emph{INFORMS Journal on Computing}, 21(4):599--613, 2009.
+
+\bibitem{wu2019}
+J.~Wu and P.~I. Frazier.
+Practical two-step lookahead Bayesian optimization.
+In \emph{Advances in Neural Information Processing Systems~32}, 2019.
+
+\bibitem{mahsereci2017}
+M.~Mahsereci and P.~Hennig.
+Probabilistic line searches for stochastic optimization.
+\emph{Journal of Machine Learning Research}, 18:1--59, 2017.
+
+\bibitem{malladi2025}
+S.~Malladi.
+Searching in the dark and learning where to look.
+Working paper, 2025.
+
+\bibitem{banchio2025}
+M.~Banchio and S.~Malladi.
+Rediscovery.
+Working paper, arXiv:2504.19761, 2025.
+
+\bibitem{grosse2023}
+J.~Grosse, C.~Zhang, and P.~Hennig.
+Optimistic optimization of Gaussian process samples.
+\emph{Transactions on Machine Learning Research}, 2023.
+
+\bibitem{butlerking2004}
+M.~A. Butler and A.~A. King.
+Phylogenetic comparative analysis: a modeling approach for adaptive
+evolution.
+\emph{The American Naturalist}, 164(6):683--695, 2004.
+
+\bibitem{hansen1997}
+T.~F. Hansen.
+Stabilizing selection and the comparative analysis of adaptation.
+\emph{Evolution}, 51(5):1341--1351, 1997.
+
+\bibitem{rasmussen2006}
+C.~E. Rasmussen and C.~K.~I. Williams.
+\emph{Gaussian Processes for Machine Learning}.
+MIT Press, 2006.
+
+\bibitem{snoek2012}
+J.~Snoek, H.~Larochelle, and R.~P. Adams.
+Practical Bayesian optimization of machine learning algorithms.
+In \emph{Advances in Neural Information Processing Systems~25}, 2012.
+
+\bibitem{weinberger1990}
+E.~Weinberger.
+Correlated and uncorrelated fitness landscapes and how to tell the
+difference.
+\emph{Biological Cybernetics}, 63(5):325--336, 1990.
+
+\bibitem{feng2024}
+X.~Feng, K.~A. Nguyen, and Z.~Luo.
+WiFi RTT RSS dataset for indoor positioning.
+Zenodo, 2024. doi:10.5281/zenodo.11558192.
+
+\bibitem{gudmundson1991}
+M.~Gudmundson.
+Correlation model for shadow fading in mobile radio systems.
+\emph{Electronics Letters}, 27(23):2145--2146, 1991.
+
+\bibitem{ries2011}
+E.~Ries.
+\emph{The Lean Startup}.
+Crown Business, New York, 2011.
+
+\bibitem{camuffo2020}
+A.~Camuffo, A.~Cordova, A.~Gambardella, and C.~Spina.
+A scientific approach to entrepreneurial decision making: evidence
+from a randomized control trial.
+\emph{Management Science}, 66(2):564--586, 2020.
+
+\bibitem{camuffo2024}
+A.~Camuffo, A.~Gambardella, D.~Messinese, E.~Novelli, E.~Paolucci,
+and C.~Spina.
+A scientific approach to entrepreneurial decision making: large
+scale replication and extension.
+\emph{Strategic Management Journal}, 45(6):1209--1237, 2024.
+
+\bibitem{grill2018}
+J.-B. Grill, M.~Valko, and R.~Munos.
+Optimistic optimization of a Brownian.
+In \emph{Advances in Neural Information Processing Systems~31}, 2018.
+
+\bibitem{calvin1997}
+J.~M. Calvin.
+Average performance of a class of adaptive algorithms for global
+optimization.
+\emph{Annals of Applied Probability}, 7(3):711--730, 1997.
+
+\bibitem{alabert2018}
+A.~Alabert and R.~Caballero.
+On the minimum of a conditioned Brownian bridge.
+\emph{Stochastic Models}, 34(3):269--291, 2018.
+
+
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,11 @@
+# Pre-submission checklist
+- [ ] Reconcile grass-peter.tex into grass.tex (diff; keep Peter's edits)
+- [ ] Decide venue with Steve (SUBMISSION.md shortlist)
+- [ ] Decide framing lead (economic-theory vs strategy) to match venue
+- [ ] Bridge touches in or out (author call)
+- [ ] "Not-quite-myopic Bayes" coinage in or out (author call)
+- [ ] Verify the chosen journal's masthead by hand (agent had them paywalled)
+- [ ] Fill cover letter [JOURNAL]/[EDITOR]/framing paragraph
+- [ ] Confirm the arXiv/repo link in the paper resolves publicly
+- [ ] Title-page date matches submission date
+- [ ] Anonymize if the venue is double-blind (strip author, repo, self-cites-as-author)
