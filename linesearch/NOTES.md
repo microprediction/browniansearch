@@ -222,7 +222,7 @@ the whole budget -- Powell(Brent) cannot complete even one direction
 cycle, while cheap lines let Powell cycle freely. Transplant
 condition, roughly: the swap helps iff d x (evals per classical
 line) >~ budget, i.e. budget-starved high dimension; below that,
-Brent's precision is load-bearing.
+Powell's direction-set update depends on Brent's precision.
 
 CLOSING SYNTHESIS. The grass rule's value is inseparable from an
 outer loop built to exploit cheap lines (many random directions,
