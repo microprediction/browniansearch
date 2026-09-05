@@ -28,32 +28,19 @@
 \maketitle
 
 \begin{abstract}
-\noindent How should a firm spend its last pivot? In randomized trials most
-startups pivot at most once or twice before committing. We study the
-scarce-trial search problem: a searcher knows the performance of an
-incumbent strategy, may run one more trial, and must then commit. We
-solve the final placement exactly and reduce the opening trial to a
-one-dimensional optimization. Performance is the exponential of a stationary
-Ornstein--Uhlenbeck path: unexplored performance regresses to the
-industry average, and correlation decays exponentially with
-distance, a shape standard in radio engineering, Gaussian-process
-modeling, and fitness-landscape theory. For equal observed values the
-policy is a phase diagram with every boundary in closed form. A
-below-median incumbent is abandoned. A disappointing trial sends the searcher out
-past the better of her two positions. When both positions are good
-she commits between them, at the midpoint for moderate values and
-nearer the better-known position for higher ones, and above an exact
-ceiling she stays put. The commitment between positions rests on a
-constant-variance result: an interior position has the same expected
-performance as some bolder alternative and $(1+\rho)/(1-\rho)$ times
-its variance, where $\rho$ is the correlation between the two known
-positions. The interior option adds about one percent of expected
-value at the optimum in our calibration, so most of the last pivot's
-worth is the information it produces. The rule also works as an
-algorithm: used as the line search inside a derivative-free
-optimizer, it beats golden-section and Brent inner loops on rough
-and on high-dimensional physical objectives in a public benchmark,
-and loses on needle landscapes and on genuinely smooth slices.
+\noindent How should a firm spend its last pivot? A searcher knows an
+incumbent strategy's performance, may run one more trial, and must
+then commit, on a landscape given by the exponential of a stationary
+Ornstein--Uhlenbeck path. We solve the final placement exactly and
+give a closed-form phase diagram for the case of equal observations:
+abandon a below-median incumbent, leave past the better position
+after a disappointing trial, commit between two good positions, and
+stay put above an exact ceiling. The commitment between positions
+rests on a constant-variance identity, that an interior position has
+the same expected performance as a bolder alternative and
+$(1+\rho)/(1-\rho)$ times its variance. The same rule, used as the
+line search inside a derivative-free optimizer, beats classical inner
+loops on rough and high-dimensional objectives in a public benchmark.
 \end{abstract}
 
 \section{Introduction}
@@ -702,10 +689,9 @@ independent regions, so the correlated placement is partly redundant.
 The policy is optimal for terminal placement and we do not claim it
 for many-call optimization.
 
-One regularity organizes when the rule helps. Its advantage
-concentrates where the evaluation budget is comparable to the number
-of local minima a slice presents; when the minima greatly outnumber
-the budget, spread wins. A pre-registered out-of-sample test bears
+The rule helps when the evaluation budget is comparable to the
+number of local minima a slice presents. When the minima greatly
+outnumber the budget, spread wins. A pre-registered out-of-sample test bears
 this out: on 33 further HumpDay pages held out from the objectives
 that suggested the pattern, the rule's rank correlates with a
 slice's local-minimum count in the predicted direction (Spearman
