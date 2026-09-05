@@ -1,0 +1,34 @@
+# Budget-vs-basins hypothesis: confounded on the ports, clean on OU
+(Peter's hypothesis: the rule works when trials are not much more
+than the number of local minima. Tested 2026-09-04.)
+
+## Two datasets disagree on the sign
+- exp(OU) exact control (kappa = basin count per line, clean):
+  MORE basins -> grass WORSE (d=16: kappa 3 rank 2.0, kappa 10/30
+  rank 5.0). SUPPORTS the hypothesis.
+- physics ports (count_basins.py, basins = gradient sign-changes on
+  1-D slices): Spearman(basins, grass_rank) = -0.49, p=0.02 -- MORE
+  basins -> grass BETTER. OPPOSITE sign.
+
+## Why: the physics-port test is contaminated
+The low-basin physics cases are exactly the reduced-order ports we
+already found mislabeled-smooth: pool 1.5, curling 1.0, mini_golf
+1.5, trebuchet 1.5, goalkeeper 1.5 -- all with BAD grass ranks
+(9,9,10,8,7). On the TRUE JS physics these are collision-rough
+(pool p=0.15, curling p=0.07), i.e. MANY basins, and grass still
+loses there (broad probes win). So the true points would flip from
+(few basins, grass loses) to (many basins, grass loses), collapsing
+the port correlation and plausibly reconciling toward the OU sign.
+The port basin counts are unreliable precisely where the hypothesis
+is decided.
+
+## Conclusion
+The hypothesis is NOT settled. The clean control supports it; the
+physics test is confounded by the reduced-order ports and cannot be
+trusted at its measured sign. Resolving it needs basin counts and
+win/loss on FAITHFUL physics -- the holdout Peter proposed. The
+humpday session is porting the true JS demos headless; the holdout
+should be built there, not by duplicating 79 ports here. Do NOT put
+the basin hypothesis in the paper until the faithful-port holdout
+decides it; the paper's current regime wording (economy + spread-vs-
+correlate) stands and does not depend on it.

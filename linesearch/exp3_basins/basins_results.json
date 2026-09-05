@@ -1,0 +1,134 @@
+[
+  {
+    "name": "boids_flocking",
+    "d": 5,
+    "basins": 74.25,
+    "rank": 3.0
+  },
+  {
+    "name": "bowling",
+    "d": 4,
+    "basins": 63.0,
+    "rank": 4.0
+  },
+  {
+    "name": "brachistochrone",
+    "d": 8,
+    "basins": 1.5,
+    "rank": 7.0
+  },
+  {
+    "name": "bridge_truss",
+    "d": 10,
+    "basins": 1.5,
+    "rank": 4.0
+  },
+  {
+    "name": "cart_pole_policy",
+    "d": 5,
+    "basins": 7.0,
+    "rank": 5.0
+  },
+  {
+    "name": "curling",
+    "d": 4,
+    "basins": 1.0,
+    "rank": 9.0
+  },
+  {
+    "name": "darts_aim",
+    "d": 2,
+    "basins": 44.5,
+    "rank": 7.0
+  },
+  {
+    "name": "free_kick",
+    "d": 4,
+    "basins": 4.0,
+    "rank": 3.0
+  },
+  {
+    "name": "goalkeeper_punt",
+    "d": 4,
+    "basins": 1.5,
+    "rank": 7.0
+  },
+  {
+    "name": "lennard_jones_cluster",
+    "d": 15,
+    "basins": 2.0,
+    "rank": 5.0
+  },
+  {
+    "name": "mini_golf",
+    "d": 3,
+    "basins": 1.5,
+    "rank": 10.0
+  },
+  {
+    "name": "plinko_funnel",
+    "d": 7,
+    "basins": 30.25,
+    "rank": 7.0
+  },
+  {
+    "name": "pool",
+    "d": 3,
+    "basins": 1.5,
+    "rank": 10.0
+  },
+  {
+    "name": "robot_arm",
+    "d": 6,
+    "basins": 4.0,
+    "rank": 3.0
+  },
+  {
+    "name": "rocket_landing",
+    "d": 12,
+    "basins": 22.25,
+    "rank": 6.0
+  },
+  {
+    "name": "satellite_phasing",
+    "d": 6,
+    "basins": 3.25,
+    "rank": 9.0
+  },
+  {
+    "name": "slingshot",
+    "d": 3,
+    "basins": 2.0,
+    "rank": 3.5
+  },
+  {
+    "name": "tennis_doubles",
+    "d": 6,
+    "basins": 10.75,
+    "rank": 3.5
+  },
+  {
+    "name": "trebuchet",
+    "d": 4,
+    "basins": 1.5,
+    "rank": 8.0
+  },
+  {
+    "name": "tuned_mass_damper",
+    "d": 4,
+    "basins": 2.5,
+    "rank": 9.0
+  },
+  {
+    "name": "walking_creature",
+    "d": 6,
+    "basins": 31.5,
+    "rank": 7.0
+  },
+  {
+    "name": "wind_farm",
+    "d": 16,
+    "basins": 22.75,
+    "rank": 3.0
+  }
+]
