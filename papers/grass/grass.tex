@@ -34,9 +34,9 @@ incumbent strategy's performance, may run one more trial, and must
 then commit, on a landscape given by the exponential of a stationary
 Ornstein--Uhlenbeck path. We solve the final placement exactly and
 give a closed-form phase diagram for the case of equal observations:
-abandon a below-median incumbent, leave past the better position
-after a disappointing trial, commit between two good positions, and
-stay put above an exact ceiling. The commitment between positions
+abandon a below-median incumbent; after a disappointing trial revert
+to the better position's own two-shot rule; commit between two good
+positions; and stay put once a position is strong enough. The commitment between positions
 rests on a constant variance-ratio identity: every interior position has
 the same conditional mean log-performance as an explicit exterior
 alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. The same rule, used as the
@@ -77,8 +77,9 @@ That same horizon is where the optimization literature stands on
 firm ground. With one informative trial before a terminal
 recommendation, the knowledge-gradient policy is optimal by
 construction (Frazier, Powell and Dayanik 2009); on general priors it
-is evaluated numerically, and on our landscape we give it in closed
-form. The landscape is the exponential of a stationary
+is evaluated numerically, and on our landscape we solve it --- the
+terminal placement in closed form, the opening trial by
+one-dimensional quadrature and optimization. The landscape is the exponential of a stationary
 Ornstein--Uhlenbeck path: mean reversion means performance far from
 known territory regresses to the industry average, and the exponential
 means small differences in fit produce large differences in sales, so
@@ -667,8 +668,10 @@ $\left(1+\rho^{2}\right)B-2\rho D\ge s\left(1-\rho^{2}\right)$.
 Orient the bracket so $B$ is at the near end, write
 $C=\left(1+\rho\right)/\left(1-\rho\right)$ and
 $m_0=2\sqrt{\rho}/\left(1+\rho\right)$, and set $a=(B+D)/2$,
-$\delta=(B-D)/2$. Parametrizing an interior point by its correlation
-$m\in[m_0,1]$ to the near end, the half nearer $B$ carries at least the
+$\delta=(B-D)/2$. Parametrize an interior point by $x\in[\sqrt{\rho},1]$,
+its correlation to the near end $B$, and write
+$m=(x+\rho/x)/(1+\rho)\in[m_0,1]$ as in Section~7 (at the midpoint
+$x=\sqrt{\rho}$ gives $m=m_0$). The half nearer $B$ carries at least the
 mean of its mirror image and the same variance, with log-value
 \begin{equation}
 F(m)=am+C\delta\sqrt{m^{2}-m_0^{2}}+\tfrac{C}{2}\left(1-m^{2}\right),
@@ -717,7 +720,8 @@ convex and nondecreasing, and $b\le 0$ makes the mean $b\rho$
 nonincreasing in $\rho$ while the variance $1-\rho^{2}$ decreases,
 the fresh draw $\rho=0$, that is $d\sim N(0,1)$, dominates. Splitting
 $\E\!\left[e^{\zeta(Z)}\right]$ over $Z<0$, $0\le Z\le 1$, and
-$Z>1$ gives $\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)$.
+$Z>1$ gives $\E\!\left[e^{\zeta(Z)}\right]=e^{1/2}\!\left(1+1/\sqrt{2\pi}\right)=2.30647\ldots$,
+so $W_3=\log\E\!\left[e^{\zeta(Z)}\right]=\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)$.
 \end{proof}
 
 \begin{table}[t]
@@ -781,9 +785,11 @@ one-dimensional subproblems: pick a direction, place a few
 evaluations along it, return a point. Classical inner loops
 (golden-section search, Brent's method) assume smooth unimodal
 slices. We implemented the three-evaluation rule as an inner loop, which we
-call \texttt{grass3}: the exact final placement of Sections 5--8 and
-the opening step from Section~9, with the mean, scale, and correlation
-length estimated online from the optimizer's own history. It flees or
+call \texttt{grass3}: the final placement of Sections 5--8 and the
+opening step of Section~9, with the mean, scale, and correlation
+length estimated online from the optimizer's own history. It is a
+heuristic adaptation, detailed and qualified below, not the exact
+policy. It flees or
 stays after one or two evaluations when the rule dictates and places
 the third otherwise. We benchmarked it inside a common outer loop
 (iterated random-direction search, budget 120 evaluations, matched
@@ -878,10 +884,11 @@ free\_kick     & 4  & $-32.9$  & 5/5 & golden2 $-105.2$ & 3/24  \\
 \bottomrule
 \end{tabular}
 \caption{The three-evaluation rule as an inner loop
-(\texttt{grass3}), median objective over seeds against four fixed
-inner loops (golden-section with two and six evaluations, Brent,
-random) in a shared random-direction outer loop at budget 120; lower
-is better. Rank is among the five inner loops; seed wins count seeds
+(\texttt{grass3}, the heuristic adaptation of Section~10), median
+objective over seeds at budget 120; lower is better. The comparators
+are golden-section (two and six evaluations) and Brent as inner loops
+in a shared random-direction outer loop, and whole-cube random search.
+Rank is among the five; seed wins count seeds
 on which \texttt{grass3} beats the best rival. Ranks average tied medians. Across all 22
 objectives \texttt{grass3} has mean rank $2.95/5$ and is first or
 second on eight (nine counting joint second places);
@@ -931,17 +938,19 @@ position within roughly one correlation length of the incumbent, and
 that is the regime in which the results above carry the decision.
 
 The rules are short. Abandon a below-median incumbent for fresh
-ground. If the trial lands at or below the median, leave past the
-better of the two positions rather than repair the bracket
-(Appendix~A); a trial only somewhat below the anchors can still be
-worth keeping. If both positions are good, reasonably balanced, and
-below the ceiling, commit between them: near the midpoint for
-balanced moderate values, closer to the better-known position for high
-ones or uneven pairs, since the midpoint is exact only when the two
-are equal. Stay at the better position only when it is strong on its
-own, above the ceiling, and the pair is not too spread, the criterion
-of Proposition~\ref{prop:stop}; when the better position is below the
-ceiling an exterior move beats staying, however uneven the pair. The interior option is worth about one percent at the
+ground. If the trial lands at or below the median, drop it and fall
+back to the better position's own two-shot rule (Appendix~A): move
+past that position if it is modest, but stay if it is strong, since
+returning to a strong anchor beats any exterior move; a trial only
+somewhat below the anchors can still be worth keeping. If both
+positions are good and neither dominates, commit between them: near
+the midpoint for balanced moderate values, closer to the better-known
+position for high or uneven pairs, since the midpoint is exact only
+when the two are equal. Stay at the better position $B=\max(b,d)$ when
+$B\ge 1$ and, jointly, $(1+\rho^{2})B-2\rho D\ge 1-\rho^{2}$
+(Proposition~\ref{prop:stop}); a weaker second position makes staying
+\emph{more} likely, not less, and the ceiling $C$ is the threshold
+only when the two are equal. The interior option is worth about one percent at the
 optimum, measured against a policy already free to leave in either
 direction, so most of the value of the last pivot is the information
 it produces, and the case for making the trial at all is much
@@ -1022,11 +1031,17 @@ Suppose a bracket has known end log-values $b$ and $d$ and an
 interior trial reveals log-value $v$. The searcher may continue
 inside one of the two sub-brackets or leave past an end.
 
-\begin{proposition}[A bad draw sends the searcher out]
+\begin{proposition}[A bad draw is abandoned]\label{prop:abandon}
 Let $v \le 0$, the process median or below. Every placement interior
 to the two sub-brackets, and the revisit of $v$, is weakly dominated
 by exiting to $\zeta(\max(b,d))$; strictly if $v < 0$.
 \end{proposition}
+
+\noindent The benchmark $\zeta(\max(b,d))$ is the better anchor's
+two-shot value: an exterior move when $\max(b,d)<1$, but a return to
+that anchor when $\max(b,d)\ge 1$, where $\zeta(\max(b,d))=\max(b,d)$
+is attained by staying. A bad trial is dropped, not necessarily fled
+past an endpoint.
 
 \begin{proof}
 Consider the sub-bracket with near end $b$ and far end $v$, and an

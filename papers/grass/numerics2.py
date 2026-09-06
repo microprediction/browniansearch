@@ -84,7 +84,7 @@ def make_figure():
     ax.plot(rr, lo, "tab:blue", lw=1.2)
     ax.plot(rr, np.minimum(upper, 1.6), "tab:blue", lw=1.2)
     ax.plot(rr, np.minimum(bif, 1.6), "tab:green", lw=1.0, ls=":",
-            label=r"pitchfork $b=\sinh 2\tau$ (middle $\to$ ends)")
+            label=r"pitchfork $b=b_{\mathrm{p}}$ (middle $\to$ ends)")
     ax.plot(rr, rr, "k--", lw=0.9,
             label=r"$\rho=b$ (two-shot bracket)")
     ax.set_xlabel(r"bracket correlation $\rho=e^{-\kappa t_1}$")

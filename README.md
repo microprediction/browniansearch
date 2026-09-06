@@ -16,7 +16,7 @@ there a controller *prunes many* paths under budget; here a searcher
 
 **When the Grass Is Greener: Three-Shot Search on an Exponentiated
 Ornstein-Uhlenbeck Landscape** (Cotton) —
-[papers/grass.pdf](papers/grass.pdf), source and numerics in
+[papers/grass/grass.pdf](papers/grass/grass.pdf), source and numerics in
 [papers/grass/](papers/grass/).
 
 A searcher evaluates the landscape three times and is paid the value
@@ -43,7 +43,7 @@ Status: working paper. First version April 2022 (the original is
 preserved in
 [microprediction/home](https://github.com/microprediction/home/blob/main/workingpapers/go_forth.pdf),
 first committed 2022-04-06); current version September 2026. Every
-number is produced by `papers/grass/numerics.py` and independently
+number is produced by `papers/grass/numerics2.py` and independently
 checked by `verify/check_inside.py` (exact conditioning plus weighted
 Monte Carlo).
 
