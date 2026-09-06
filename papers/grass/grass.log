@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 SEP 2026 20:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 SEP 2026 22:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,7 +468,7 @@ Package pdftex.def Info: figures/problem.pdf  used on input line 322.
 [5 <./figures/problem.pdf>]
 
 [6]
-Overfull \hbox (7.24884pt too wide) in paragraph at lines 437--447
+Overfull \hbox (7.24884pt too wide) in paragraph at lines 436--446
 \OT1/cmr/m/n/10.95 and ex-pand-ing both via $[](\OML/cmm/m/it/10.95 A \OMS/cmsy
 /m/n/10.95 ^^F \OML/cmm/m/it/10.95 B\OT1/cmr/m/n/10.95 ) = [] \OML/cmm/m/it/10.
 95 A [] B \OMS/cmsy/m/n/10.95 ^^F [] \OML/cmm/m/it/10.95 A [] B$ \OT1/cmr/m/n/1
@@ -484,7 +484,7 @@ m/m/it/10.95 =\OT1/cmr/m/n/10.95 (1 \OMS/cmsy/m/n/10.95 ^^@
 <figures/phase.pdf, id=199, 650.43pt x 260.17201pt>
 File: figures/phase.pdf Graphic file (type pdf)
 <use figures/phase.pdf>
-Package pdftex.def Info: figures/phase.pdf  used on input line 613.
+Package pdftex.def Info: figures/phase.pdf  used on input line 610.
 (pdftex.def)             Requested size: 448.0749pt x 179.23303pt.
 
 
@@ -501,7 +501,7 @@ Package pdftex.def Info: figures/phase.pdf  used on input line 613.
 [14]
 
 [15]
-Underfull \hbox (badness 2772) in paragraph at lines 1129--1132
+Underfull \hbox (badness 2772) in paragraph at lines 1126--1129
 []\OT1/cmr/m/n/10.95 S. Callan-der and P. Hum-mel. Pre-emp-tive pol-icy ex-per-
 i-men-ta-tion. \OT1/cmr/m/it/10.95 Econo-met-rica\OT1/cmr/m/n/10.95 ,
  []
@@ -523,13 +523,13 @@ Package rerunfilecheck Info: File `grass.out' has not changed.
 (rerunfilecheck)             Checksum: 3BA1BDF7A278C491648E9769F7DDF666;2736.
  ) 
 Here is how much of TeX's memory you used:
- 11071 strings out of 473190
- 167428 string characters out of 5715801
- 593823 words of memory out of 5000000
- 34069 multiletter control sequences out of 15000+600000
+ 11072 strings out of 473190
+ 167438 string characters out of 5715801
+ 591856 words of memory out of 5000000
+ 34070 multiletter control sequences out of 15000+600000
  570816 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,970b,586s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,961b,586s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -548,7 +548,7 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/t
 exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/20
 25/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on grass.pdf (19 pages, 344066 bytes).
+Output written on grass.pdf (19 pages, 343412 bytes).
 PDF statistics:
  500 PDF objects out of 1000 (max. 8388607)
  344 compressed objects within 4 object streams

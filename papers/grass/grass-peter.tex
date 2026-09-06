@@ -378,8 +378,7 @@ fresh copy of this problem anchored at the nearest observation.
 \section{Bridge moments, and what composes how}
 
 Suppose values $X_0=b$ and $X_{t_1}=d$ are known, with bracket
-correlation $\rho=e^{-\kappa t_1}$ and rapidity
-$\Theta=\artanh\rho$. For an interior location let
+correlation $\rho=e^{-\kappa t_1}$. For an interior location let
 $\lambda_2=e^{-\kappa t_2}$ and $\lambda=e^{-\kappa(t_1-t_2)}$ be the
 correlations to the two ends, $\lambda_2\lambda=\rho$, with rapidities
 $\theta_2=\artanh\lambda_2$ and $\theta=\artanh\lambda$. Gaussian
@@ -428,7 +427,7 @@ the same at every interior point:
 \frac{\nu_{\mathrm{inside}}}{\nu_{\mathrm{outside}}}
 \;=\; \frac{\cosh(\theta_2+\theta)}{\cosh(\theta_2-\theta)}
 \;=\; \frac{1+\tanh\theta_2\tanh\theta}{1-\tanh\theta_2\tanh\theta}
-\;=\; \frac{1+\rho}{1-\rho} \;=\; e^{2\Theta} \;>\; 1 .
+\;=\; \frac{1+\rho}{1-\rho} \;>\; 1 .
 \end{equation}
 Consequently the interior point's conditional distribution dominates
 its mean-matched exterior rival in the Gaussian convex order, and its
@@ -452,7 +451,7 @@ wider equals the narrower plus independent noise), and
 The amplification is a property of the bracket, not the position:
 threefold at $\rho=\tfrac12$, nineteenfold at $\rho=0.9$, unbounded as
 $\rho\uparrow 1$. At the bracket's ends both variances vanish; their
-ratio still tends to $e^{2\Theta}$. Dominance over mean-matched
+ratio still tends to $(1+\rho)/(1-\rho)$. Dominance over mean-matched
 exterior rivals, which the theorem explicitly constructs, decides
 nothing by itself: the exterior player may choose any
 correlation, and an observed anchor may simply be kept. The object
@@ -467,7 +466,7 @@ makes this exact.
 
 Parametrize the interior by $x=\lambda_2\in(\rho,1)$ and set
 \begin{equation}\label{eq:mdef}
-C \;=\; \frac{1+\rho}{1-\rho}\;=\;e^{2\Theta},
+C \;=\; \frac{1+\rho}{1-\rho},
 \qquad
 m \;=\; \frac{x+\rho/x}{1+\rho}
 \;\in\;\left[\frac{2\sqrt{\rho}}{1+\rho},\,1\right),
@@ -489,12 +488,12 @@ relative to the interval.
 
 \begin{theorem}[Pitchfork]\label{thm:pitchfork}
 The bracket middle is the interior optimum iff
-$b/C\le 2\sqrt{\rho}/(1+\rho)$, i.e.
-\begin{equation}
-b \;\le\; \frac{2\sqrt{\rho}}{1-\rho} \;=\; \sinh 2\tau,
-\qquad \tau=\artanh\sqrt{\rho}.
+$b/C\le 2\sqrt{\rho}/(1+\rho)$, i.e.\ $b\le b_{\mathrm p}$, writing
+\begin{equation}\label{eq:pitch}
+b_{\mathrm p} \;=\; \frac{2\sqrt{\rho}}{1-\rho}
 \end{equation}
-For $\sinh 2\tau<b<e^{2\Theta}$ the peak is interior and attained by
+for the pitchfork threshold.
+For $b_{\mathrm p}<b<C$ the peak is interior and attained by
 the mirror pair
 \begin{equation}\label{eq:offmid}
 x_{\pm} \;=\; \frac{b\left(1-\rho\right)
@@ -503,10 +502,9 @@ x_{\pm} \;=\; \frac{b\left(1-\rho\right)
 \end{equation}
 with optimal value
 \begin{equation}\label{eq:uoff}
-U_{\mathrm{off}} \;=\; \frac{C}{2}+\frac{b^{2}}{2C}
-\;=\;\tfrac12\!\left(b^{2}e^{-2\Theta}+e^{2\Theta}\right).
+U_{\mathrm{off}} \;=\; \frac{C}{2}+\frac{b^{2}}{2C}.
 \end{equation}
-For $b\ge e^{2\Theta}$ the peak $b/C\ge 1$ lies at or beyond the
+For $b\ge C$ the peak $b/C\ge 1$ lies at or beyond the
 interval's open end: $L_{\mathrm{inside}}$ is increasing in $m$, no
 interior maximum is attained, and the interior supremum is the end
 limit $b$.
@@ -516,8 +514,7 @@ limit $b$.
 $dL/dm=b-Cm$ vanishes at $m=b/C$; the interval endpoints translate
 via \eqref{eq:mdef} into the stated $b$-thresholds
 ($b/C=2\sqrt{\rho}/(1+\rho)$ is $b=2\sqrt{\rho}/(1-\rho)$, and
-$b/C=1$ is $b=(1+\rho)/(1-\rho)$; the hyperbolic forms follow from
-$\tanh\tau=\sqrt{\rho}$). Solving $x+\rho/x=(1+\rho)\,b/C
+$b/C=1$ is $b=(1+\rho)/(1-\rho)$). Solving $x+\rho/x=(1+\rho)\,b/C
 =b\left(1-\rho\right)$ gives \eqref{eq:offmid}, and substituting
 $m=b/C$ into \eqref{eq:parabola} gives \eqref{eq:uoff}.
 \end{proof}
@@ -527,19 +524,19 @@ For $d=b\ge 0$ the best interior point strictly beats every
 alternative --- exterior placements and observed anchors alike ---
 precisely for
 \begin{equation}\label{eq:region}
-b_{-}(\rho) \;<\; b \;<\; e^{2\Theta},
+b_{-}(\rho) \;<\; b \;<\; C,
 \qquad
 b_{-}(\rho)=\frac{\sqrt{\rho}\left(2-\sqrt{2\left(1-\rho\right)}\right)}{1+\rho},
 \end{equation}
 the lower edge being the smaller root of
 $b^{2}\left(1+\rho\right)-4b\sqrt{\rho}+2\rho=0$. For
-$b\ge e^{2\Theta}$ the optimal final location is an \emph{observed}
+$b\ge C$ the optimal final location is an \emph{observed}
 one: staying at an anchor beats every unvisited point, interior or
 exterior.
 \end{theorem}
 
 \begin{proof}
-If $b\ge e^{2\Theta}$, Theorem~\ref{thm:pitchfork} gives interior
+If $b\ge C$, Theorem~\ref{thm:pitchfork} gives interior
 supremum $b$, unattained, while every exterior point loses to the
 anchor pointwise: for $b>1$ and any $\lambda\in[0,1)$,
 \begin{equation}
@@ -548,36 +545,36 @@ b-\left[b\lambda+\tfrac12\left(1-\lambda^{2}\right)\right]
 \;>\;0
 \end{equation}
 (the suprema coincide at $b$; the dominance is strict at every
-unvisited point): staying at an anchor wins. If $\sinh 2\tau<b<e^{2\Theta}$ the interior optimum
+unvisited point): staying at an anchor wins. If $b_{\mathrm p}<b<C$ the interior optimum
 is $U_{\mathrm{off}}$, and both comparisons are one line: for $b>1$,
 \begin{equation}
 U_{\mathrm{off}} - b \;=\;
-\tfrac12\,e^{-2\Theta}\!\left(b-e^{2\Theta}\right)^{2} \;>\;0,
+\tfrac12\,C^{-1}\!\left(b-C\right)^{2} \;>\;0,
 \end{equation}
 the arithmetic--geometric mean inequality applied to the two terms of
-\eqref{eq:uoff}, with equality only at the tangency $b=e^{2\Theta}$
+\eqref{eq:uoff}, with equality only at the tangency $b=C$
 defining the upper edge; for $b\le 1$,
 \begin{equation}
 U_{\mathrm{off}} - \tfrac12\!\left(b^{2}+1\right) \;=\;
-\tfrac12\!\left(e^{2\Theta}-1\right)\!\left(1-b^{2}e^{-2\Theta}\right)
+\tfrac12\!\left(C-1\right)\!\left(1-b^{2}C^{-1}\right)
 \;>\;0 .
 \end{equation}
-If $b\le\sinh 2\tau$ the optimum is the middle, with value
+If $b\le b_{\mathrm p}$ the optimum is the middle, with value
 $U_{\mathrm{mid}}=b\,\tfrac{2\sqrt{\rho}}{1+\rho}
 +\tfrac{1-\rho}{2\left(1+\rho\right)}$; for $b\le 1$,
 $U_{\mathrm{mid}}>\zeta(b)$ is the stated quadratic, and
-$b_{-}\le 2\sqrt{\rho}/\left(1+\rho\right)<\sinh 2\tau$ places the
+$b_{-}\le 2\sqrt{\rho}/\left(1+\rho\right)<b_{\mathrm p}$ places the
 lower edge inside this regime. No gap opens above the middle regime:
-when $\sinh 2\tau\le 1$ (i.e.\ $\rho\le 3-2\sqrt{2}$), the larger
-quadratic root satisfies $b_{+}\ge\sinh 2\tau$, equivalent to
+when $b_{\mathrm p}\le 1$ (i.e.\ $\rho\le 3-2\sqrt{2}$), the larger
+quadratic root satisfies $b_{+}\ge b_{\mathrm p}$, equivalent to
 $\left(1-\rho\right)^{3}\ge 8\rho^{2}$, which holds on that range
 (left side decreasing, right increasing, valid at the endpoint);
-when $\sinh 2\tau>1$, $b_{+}\ge 1$ reduces, with $u=\sqrt{\rho}$, to
+when $b_{\mathrm p}>1$, $b_{+}\ge 1$ reduces, with $u=\sqrt{\rho}$, to
 $2u^{2}\left(1+u\right)\ge\left(1-u\right)^{3}$, true at
 $u=\sqrt{2}-1$ (it reads $20\sqrt{2}\ge 28$) and increasingly so; and
-on $1<b\le\sinh 2\tau$, $U_{\mathrm{mid}}\ge b$ reduces to
+on $1<b\le b_{\mathrm p}$, $U_{\mathrm{mid}}\ge b$ reduces to
 $b\le\left(1+u\right)/\left(2\left(1-u\right)\right)$, which covers
-the stretch because $\sinh 2\tau\le
+the stretch because $b_{\mathrm p}\le
 \left(1+u\right)/\left(2\left(1-u\right)\right)$ is
 $\left(1-u\right)^{2}\ge 0$.
 \end{proof}
@@ -617,7 +614,7 @@ degenerate limits rather than cases of the phase diagram.
 \caption{Left: the exact symmetric revisit region \eqref{eq:region}
 in the plane of bracket correlation $\rho$ and anchor value $b=d$,
 bounded below by the quadratic root $b_{-}$ and above by
-$e^{2\Theta}$. The dotted curve is the pitchfork $b=\sinh 2\tau$:
+$C$. The dotted curve is the pitchfork $b=b_{\mathrm p}$:
 below it the optimal interior point is the bracket middle, above it
 the mirror pair \eqref{eq:offmid} hugging the ends. The dashed line
 is the two-shot bracket $\rho=b$, entering the region at
@@ -772,7 +769,7 @@ $1.1\%$ of expected value around $b\approx 0.83$ and vanishes at both
 extremes. Excluding interior placement is thus cheap by value; it is
 the prescription that errs, and for equal anchors it errs exactly on
 the revisit window \eqref{eq:region} --- high, but below the ceiling
-$e^{2\Theta}$ above which both policies stay.
+$C$ above which both policies stay.
 
 For unequal observations the erring region is a joint condition on
 $\left(b,d,\rho\right)$, decided by the quartic \eqref{eq:quartic}, not membership of each value separately: at
@@ -960,12 +957,12 @@ matching conditional mean, any unvisited location wins by Jensen
 alone: it carries variance, the known value carries none. Between two
 \emph{unvisited} rivals of matching mean, an interior point and its
 constructed exterior counterpart, Theorem~\ref{thm:dominance}
-gives the constant variance ratio $e^{2\Theta}$. Neither comparison
+gives the constant variance ratio $C$. Neither comparison
 guarantees that a matched-mean unvisited point exists when the
 observed value is high.
 
 Mean reversion caps the conditional mean of every unvisited point.
-Above $b=e^{2\Theta}$ the cap binds and the optimal final location
+Above $b=C$ the cap binds and the optimal final location
 is one already seen. Below it, the optimal location is past the
 better end when the news is bad, and between the anchors when the
 news is good.
@@ -1001,7 +998,7 @@ the tradition's exact objects are thresholds in
 $\sigma^{2}/|\mu|$ on drifting Brownian paths with endogenous
 evaluations and flow payoffs, and the fixed-budget, terminal-payoff,
 mean-reverting combination, with its phase diagram, constant
-amplification $e^{2\Theta}$, and constrained parabola
+amplification $C$, and constrained parabola
 \eqref{eq:parabola}, is new.
 
 \subsection*{Reproducibility}
