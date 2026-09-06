@@ -37,30 +37,31 @@ give a closed-form phase diagram for the case of equal observations:
 abandon a below-median incumbent, leave past the better position
 after a disappointing trial, commit between two good positions, and
 stay put above an exact ceiling. The commitment between positions
-rests on a constant-variance identity: every interior position has
+rests on a constant variance-ratio identity: every interior position has
 the same conditional mean log-performance as an explicit exterior
 alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. The same rule, used as the
 line search inside a derivative-free optimizer, beats classical inner
-loops on rough and high-dimensional objectives in a public benchmark.
+loops on several rough and high-dimensional objectives in a public
+benchmark.
 \end{abstract}
 
 \section{Introduction}
 
-How many pivots does a firm get? Across four randomized trials
-covering 759 startups, 59\% never pivoted radically during the
-observation window, 24\% pivoted exactly once, and 17\%
-pivoted more than once (Camuffo et al.\ 2024; the shares in the
-smaller 2020 trial are 74\%, 19\%, and 7\%). These are one-year
-observation windows, and over a startup's life a budget of only a few
-major pivots is a plausible order of magnitude.\footnote{A widely
+How many radical pivots does a firm make? Across four randomized
+trials covering 759 firms, 59\% never pivoted radically during the
+study, 24\% pivoted exactly once, and 17\% pivoted more than once
+(Camuffo et al.\ 2024; the shares in the smaller 2020 trial are
+74\%, 19\%, and 7\%). The data were collected over windows of up to
+sixteen months, nine for the largest trial, so these are pivot rates
+over the study rather than a lifetime total.\footnote{A widely
 repeated figure holds that a successful startup pivots about 2.5
 times. We have not been able to trace it to a primary source, so we
 lean on the randomized-trial counts above rather than on the round
-number.} Training founders to search
-more scientifically raised the frequency of a single pivot and
-lowered the frequency of repeated pivots. Strategic search, in short,
-is a small-sample problem, and the interesting version of it is
-farsighted rather than reactive.
+number.} Training founders to search more scientifically raised the
+frequency of pivoting once or twice and lowered the frequency of
+pivoting more than twice. Radical pivots are rare either way, which is
+what motivates a small-budget model, and the interesting version of
+the problem is farsighted rather than reactive.
 
 Callander (2011) modeled this kind of search as trial and error on
 an unknown function drawn from a Brownian motion. A sequence of
@@ -101,7 +102,7 @@ values and moves toward the better-known end as the values improve.
 Above an exact ceiling the searcher should stay where she is.
 
 The interior option is worth about one percent of expected value at
-the optimum in our calibration. Most of the value of the final pivot
+the optimum at this scale. Most of the value of the final pivot
 comes from the information it produces. On landscapes that
 decorrelate quickly, it is better to probe far away, and the
 formulas say so: the interior premium is first order in the bracket
@@ -275,13 +276,30 @@ searcher is thus paid for conditional mean and conditional variance in
 equal measure: a final location with residual uncertainty carries a
 lognormal bonus of half its variance.
 
+The final evaluation is a recommendation, not a measurement. Write
+$R(\mathcal{D})=\sup_t \E[e^{X_t}\mid\mathcal{D}]$ for the best
+expected payoff attainable from the information $\mathcal{D}$. The
+opening trial at $t_1$ maximizes
+$\E\!\left[R\bigl(\mathcal{D}\cup\{(t_1,X_{t_1})\}\bigr)\mid
+\mathcal{D}\right]$, and subtracting the action-independent
+$R(\mathcal{D})$ leaves the knowledge-gradient acquisition (Frazier,
+Powell and Dayanik 2009). Because exactly one informative trial
+precedes the terminal recommendation, this one-step rule is optimal by
+construction: knowledge gradient is the optimal policy whenever a
+single measurement remains. What we add is not a new acquisition but
+its exact solution on this landscape --- the terminal-placement
+geometry and phase diagram in closed form, and an algebraic inner
+optimization that reduces the opening knowledge-gradient calculation to
+a one-dimensional numerical problem.
+
 Figure~\ref{fig:problem} shows the decision this paper solves.
 
 The problem has one essential scale parameter. A payoff exponent
 $\beta$ alone is without loss of generality, since $e^{\beta X}$ on
 a unit-variance path equals $e^{Y}$ on a path of standard deviation
 $\beta$; only the product $s=\beta\sigma$ of payoff convexity and
-path scale matters. We calibrate $s=1$.
+path scale matters. We fix $s=1$ as an illustrative scale; no
+empirical calibration is claimed.
 
 For general $s$ every comparison maximizes $\mu + s\nu/2$ with observations in
 path-standard-deviation units, the two-shot step becomes
@@ -291,7 +309,7 @@ $s(1+\rho)/(1-\rho)$; equivalently, the phase diagram is universal
 in the coordinates $(\rho, b/s)$. The length scale $\kappa$, by
 contrast, is fully absorbed by working in correlations. The parameter plays the role Callander's
 complexity $\sigma^{2}/2|\mu|$ plays under drift, and the
-one-percent figure of Section~9 is specific to $s=1$.
+one-percent figure of Section~9 is specific to this illustrative $s=1$.
 
 Two conventions tidy the boundary cases. A searcher may take a location
 to infinity, which by mean reversion is equivalent to sampling a fresh
@@ -633,6 +651,49 @@ and for $d\ge 1$ staying at the second anchor is optimal, since
 $d$'s coefficient in the bridge mean is below one and raising $d$
 only widens the loss. Symmetric dominance is a window, not a half-line.
 
+The stopping side of the problem has a closed form for unequal
+anchors as well.
+
+\begin{proposition}[Unequal-anchor stopping]\label{prop:stop}
+Let $B=\max(b,d)$ and $D=\min(b,d)$. For the unrestricted final
+placement, staying at the better observed anchor $B$ is optimal if and
+only if
+\begin{equation}\label{eq:stop}
+B\ge 1 \qquad\text{and}\qquad
+\left(1+\rho^{2}\right)B-2\rho D \;\ge\; 1-\rho^{2}.
+\end{equation}
+For general scale $s$ the conditions read $B\ge s$ and
+$\left(1+\rho^{2}\right)B-2\rho D\ge s\left(1-\rho^{2}\right)$.
+\end{proposition}
+
+\begin{proof}
+Orient the bracket so $B$ is at the near end, write
+$C=\left(1+\rho\right)/\left(1-\rho\right)$ and
+$m_0=2\sqrt{\rho}/\left(1+\rho\right)$, and set $a=(B+D)/2$,
+$\delta=(B-D)/2$. Parametrizing an interior point by its correlation
+$m\in[m_0,1]$ to the near end, the half nearer $B$ carries at least the
+mean of its mirror image and the same variance, with log-value
+\begin{equation}
+F(m)=am+C\delta\sqrt{m^{2}-m_0^{2}}+\tfrac{C}{2}\left(1-m^{2}\right),
+\qquad m_0\le m\le 1.
+\end{equation}
+Since $F''(m)=-C-C\delta\,m_0^{2}\left(m^{2}-m_0^{2}\right)^{-3/2}<0$,
+$F$ is concave and is maximized at $m=1$ --- collapsing onto $B$ ---
+exactly when $F'(1)=a+C^{2}\delta-C\ge 0$; with
+$\sqrt{1-m_0^{2}}=1/C$ this is the second inequality of
+\eqref{eq:stop}. The exterior rays are beaten by the anchor precisely
+when $B\ge 1$, since $\zeta(B)=B$ there while $\zeta(B)>B$ for $B<1$.
+The criterion agrees with the quartic \eqref{eq:quartic} on
+$8{,}000$ random states.
+\end{proof}
+
+\noindent For equal anchors \eqref{eq:stop} reduces to
+$B\ge\left(1+\rho\right)/\left(1-\rho\right)$, the ceiling of
+Theorem~\ref{thm:boundary}; at $\rho=\tfrac12$, $B=1$ it gives
+$D\le\tfrac12$. It supplies the explicit stopping region for unequal
+observations that the quartic \eqref{eq:quartic} describes only
+implicitly.
+
 \section{The three-shot policy, computed}
 
 Writing $V\left(b,d,\rho\right)$ for the best of $\zeta(b)$,
@@ -642,6 +703,25 @@ $\log\E_d\!\left[e^{V\left(b,d,\rho\right)}\right]$ with
 $d\sim N\!\left(b\rho,1-\rho^{2}\right)$, computed by adaptive
 quadrature and optimized over $\rho$. The comparison policy denies interior placement but keeps both
 exterior rays. It is not a ban on reversing direction.
+
+\begin{proposition}[Below-median start]\label{prop:below}
+For every $b\le 0$ the three-shot value equals
+$W_3=\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)=0.83572\ldots$,
+attained at $\rho=0$. It is a constant on $b\le 0$, not a limit.
+\end{proposition}
+
+\begin{proof}
+When the incumbent is nonpositive the abandonment argument
+(Appendix~A) removes every interior recommendation, so the
+continuation from a revealed $d$ is $\zeta(d)$ and the value is
+$\log\E_d\!\left[e^{\zeta(d)}\right]$ with
+$d\sim N\!\left(b\rho,1-\rho^{2}\right)$. Since $e^{\zeta}$ is
+convex and nondecreasing, and $b\le 0$ makes the mean $b\rho$
+nonincreasing in $\rho$ while the variance $1-\rho^{2}$ decreases,
+the fresh draw $\rho=0$, that is $d\sim N(0,1)$, dominates. Splitting
+$\E\!\left[e^{\zeta(Z)}\right]$ over $Z<0$, $0\le Z\le 1$, and
+$Z>1$ gives $\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)$.
+\end{proof}
 
 \begin{table}[t]
 \centering
@@ -663,18 +743,19 @@ the log-value with interior placement excluded (exterior rays in both
 directions permitted), and the percentage the interior option adds to
 expected payoff. Adaptive quadrature over the second value $d$;
 interior optima exact via the stationarity quartic
-\eqref{eq:quartic}. For $b<0$ the optimal bracket correlation tends
-to zero and the limiting log-value is exactly
-$\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)=0.8357\ldots$}
+\eqref{eq:quartic}. For $b\le0$ the optimal bracket correlation is
+zero and the value equals exactly
+$\tfrac12+\log\!\left(1+1/\sqrt{2\pi}\right)=0.8357\ldots$
+(Proposition~\ref{prop:below}).}
 \label{tab:threeshot}
 \end{table}
 
 Three observations, all in Table~\ref{tab:threeshot} and
 Figure~\ref{fig:phase}. First, a below-median start still means
-flight, and the interior option is then worthless; as the start
-$b\to-\infty$ the optimal opening correlation tends to zero and the
-three-shot log-value tends to
-$\tfrac12+\log(1+1/\sqrt{2\pi})=0.8357\ldots$ Second, the
+flight, and the interior option is then worthless; for every
+$b\le0$ the three-shot value is exactly
+$\tfrac12+\log(1+1/\sqrt{2\pi})=0.8357\ldots$
+(Proposition~\ref{prop:below}). Second, the
 three-shot bracket is wider than the two-shot step, but most of the
 widening is \emph{not} bought by the interior option: at $b=0.5$ the
 two-shot policy steps to $\rho=0.5$, excluding interior placement
@@ -726,10 +807,11 @@ measured per slice by the exponent of the small-lag variogram.
 
 The rule wins on two kinds of objective. On collision and
 agent-chaos objectives with rough but structured slices it is the
-best inner loop; on a plinko objective it beats every rival on 20 or
-21 of 24 seeds. It also wins on high-dimensional objectives even
-when slices are smooth, a sixteen-dimensional wind-farm layout on 21
-or 22 of 24 seeds.
+best inner loop; on a plinko objective it is ahead of its strongest
+rival on 13 of 16 seeds (Table~\ref{tab:linesearch}). It also wins on
+high-dimensional objectives even when slices are smooth: on a
+sixteen-dimensional wind-farm layout it leads the strongest rival,
+golden6, on 16 of 24 seeds, and golden2 and Brent on 21 and 22.
 
 The high-dimensional win comes from evaluation economy. The rule's
 early exits, one or two evaluations on many lines, let the outer loop try several times
@@ -753,9 +835,29 @@ preferable in principle, though among these physics objectives the
 smooth-slice case is rarer than reduced-order surrogates suggest,
 since the real collision and ballistics simulators are rough.
 
-Across the 22 objectives \texttt{grass3} ranks first or second for
-nine among the five inner loops, by median over seeds
-(Table~\ref{tab:linesearch}). A separate
+The inner loop is a heuristic adaptation, not the exact policy. It
+interpolates the opening-correlation table of Section~9, extrapolates
+it above $b=1.2$, estimates the mean, scale, and correlation length
+online, and forces flight after three stalled lines. It also clips
+placements to the unit cube, which does not solve the bounded
+placement problem: choosing an unconstrained exterior winner and then
+clipping can lose to the best feasible interior point. On a segment
+equal to the observed bracket with $b=d=0.2$ and $\rho=\tfrac12$, the
+clipped rule stays and scores $0.2$, while the feasible midpoint
+scores $0.355$.
+
+Two protocol details qualify the comparison, and an ablation qualifies
+the interpretation. Random search samples the whole cube rather than
+sharing the outer loop, and the Brent baseline spends one call
+reevaluating the known incumbent, so the evaluation-economy margin is
+somewhat overstated. Omitting the third placement altogether helps on
+twelve of the twenty-two objectives, sometimes by a wide margin, so
+the benchmark speaks more for evaluation economy and online adaptation
+than for the bridge-placement theorem in particular.
+
+Across the 22 objectives \texttt{grass3} is first or second on eight
+by median over seeds among the five inner loops, or nine if joint
+second places are counted (Table~\ref{tab:linesearch}). A separate
 question is whether a variant of the rule can stand alone as a
 derivative-free optimizer in its own right. A budget-truncated
 two-shot form, \texttt{grass2U}, is mid-field against a panel of
@@ -783,12 +885,12 @@ free\_kick     & 4  & $-32.9$  & 5/5 & golden2 $-105.2$ & 3/24  \\
 inner loops (golden-section with two and six evaluations, Brent,
 random) in a shared random-direction outer loop at budget 120; lower
 is better. Rank is among the five inner loops; seed wins count seeds
-on which \texttt{grass3} beats the best rival. Across all 22
-objectives \texttt{grass3} has mean rank $2.86/5$ and is first or
-second on nine; \texttt{free\_kick} is a representative loss. As a
-standalone optimizer the two-shot form \texttt{grass2U} has mean rank
-$5.73/11$ against the eleven-method panel of
-Section~\ref{sec:linesearch}.}
+on which \texttt{grass3} beats the best rival. Ranks average tied medians. Across all 22
+objectives \texttt{grass3} has mean rank $2.95/5$ and is first or
+second on eight (nine counting joint second places);
+\texttt{free\_kick} is a representative loss. As a standalone
+optimizer the two-shot form \texttt{grass2U} has mean rank $6.05/11$
+against the eleven-method panel of Section~\ref{sec:linesearch}.}
 \label{tab:linesearch}
 \end{table}
 
@@ -816,8 +918,10 @@ page, which runs against the pattern, removed). The association was
 largely a separation between single-basin and multi-basin problems
 rather than a resolved monotone relation within the rough subset,
 where the rank correlation is weak (Spearman 0.13, $p=0.31$).
-Scripts, seeds, the pre-registration, and per-objective results are
-in the repository.
+The test fixes a single budget, so it supports the association
+without establishing the budget-versus-basin relation itself. Scripts,
+seeds, the pre-registration, and per-objective results are in the
+repository.
 
 \section{The rules in business terms}
 
@@ -834,10 +938,13 @@ ground. If the trial lands at or below the median, leave past the
 better of the two positions rather than repair the bracket
 (Appendix~A); a trial only somewhat below the anchors can still be
 worth keeping. If both positions are good, reasonably balanced, and
-below the ceiling, commit between them: at the midpoint for moderate
-values, closer to the better-known position for high ones. If either
-position is exceptional, or the two are very uneven, stay at the
-best observed. The interior option is worth about one percent at the
+below the ceiling, commit between them: near the midpoint for
+balanced moderate values, closer to the better-known position for high
+ones or uneven pairs, since the midpoint is exact only when the two
+are equal. Stay at the better position only when it is strong on its
+own, above the ceiling, and the pair is not too spread, the criterion
+of Proposition~\ref{prop:stop}; when the better position is below the
+ceiling an exterior move beats staying, however uneven the pair. The interior option is worth about one percent at the
 optimum, measured against a policy already free to leave in either
 direction, so most of the value of the last pivot is the information
 it produces, and the case for making the trial at all is much
@@ -949,7 +1056,7 @@ $v$ pays $v \le 0 < \tfrac12 \le \zeta(\max(b,d))$. The same bounds
 apply to the other sub-bracket with $d$ in place of $b$.
 \end{proof}
 
-\begin{proposition}[Monotone value]
+\begin{proposition}[Monotone value]\label{prop:monotone}
 The value of the game is nondecreasing in every observed value.
 \end{proposition}
 
@@ -969,11 +1076,17 @@ Exits are anchored at the outer values and do not depend on the
 interior reveal $v$, while continuations inside are nondecreasing in
 $v$ by the monotonicity above. The stay-or-leave decision after an
 interior trial is therefore a threshold rule in $v$. The threshold
-can lie below both anchors: at $b = d = 0.7$ and bracket correlation
-$\rho = 0.5$, staying is optimal exactly when $v > 0.63$. A trial
-somewhat worse than both anchors is still worth staying for, because
-the sub-bracket keeps one good end and the variance. Verification
-scripts accompany the paper's repository.
+can lie below both anchors: at $b = d = 0.7$, bracket correlation
+$\rho = 0.5$, and the trial at the midpoint, staying is strictly
+preferable when $v > v_{*}$ with $v_{*}\approx 0.63010$, with
+indifference at equality; a quarter-bracket trial moves the threshold
+to $0.55061$. A trial somewhat worse than both anchors is still worth
+staying for, because the sub-bracket keeps one good end and the
+variance. This comparison assumes one final placement remains: over a
+longer horizon an exterior trial followed by a possible return can
+still carry continuation value depending on $v$, which
+Proposition~\ref{prop:monotone} does not by itself exclude.
+Verification scripts accompany the paper's repository.
 
 \begin{thebibliography}{9}
 

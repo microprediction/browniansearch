@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 SEP 2026 16:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 SEP 2026 20:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -447,7 +447,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2]
-Overfull \hbox (6.01315pt too wide) in paragraph at lines 160--166
+Overfull \hbox (6.01315pt too wide) in paragraph at lines 161--167
 []\OT1/cmr/m/n/10.95 Aybas and Callan-der (2025) al-low Ito dif-fu-sion land-sc
 apes, in-clud-ing the Ornstein--Uhlenbeck
  []
@@ -458,15 +458,17 @@ apes, in-clud-ing the Ornstein--Uhlenbeck
 
 [4{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
-<figures/problem.pdf, id=97, 520.34402pt x 231.26399pt>
+<figures/problem.pdf, id=96, 520.34402pt x 231.26399pt>
 File: figures/problem.pdf Graphic file (type pdf)
 <use figures/problem.pdf>
-Package pdftex.def Info: figures/problem.pdf  used on input line 304.
+Package pdftex.def Info: figures/problem.pdf  used on input line 322.
 (pdftex.def)             Requested size: 412.22809pt x 183.22232pt.
 
 
 [5 <./figures/problem.pdf>]
-Overfull \hbox (7.24884pt too wide) in paragraph at lines 419--429
+
+[6]
+Overfull \hbox (7.24884pt too wide) in paragraph at lines 437--447
 \OT1/cmr/m/n/10.95 and ex-pand-ing both via $[](\OML/cmm/m/it/10.95 A \OMS/cmsy
 /m/n/10.95 ^^F \OML/cmm/m/it/10.95 B\OT1/cmr/m/n/10.95 ) = [] \OML/cmm/m/it/10.
 95 A [] B \OMS/cmsy/m/n/10.95 ^^F [] \OML/cmm/m/it/10.95 A [] B$ \OT1/cmr/m/n/1
@@ -476,21 +478,19 @@ m/m/it/10.95 =\OT1/cmr/m/n/10.95 (1 \OMS/cmsy/m/n/10.95 ^^@
 
 
 
-[6]
-
 [7]
 
 [8]
-<figures/phase.pdf, id=200, 650.43pt x 260.17201pt>
+<figures/phase.pdf, id=199, 650.43pt x 260.17201pt>
 File: figures/phase.pdf Graphic file (type pdf)
 <use figures/phase.pdf>
-Package pdftex.def Info: figures/phase.pdf  used on input line 595.
+Package pdftex.def Info: figures/phase.pdf  used on input line 613.
 (pdftex.def)             Requested size: 448.0749pt x 179.23303pt.
 
 
-[9 <./figures/phase.pdf>]
+[9]
 
-[10]
+[10 <./figures/phase.pdf>]
 
 [11]
 
@@ -499,18 +499,22 @@ Package pdftex.def Info: figures/phase.pdf  used on input line 595.
 [13]
 
 [14]
-Underfull \hbox (badness 2772) in paragraph at lines 1016--1019
+
+[15]
+Underfull \hbox (badness 2772) in paragraph at lines 1129--1132
 []\OT1/cmr/m/n/10.95 S. Callan-der and P. Hum-mel. Pre-emp-tive pol-icy ex-per-
 i-men-ta-tion. \OT1/cmr/m/it/10.95 Econo-met-rica\OT1/cmr/m/n/10.95 ,
  []
 
 
 
-[15]
-
 [16]
 
-[17] (./grass.aux)
+[17]
+
+[18]
+
+[19] (./grass.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -519,13 +523,13 @@ Package rerunfilecheck Info: File `grass.out' has not changed.
 (rerunfilecheck)             Checksum: 3BA1BDF7A278C491648E9769F7DDF666;2736.
  ) 
 Here is how much of TeX's memory you used:
- 11061 strings out of 473190
- 167319 string characters out of 5715801
- 593557 words of memory out of 5000000
- 34065 multiletter control sequences out of 15000+600000
+ 11071 strings out of 473190
+ 167428 string characters out of 5715801
+ 593823 words of memory out of 5000000
+ 34069 multiletter control sequences out of 15000+600000
  570816 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,969b,564s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,970b,586s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -544,10 +548,10 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/t
 exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/20
 25/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on grass.pdf (17 pages, 334395 bytes).
+Output written on grass.pdf (19 pages, 344066 bytes).
 PDF statistics:
- 475 PDF objects out of 1000 (max. 8388607)
- 322 compressed objects within 4 object streams
- 113 named destinations out of 1000 (max. 500000)
+ 500 PDF objects out of 1000 (max. 8388607)
+ 344 compressed objects within 4 object streams
+ 119 named destinations out of 1000 (max. 500000)
  115 words of extra memory for PDF output out of 10000 (max. 10000000)
 
