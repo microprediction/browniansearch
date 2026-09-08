@@ -1209,8 +1209,9 @@ abandonment gives the same bound for $d<0$. Hence
 $J(b,\rho)\le J_0+Cb^{2}+Cb\rho-c\rho^{2}$ locally, and comparison with
 $J(b,0)\ge J_0$ forces $\rho^{*}=O(b)$.
 
-Put $\rho=kb$. For fixed $0<d<1$ the interior optimum attached to $d$
-is $y=d$, and the envelope theorem gives
+Put $\rho=kb$. For fixed $0<d<1$ the limiting optimum attached to $d$
+is $y=d$ (at finite small $b$, $y=d+O(b^{2})$), and the envelope theorem
+gives
 $\sup_y L=\zeta(d)+b^{2}f(d,k)+O(b^{4})$ with
 $f(d,k)=k(d^{-1}-d)-\tfrac{k^{2}}{2}(d^{-2}-d^{2})$; the exterior option
 keeps the uplift at $[f]_+$, and $f>0$ iff $d>a(k)=k/(1+\sqrt{1-k^{2}})$.
@@ -1245,7 +1246,8 @@ In dimension $m\ge2$, writing the terminal correlation to the incumbent
 as $x=bu$, the free candidate $(x,y)=(b,d)$ is admissible when
 $(b,d)\in\mathcal{C}_\rho$, i.e.\ $kb^{2}\le d\le\min(k,1/k)$ with
 $\rho=kb$, and it improves on the exterior by
-$\tfrac{b^{2}}{2}[(1-kd)^{2}-(u-1)^{2}]$, maximized at $u=1$. Integrating
+$\tfrac{b^{2}}{2}[(1-kd)^{2}-(u-1)^{2}]+O(b^{4})$ for fixed parameters,
+maximized at $u=1$. Integrating
 gives $Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-pk\log k$ on
 $0<k\le1$. For $k\ge1$ the admissible reveal region does not vanish but
 shrinks to $kb^{2}\le d\le1/k$, contributing the $p/(6k)$ term, so
@@ -1281,9 +1283,11 @@ bound.
 Set $\varepsilon=c/b^{2}$. Uniformly on compact $c>0$,
 $b\,e^{-b}[J-e^{b}]\to A(c)=\E(\sqrt{2c}\,Z-c)_+
 =\sqrt{2c}\,\phi(\sqrt{c/2})-c\,\Phi(-\sqrt{c/2})$. No maximizing
-sequence leaves this scale: with $x=b^{2}\varepsilon$, the same tilting
-gives $b\,e^{-b}[J-e^{b}]\le\sqrt{2x}\,\phi((1-2/b)\sqrt{x/2})$, which
-vanishes as $x\to0$ or $x\to\infty$ while $A(c)>0$ at fixed $c$. Then
+sequence leaves this scale: with $x=b^{2}\varepsilon$, the tilting bound
+on the anchor reward, plus the bridge remainder, gives
+$b\,e^{-b}[J-e^{b}]\le\sqrt{2x}\,\phi((1-2/b)\sqrt{x/2})+K/b^{2}$; the
+remainder vanishes as $b\to\infty$ and the first term vanishes as
+$x\to0$ or $x\to\infty$, while $A(c)>0$ at fixed $c$. Then
 $A'(c)=0$ reads $\phi(a_\infty)=2a_\infty\Phi(-a_\infty)$ with
 $a_\infty=\sqrt{c_\infty/2}$, $c_\infty=2a_\infty^{2}=0.749096$, and
 $A_\infty=A(c_\infty)=c_\infty\Phi(-a_\infty)=0.202456$; uniqueness
