@@ -463,6 +463,28 @@ anchor, and whether the variance bonus makes up the shortfall is
 precisely the question the phase diagram answers. The next section
 makes this exact.
 
+\medskip\noindent\emph{What the theorem uses.} The bracket entered
+only through the chaining $\lambda_2\lambda=\rho$: the interior
+point's correlations to the two ends multiply to the end-to-end
+correlation. This is the Gauss--Markov screening property, and it does
+the work by itself. It guarantees that the mean-matched exterior twin
+exists --- its correlation $(\lambda_2+\lambda)/(1+\rho)
+=\tanh(\theta_2+\theta)$ is below one because
+$(1-\lambda_2)(1-\lambda)\ge 0$ --- and fixes the ratio at
+$(1+\rho)/(1-\rho)$ at every interior position. Without chaining the
+construction can fail outright: under a squared-exponential covariance
+the interior conditional mean can exceed every exterior mean, so no
+mean-matched twin exists and no constant ratio holds.
+
+Everything downstream --- the constrained parabola, the phase diagram,
+the quartic, and the unequal-anchor stopping criterion --- is therefore
+a property of any Gauss--Markov landscape, whether or not the search
+runs along a line. The Ornstein--Uhlenbeck process is the stationary
+representative, the unique stationary Markov powered-exponential
+covariance (Bardhi 2024); its marginal $N(0,\sigma^{2})$ sets the
+exterior benchmark $\zeta$ and the reading of mean reversion --- the
+levels of the phase diagram, not its shape.
+
 \section{The constrained parabola and the complete symmetric solution}
 
 Parametrize the interior by $x=\lambda_2\in(\rho,1)$ and set
