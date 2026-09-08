@@ -24,7 +24,7 @@
 \newcommand{\artanh}{\operatorname{artanh}}
 
 \title{When the Grass Is Greener\\[4pt]
-{\large Three-Shot Search on an Exponentiated Ornstein--Uhlenbeck Landscape}}
+{\large Three-Shot Search on Exponentiated Gaussian Landscapes}}
 \author{Peter Cotton}
 \date{\normalsize First version: April 6, 2022. This version: September 5, 2026.}
 
@@ -42,10 +42,13 @@ to the better position's own two-shot rule; commit between two good
 positions; and stay put once a position is strong enough. The commitment between positions
 rests on a constant variance-ratio identity: every interior position has
 the same conditional mean log-performance as an explicit exterior
-alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. The same rule, used as the
-line search inside a derivative-free optimizer, beats classical inner
-loops on several rough and high-dimensional objectives in a public
-benchmark.
+alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. Beneath the one-dimensional results is a projection: terminal
+placement projects the observed values onto a feasible set of
+correlations. The geometry therefore solves in every Euclidean
+dimension, with the small-incumbent opening constant rising from
+$0.540$ on the line to a Lambert-$W$ value in the plane, and the
+large-incumbent behaviour holding across non-Markov landscapes whose
+log-correlation is a metric.
 \end{abstract}
 
 \section{Introduction}
@@ -802,6 +805,146 @@ $\left(b,d,\rho\right)$, decided by the quartic \eqref{eq:quartic}, not membersh
 $\rho=\tfrac12$, $b=\tfrac12$, $d=2$, both values lie in the
 symmetric window, yet staying at the second anchor is optimal and
 the exclusion costs nothing.
+
+\begin{proposition}[Opening asymptotics]\label{prop:openasym}
+For $s=1$ the optimal opening correlation obeys
+$\rho^{*}(b)=\kappa_0\,b+O(b^{3})$ as $b\downarrow 0$, with
+$\kappa_0=0.540062\ldots=2a_0/(1+a_0^{2})$, where $a_0\in(0,1)$ is the
+unique root of
+\begin{equation}\label{eq:kappa0}
+\left(1+a^{2}\right)\log a+2-\tfrac{a^{2}}{2}+\tfrac{a^{4}}{6}
+-\sqrt{\tfrac{\pi}{2}}\,\left(1-a\right)^{2}=0 .
+\end{equation}
+For every $b>0$ the optimum is interior, $0<\rho^{*}(b)<1$, and
+$1-\rho^{*}(b)\sim c_{\infty}/b^{2}$ as $b\to\infty$ with
+$c_{\infty}=0.749096\ldots$
+\end{proposition}
+
+\noindent The coefficient is characterized rather than elementary. The
+opening is thus closed at $b=0$ (Proposition~\ref{prop:below}) and
+asymptotically at both extremes, and numerical for intermediate $b$;
+the derivation and checks are in the repository. A costless informative
+trial is always worth running --- even an exceptional incumbent is
+probed, only increasingly locally --- so the stopping decision belongs
+entirely to the terminal placement, where it is the ceiling of
+Section~7. This separates acquiring information from acting on it, a
+distinction the myopic search of Callander (2011) does not draw.
+
+\section{The general problem: covariance geometry}
+
+The one-dimensional results are a projection in disguise. For a
+centered, unit-variance Gaussian field the joint law of three evaluated
+values is fixed by their three pairwise correlations, so both the trial
+reveal and the terminal decision see only this three-point covariance
+geometry. Write $z$ for the observed values, $\Sigma$ for their
+covariance, and $r$ for a candidate's correlation vector with them;
+then
+\begin{equation}\label{eq:projection}
+\log\E\!\left[e^{X_{\mathrm{term}}}\mid z\right]
+=\tfrac12+\tfrac12\,z^{\top}\Sigma^{-1}z
+-\tfrac12\,\left(r-z\right)^{\top}\Sigma^{-1}\left(r-z\right).
+\end{equation}
+Terminal placement therefore projects the observed-value vector onto
+the feasible set of correlation vectors in the $\Sigma^{-1}$ metric.
+Two fields with the same feasible correlations pose the same three-shot
+problem, whether or not one is a reparametrization of the other; the
+exponentiated OU line is the instance whose feasible set is the Markov
+chain $\lambda_2\lambda=\rho$ of Sections 5--8.
+
+Fix a radial covariance and allow unrestricted locations. Any three
+points form a triangle realizable in a plane, and a radial kernel turns
+edge lengths into pairwise correlations, so the three-shot problem is
+identical in every Euclidean dimension $m\ge 2$; extra dimensions
+cannot change a three-point problem. Take the exponential covariance
+$\operatorname{Cov}(X_s,X_t)=e^{-\|s-t\|}$ on $\R^{m}$, whose
+restriction to a line is the OU kernel (Rasmussen and Williams 2006). A
+terminal point's correlations $(x,y)$ to the two observations have
+distances $-\log x,-\log y$, so the triangle inequalities against
+$-\log\rho$ cut out the feasible set exactly,
+\begin{equation}\label{eq:feasible}
+\mathcal{C}_\rho=\left\{(x,y):xy\le\rho,\ x\ge\rho y,\ y\ge\rho x\right\}.
+\end{equation}
+Its boundary is precisely the Section-7 bracket ($xy=\rho$) and the two
+exterior rays ($x=\rho y$, $y=\rho x$), so the one-dimensional
+placements are the boundary of a two-dimensional region
+(Figure~\ref{fig:geometry}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/geometry.pdf}
+\caption{Left: three evaluated points form a Euclidean triangle whose
+sides are the distances $-\log$ of the pairwise correlations. Right:
+the feasible terminal correlations $\mathcal{C}_\rho$ in dimension
+$m\ge 2$ (here $\rho=0.4$); the one-dimensional placements are the
+boundary --- the bracket arc $xy=\rho$ and the two exterior rays ---
+while the interior, containing the free candidate $(x,y)=(b,d)$, is
+available only above one dimension.}
+\label{fig:geometry}
+\end{figure}
+
+By \eqref{eq:projection} the log-payoff is a strictly concave quadratic
+in $(x,y)$, so the only candidate off the boundary is its unconstrained
+maximizer $(x,y)=(b,d)$, with value
+\begin{equation}\label{eq:Lfree}
+L_{\mathrm{free}}=\tfrac12+\frac{b^{2}-2\rho bd+d^{2}}{2\left(1-\rho^{2}\right)}.
+\end{equation}
+The spatial terminal solution adds exactly this one candidate to the
+line solution, $V_m(b,d,\rho)=\max\{V(b,d,\rho),L_{\mathrm{free}}\}$,
+with $L_{\mathrm{free}}$ admitted only when $(b,d)\in\mathcal{C}_\rho$.
+When either observation is at least the unit scale the maximizer is
+infeasible and $V_m=V$: for $b\ge 1$ the problem is exactly that of the
+line, in every dimension.
+
+The opening coefficient reads off this geometry. In every dimension
+$m\ge 2$ the leading objective is
+$e^{-1/2}J_m(b,kb)=1+p+b^{2}Q_m(k)+O(b^{4})$ with $p=1/\sqrt{2\pi}$ and
+\begin{equation}
+Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-p\,k\log k,
+\qquad 0<k\le 1,
+\end{equation}
+an entropy-against-quadratic tradeoff whose maximizer closes in the
+principal Lambert $W$ function.
+\begin{proposition}[Planar opening]\label{prop:lambertw}
+For $\operatorname{Cov}(X_s,X_t)=e^{-\|s-t\|}$ on $\R^{m}$ with
+$m\ge 2$, the optimal opening obeys
+$\rho_m^{*}(b)=\kappa_{\ge2}\,b+O(b^{3})$, where
+\begin{equation}
+\kappa_{\ge2}=\frac{W_0\!\left(c\,e^{\,c-1}\right)}{c}=0.604170\ldots,
+\qquad c=\sqrt{\tfrac{\pi}{2}} .
+\end{equation}
+\end{proposition}
+
+\noindent The line and the plane give different constants because they
+give different feasible geometries: the plane admits the free candidate
+\eqref{eq:Lfree}, and its opening tradeoff carries no cubic-in-$b$ value
+term, so the equation for $k$ is the pure $x e^{x}$ form that $W$
+solves, where the line's is not. The coefficient is the same for every
+$m\ge 2$; the three-shot policy is insensitive to further dimension.
+
+Above the unit scale even the Gaussian--Markov structure is
+unnecessary. Let $X$ be any centered, unit-variance Gaussian field with
+positive correlations $R$ for which $d(s,t)=-\log R(s,t)$ is a metric.
+For $b\ge 1$ the triangle inequalities place every attainable terminal
+pair in $\mathcal{C}_\rho$, and since the maximizer is then infeasible,
+\begin{equation}
+\E\,e^{\max(b,D)}\le J_X(b,\text{trial})\le J_{\mathrm{OU}}(b,\rho),
+\qquad D\sim N\!\left(b\rho,1-\rho^{2}\right),
+\end{equation}
+the bounds differing by $O(e^{b}/b^{3})$ uniformly in $\rho$. Whenever
+opening correlations near one are attainable the high-incumbent laws of
+Proposition~\ref{prop:openasym} transfer verbatim:
+$1-\rho^{*}(b)\sim 0.749096/b^{2}$ and
+$\log J^{*}(b)=b+0.202456/b+o(b^{-1})$. This holds for
+powered-exponential fields $e^{-\lambda\|s-t\|^{\alpha}}$ with
+$0<\alpha\le 1$ and for mixtures of exponentials, which are generally
+not Markov.
+
+The small-incumbent constant thus detects the feasible terminal
+geometry --- $0.540062$ on the line, the Lambert-$W$ value $0.604170$ in
+every higher dimension --- while the high-incumbent constants are
+universal across landscapes whose log-correlation is a metric. Full
+derivations and numerical checks are in the repository
+(\texttt{grass-covariance-geometry.md}).
 
 \section{The rule as a line search}\label{sec:linesearch}
 
