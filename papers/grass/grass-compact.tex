@@ -42,13 +42,12 @@ to the better position's own two-shot rule; commit between two good
 positions; and stay put once a position is strong enough. The commitment between positions
 rests on a constant variance-ratio identity: every interior position has
 the same conditional mean log-performance as an explicit exterior
-alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. Beneath the one-dimensional results is a projection: terminal
-placement projects the observed values onto a feasible set of
-correlations. The geometry therefore solves in every Euclidean
-dimension, with the small-incumbent opening constant rising from
-$0.540$ on the line to a Lambert-$W$ value in the plane, and the
-large-incumbent behaviour holding across non-Markov landscapes whose
-log-correlation is a metric.
+alternative and $(1+\rho)/(1-\rho)$ times its conditional variance. Terminal placement is a projection of the observed values onto a
+feasible set of correlations, so the geometry solves in every Euclidean
+dimension. The small-incumbent opening constant rises from $0.540$ on
+the line to a Lambert-$W$ value in the plane, while the large-incumbent
+behaviour holds across non-Markov landscapes whose log-correlation is a
+metric.
 \end{abstract}
 
 \section{Introduction}
@@ -118,16 +117,16 @@ decorrelate quickly, it is better to probe far away, and the
 formulas say so: the interior premium is first order in the bracket
 correlation.
 
-Three levels of generality organize what follows. Gaussian
-conditioning alone gives a projection: terminal placement projects the
-observed values onto a feasible set of correlations, so the whole
-problem is three-point covariance geometry. The exponential Euclidean
-kernel then gives an exact spatial solution in every dimension and a
-planar opening constant that differs from the line's. A weaker metric
-condition on the negative log-correlations gives high-incumbent
-universality, across landscapes that need not be Markov. The recurring
-theme is a contrast: small-incumbent placement is sensitive to the
-feasible geometry, while large-incumbent behaviour is shared.
+Gaussian conditioning alone turns the problem into a projection:
+terminal placement projects the observed values onto a feasible set of
+correlations, three-point covariance geometry and nothing more. The
+exponential Euclidean kernel then gives an exact spatial solution in
+every dimension, with a planar opening constant that differs from the
+line's. A weaker condition, that the negative log-correlations obey the
+triangle inequalities, gives high-incumbent universality across
+landscapes that need not be Markov. Small-incumbent placement is
+sensitive to the feasible geometry; large-incumbent behaviour is
+shared.
 
 \section{Related work}
 
@@ -843,7 +842,7 @@ entirely to the terminal placement, where for equal anchors it is the
 ceiling of Section~7. This separates acquiring information from acting on it, a
 distinction the myopic search of Callander (2011) does not draw.
 
-\section{The general problem: covariance geometry}\label{sec:geometry}
+\section{Covariance geometry}\label{sec:geometry}
 
 The one-dimensional results are a projection in disguise. For a
 centered, unit-variance Gaussian field the joint law of three evaluated
@@ -950,14 +949,15 @@ unnecessary. Say a field has \emph{metric log-correlations} if its
 positive correlations satisfy $R_{ij}\ge R_{ik}R_{kj}$ for every triple,
 equivalently that $-\log R$ obeys the triangle inequalities; these are
 the path-product inequalities of Gaussian graphical models (Johnson and
-Smith 2008; Lauritzen, Uhler and Zwiernik 2019, \S\S4.1--4.2).
+Smith 1999; Lauritzen, Uhler and Zwiernik 2019, \S\S4.1--4.2).
 
 \begin{theorem}[High-incumbent universality]\label{thm:universal}
 Let $X$ be a centered, unit-variance Gaussian field with metric
-log-correlations, and suppose every correlation in some interval
-$(\rho_0,1)$ is attainable from the initial location. For $b\ge 1$,
+log-correlations about an initial location $o$, and suppose every
+correlation in some interval $(\rho_0,1)$ is attainable from $o$. For
+$b\ge 1$ and any trial location $t$, writing $\rho=R(o,t)$,
 \begin{equation}\label{eq:sandwich}
-\E\,e^{\max(b,D)}\le J_X(b,\rho)\le J_{\mathrm{OU}}(b,\rho),
+\E\,e^{\max(b,D)}\le J_X(b,t)\le J_{\mathrm{OU}}(b,\rho),
 \qquad D\sim N\!\left(b\rho,1-\rho^{2}\right),
 \end{equation}
 and $0\le J_{\mathrm{OU}}(b,\rho)-\E\,e^{\max(b,D)}\le K\,e^{b}/b^{3}$
@@ -1080,13 +1080,12 @@ value at the final location, not the running maximum of the path.
 Section~2 locates it in the literature; the tradition's exact objects
 are thresholds in $\sigma^{2}/|\mu|$ on drifting Brownian paths with
 endogenous evaluations and flow payoffs, whereas the fixed-budget,
-terminal-payoff, mean-reverting problem solved here is new. Its deeper
-structure is a covariance geometry: terminal placement projects the
-observed values onto a feasible correlation set, and the problem is
-exact in every Euclidean dimension. That geometry is what the two
-regimes read --- small-incumbent placement is sensitive to it, so the
-opening coefficient jumps from $0.540062$ on the line to the
-Lambert-$W$ value $0.604170$ in the plane, while large-incumbent
+terminal-payoff, mean-reverting problem solved here is new. Underneath, terminal
+placement projects the observed values onto a feasible correlation set,
+and the problem is exact in every Euclidean dimension. The two regimes
+read that geometry differently: small-incumbent placement is sensitive
+to it, so the opening coefficient jumps from $0.540062$ on the line to
+the Lambert-$W$ value $0.604170$ in the plane, while large-incumbent
 behaviour is universal across landscapes whose log-correlation is a
 metric.
 
@@ -1187,7 +1186,7 @@ still carry continuation value depending on $v$, which
 Proposition~\ref{prop:monotone} does not by itself exclude.
 Verification scripts accompany the paper's repository.
 
-\section{Opening asymptotics: proofs}\label{app:opening}
+\section{Proofs of the opening asymptotics}\label{app:opening}
 
 Throughout $p=\phi(0)=1/\sqrt{2\pi}$, $Z\sim N(0,1)$, and
 $h(d)=e^{\zeta(d)}$, with $h(d)\phi(d)=e^{1/2}p$ on $0<d<1$. Full detail
@@ -1234,16 +1233,24 @@ $\kappa_0$ and the $k$-independent $b^{3}$ term (from $0<d<b$) does not
 move the maximizer, so $0=\partial_k J=e^{1/2}b^{2}\{Q'(k^{*})+O(b^{2})\}$
 gives $k^{*}(b)=\kappa_0+O(b^{2})$.
 
+The endpoints are excluded for every $b>0$. The fresh-draw derivative
+$\partial_\rho J(b,0^{+})>0$ is a strictly positive Gaussian integral,
+so $\rho=0$ is never optimal; and near $\rho=1$ the value carries a
+strictly positive $\sqrt{1-\rho}$ term from the selected positive
+reveals, so $\rho=1$ is never optimal. Hence $0<\rho^{*}(b)<1$.
+
 \subsection*{The planar coefficient (Proposition~\ref{prop:lambertw})}
 
-In dimension $m\ge2$ the free candidate $(x,y)=(b,d)$ is admissible when
-$(b,d)\in\mathcal{C}_\rho$, i.e.\ for $0<d<k$ at leading order, and
-improves on the exterior by $\tfrac{b^{2}}{2}[(1-kd)^{2}-(u-1)^{2}]$,
-optimized at $u=1$. The same integration gives
-$Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-pk\log k$ on $0<k\le1$;
-for $k\ge1$ the free candidate is infeasible and
-$Q_m(k)=\tfrac14+\tfrac{1+p}{2}k-(\tfrac14+\tfrac{2p}{3})k^{2}
-+\tfrac{p}{6k}$, strictly decreasing, so no maximizer has $k\ge1$. On
+In dimension $m\ge2$, writing the terminal correlation to the incumbent
+as $x=bu$, the free candidate $(x,y)=(b,d)$ is admissible when
+$(b,d)\in\mathcal{C}_\rho$, i.e.\ $kb^{2}\le d\le\min(k,1/k)$ with
+$\rho=kb$, and it improves on the exterior by
+$\tfrac{b^{2}}{2}[(1-kd)^{2}-(u-1)^{2}]$, maximized at $u=1$. Integrating
+gives $Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-pk\log k$ on
+$0<k\le1$. For $k\ge1$ the admissible reveal region does not vanish but
+shrinks to $kb^{2}\le d\le1/k$, contributing the $p/(6k)$ term, so
+$Q_m(k)=\tfrac14+\tfrac{1+p}{2}k-(\tfrac14+\tfrac{2p}{3})k^{2}+\tfrac{p}{6k}$
+is strictly decreasing, and the maximizer lies in $(0,1)$. On
 $(0,1)$, $Q_m'(k)=\tfrac{1-k}{2}-p(\log k+1)$ and
 $Q_m''(k)=-\tfrac12-\tfrac{p}{k}<0$, so $Q_m$ is strictly concave with a
 unique interior maximizer. With $c=1/(2p)=\sqrt{\pi/2}$,
@@ -1255,22 +1262,34 @@ cubic-in-$b$ value term arises.
 
 \subsection*{High-incumbent universality (Theorem~\ref{thm:universal})}
 
-For $b\ge1$ returning to the better observed point gives the lower
-bound $\E\,e^{\max(b,D)}$, and by \eqref{eq:projection} an interior
-maximizer that cannot lie strictly inside $\mathcal{C}_\rho$ bounds the
-value above by its OU-boundary optimum $J_{\mathrm{OU}}(b,\rho)$, which
-is \eqref{eq:sandwich}. A Gaussian-tail estimate makes the gap uniform,
-$0\le J_{\mathrm{OU}}(b,\rho)-\E\,e^{\max(b,D)}\le Ke^{b}/b^{3}$ for
-$0\le\rho\le1$. Setting $\rho=1-c/b^{2}$ and rescaling, the leading
-incumbent profile is
-$H(c)=\E(\sqrt{2c}\,Z-c)_+=\sqrt{2c}\,\phi(\sqrt{c/2})-c\,\Phi(-\sqrt{c/2})$,
-whose unique maximizer solves $\phi(a_\infty)=2a_\infty\Phi(-a_\infty)$
-with $a_\infty=\sqrt{c_\infty/2}$ and
-$c_\infty=2a_\infty^{2}=0.749096$. The uniform gap and continuity of $H$
-on compact $c$-ranges carry the maximizer and value to any metric field
-with the attainability interval, giving $1-\rho^{*}\sim c_\infty/b^{2}$
-and $\log J^{*}=b+A_\infty/b+o(b^{-1})$ with
-$A_\infty=H(c_\infty)=c_\infty\Phi(-a_\infty)=0.202456$.
+For $b\ge1$ the exterior-only reward equals $e^{\max(b,D)}$, the lower
+bound; by \eqref{eq:projection} a maximizer that cannot lie strictly
+inside $\mathcal{C}_\rho$ is bounded above by the OU-boundary optimum,
+which is \eqref{eq:sandwich}. The gap is uniform. Set
+$\varepsilon=1-\rho$ and $\Delta=D-b$: a bridge improvement is
+impossible once $b\ge(1+\rho)/(1-\rho)$, and otherwise
+$\varepsilon<2/(b+1)$ confines the improving reveals to
+$|\Delta|\le2\varepsilon$ for large $b$. There the excess over
+$e^{\max(b,D)}$, divided by $e^{b}$, is at most $C\varepsilon$ (bridge
+mean at most the larger anchor, variance at most
+$\varepsilon/(2-\varepsilon)$). Since
+$\Pr\{|\Delta|\le2\varepsilon\}\le C\sqrt{\varepsilon}\,
+e^{-b^{2}\varepsilon/16}$, the expected excess is at most
+$C\varepsilon^{3/2}e^{-b^{2}\varepsilon/16}\le Kb^{-3}$, the uniform
+bound.
+
+Set $\varepsilon=c/b^{2}$. Uniformly on compact $c>0$,
+$b\,e^{-b}[J-e^{b}]\to A(c)=\E(\sqrt{2c}\,Z-c)_+
+=\sqrt{2c}\,\phi(\sqrt{c/2})-c\,\Phi(-\sqrt{c/2})$. No maximizing
+sequence leaves this scale: with $x=b^{2}\varepsilon$, the same tilting
+gives $b\,e^{-b}[J-e^{b}]\le\sqrt{2x}\,\phi((1-2/b)\sqrt{x/2})$, which
+vanishes as $x\to0$ or $x\to\infty$ while $A(c)>0$ at fixed $c$. Then
+$A'(c)=0$ reads $\phi(a_\infty)=2a_\infty\Phi(-a_\infty)$ with
+$a_\infty=\sqrt{c_\infty/2}$, $c_\infty=2a_\infty^{2}=0.749096$, and
+$A_\infty=A(c_\infty)=c_\infty\Phi(-a_\infty)=0.202456$; uniqueness
+holds because $a\,\Phi(-a)/\phi(a)$ increases strictly from $0$ to $1$.
+Compactness and uniform convergence give $b^{2}(1-\rho^{*})\to c_\infty$
+and $\log J^{*}=b+A_\infty/b+o(b^{-1})$ for every global maximizer.
 
 \begin{thebibliography}{9}
 
@@ -1539,6 +1558,16 @@ optimization.
 A.~Alabert and R.~Caballero.
 On the minimum of a conditioned Brownian bridge.
 \emph{Stochastic Models}, 34(3):269--291, 2018.
+
+\bibitem{johnsonsmith1999}
+C.~R. Johnson and R.~L. Smith.
+Path product matrices.
+\emph{Linear and Multilinear Algebra}, 46(3):177--191, 1999.
+
+\bibitem{lauritzenuhlerzwiernik2019}
+S.~Lauritzen, C.~Uhler, and P.~Zwiernik.
+Maximum likelihood estimation in Gaussian models under total positivity.
+\emph{The Annals of Statistics}, 47(4):1835--1863, 2019.
 
 
 
