@@ -76,8 +76,8 @@ axR.set_ylabel(r"correlation $y$ to observation 2")
 axR.set_title(r"feasible set $\mathcal{C}_\rho$ (dimension $\geq 2$, $\rho=0.4$)",
               fontsize=11)
 axR.set_aspect("equal")
-axR.legend(loc="upper right", fontsize=8, framealpha=0.9)
-axR.annotate("interior:\nnew above 1-D", (0.30, 0.30), fontsize=8.5,
+axR.legend(loc="lower right", fontsize=8, framealpha=0.9)
+axR.annotate("interior:\nnew above 1-D", (0.34, 0.24), fontsize=8.5,
              color="0.35", ha="center")
 
 fig.tight_layout()

@@ -26,7 +26,7 @@
 \title{When the Grass Is Greener\\[4pt]
 {\large Three-Shot Search on Exponentiated Gaussian Landscapes}}
 \author{Peter Cotton}
-\date{\normalsize First version: April 6, 2022. This version: September 5, 2026.}
+\date{\normalsize First version: April 6, 2022. This version: September 8, 2026.}
 
 \begin{document}
 \maketitle
@@ -73,8 +73,10 @@ Callander (2011) modeled this kind of search as trial and error on
 an unknown function drawn from a Brownian motion. A sequence of
 short-lived agents each implements one trial and observes its
 outcome, so search is myopic by demographic structure rather than by
-assumption. Most later work keeps this feature. Bardhi and Callander (2026) list farsighted
-search with a free choice of location as an open problem. The
+assumption. Most later work keeps this feature. Bardhi and Callander
+(2026, \S3.1.3) survey this line: two-period foresight is understood,
+while farsighted search by an infinitely lived agent with a free choice
+of location is their largely open problem. The
 smallest instance of it is a single searcher who observes an
 incumbent, places one informative trial while already anticipating
 where she will commit, and then commits.
@@ -109,20 +111,23 @@ values and moves toward the better-known end as the values improve.
 Above an exact ceiling the searcher should stay where she is.
 
 The interior option is worth about one percent of expected value at
-the optimum at this scale. Most of the value of the final pivot
-comes from the information it produces. On landscapes that
+the optimum at this scale. Most of the value comes from the
+information the trial produces, not from the final placement. On
+landscapes that
 decorrelate quickly, it is better to probe far away, and the
 formulas say so: the interior premium is first order in the bracket
 correlation.
 
-The rule is also an algorithm, and the direction of trade is
-unusual: a policy derived in the economics of search outperforms
-classical line searches on their own ground. Used as the inner loop
-of a derivative-free optimizer, the three-evaluation rule beats
-golden-section and Brent on collision and agent-chaos objectives and
-on high-dimensional ones, where its one- or two-evaluation lines buy
-several times more search directions per budget
-(Section~\ref{sec:linesearch}).
+Three levels of generality organize what follows. Gaussian
+conditioning alone gives a projection: terminal placement projects the
+observed values onto a feasible set of correlations, so the whole
+problem is three-point covariance geometry. The exponential Euclidean
+kernel then gives an exact spatial solution in every dimension and a
+planar opening constant that differs from the line's. A weaker metric
+condition on the negative log-correlations gives high-incumbent
+universality, across landscapes that need not be Markov. The recurring
+theme is a contrast: small-incumbent placement is sensitive to the
+feasible geometry, while large-incumbent behaviour is shared.
 
 \section{Related work}
 
@@ -479,14 +484,22 @@ construction can fail outright: under a squared-exponential covariance
 the interior conditional mean can exceed every exterior mean, so no
 mean-matched twin exists and no constant ratio holds.
 
-Everything downstream --- the constrained parabola, the phase diagram,
-the quartic, and the unequal-anchor stopping criterion --- is therefore
-a property of any Gauss--Markov landscape, whether or not the search
-runs along a line. The Ornstein--Uhlenbeck process is the stationary
-representative, the unique stationary Markov powered-exponential
-covariance (Bardhi 2024); its marginal $N(0,\sigma^{2})$ sets the
-exterior benchmark $\zeta$ and the reading of mean reversion --- the
-levels of the phase diagram, not its shape.
+The bridge identities are therefore shared by any field whose three
+evaluated points chain in this way. Chaining alone does not transfer
+the whole problem, however: it fixes the conditional means and
+variances, but not which exterior locations exist or whether extra
+placements are available. A Gaussian Markov field on a branching tree,
+for one, offers terminal locations off the observed line and can pose a
+different problem at the same marginal variance. The transfer condition
+is that the available three-point covariance configurations agree with
+those of the unrestricted OU line --- the feasible set made explicit in
+Section~\ref{sec:geometry}.
+
+The Ornstein--Uhlenbeck process is the stationary representative, the
+unique stationary Markov powered-exponential covariance (Bardhi 2024);
+its marginal $N(0,\sigma^{2})$ sets the exterior benchmark $\zeta$ and
+the reading of mean reversion --- the levels of the phase diagram, not
+its shape.
 
 \section{The constrained parabola and the complete symmetric solution}
 
@@ -797,7 +810,7 @@ Third, the interior option's worth peaks near
 $1.1\%$ of expected value around $b\approx 0.83$ and vanishes at both
 extremes. Excluding interior placement is thus cheap by value; it is
 the prescription that errs, and for equal anchors it errs exactly on
-the revisit window \eqref{eq:region} --- high, but below the ceiling
+the revisit window \eqref{eq:region} --- high, but below the equal-anchor ceiling
 $C$ above which both policies stay.
 
 For unequal observations the erring region is a joint condition on
@@ -826,11 +839,11 @@ asymptotically at both extremes, and numerical for intermediate $b$;
 the derivation and checks are in the repository. A costless informative
 trial is always worth running --- even an exceptional incumbent is
 probed, only increasingly locally --- so the stopping decision belongs
-entirely to the terminal placement, where it is the ceiling of
-Section~7. This separates acquiring information from acting on it, a
+entirely to the terminal placement, where for equal anchors it is the
+ceiling of Section~7. This separates acquiring information from acting on it, a
 distinction the myopic search of Callander (2011) does not draw.
 
-\section{The general problem: covariance geometry}
+\section{The general problem: covariance geometry}\label{sec:geometry}
 
 The one-dimensional results are a projection in disguise. For a
 centered, unit-variance Gaussian field the joint law of three evaluated
@@ -848,8 +861,9 @@ Terminal placement therefore projects the observed-value vector onto
 the feasible set of correlation vectors in the $\Sigma^{-1}$ metric.
 Two fields with the same feasible correlations pose the same three-shot
 problem, whether or not one is a reparametrization of the other; the
-exponentiated OU line is the instance whose feasible set is the Markov
-chain $\lambda_2\lambda=\rho$ of Sections 5--8.
+exponentiated OU line is the instance whose feasible correlations are
+the bracket $\lambda_2\lambda=\rho$ together with the two exterior rays
+of Sections 5--8.
 
 Fix a radial covariance and allow unrestricted locations. Any three
 points form a triangle realizable in a plane, and a radial kernel turns
@@ -891,19 +905,23 @@ L_{\mathrm{free}}=\tfrac12+\frac{b^{2}-2\rho bd+d^{2}}{2\left(1-\rho^{2}\right)}
 The spatial terminal solution adds exactly this one candidate to the
 line solution, $V_m(b,d,\rho)=\max\{V(b,d,\rho),L_{\mathrm{free}}\}$,
 with $L_{\mathrm{free}}$ admitted only when $(b,d)\in\mathcal{C}_\rho$.
-When either observation is at least the unit scale the maximizer is
-infeasible and $V_m=V$: for $b\ge 1$ the problem is exactly that of the
-line, in every dimension.
+When either observation is at least the unit scale the maximizer
+cannot lie strictly in the interior and $V_m=V$: for $b\ge 1$ the
+problem is exactly that of the line, in every dimension.
 
-The opening coefficient reads off this geometry. In every dimension
-$m\ge 2$ the leading objective is
-$e^{-1/2}J_m(b,kb)=1+p+b^{2}Q_m(k)+O(b^{4})$ with $p=1/\sqrt{2\pi}$ and
+The opening coefficient reads off this geometry. Write
+$J_m(b,\rho)=\E_D\,e^{V_m(b,D,\rho)}$ with $D\sim N(b\rho,1-\rho^{2})$
+for the opening value and $\rho=kb$. In every dimension $m\ge 2$ its
+leading expansion is $e^{-1/2}J_m(b,kb)=1+p+b^{2}Q_m(k)+O(b^{4})$ with
+$p=1/\sqrt{2\pi}$ and
 \begin{equation}
 Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-p\,k\log k,
 \qquad 0<k\le 1,
 \end{equation}
-an entropy-against-quadratic tradeoff whose maximizer closes in the
-principal Lambert $W$ function.
+and $Q_m$ strictly decreasing for $k\ge 1$, so the maximizer lies in
+$(0,1)$ (Appendix~\ref{app:opening}). It is an
+entropy-against-quadratic tradeoff, and it closes in the principal
+Lambert $W$ function.
 \begin{proposition}[Planar opening]\label{prop:lambertw}
 For $\operatorname{Cov}(X_s,X_t)=e^{-\|s-t\|}$ on $\R^{m}$ with
 $m\ge 2$, the optimal opening obeys
@@ -914,30 +932,53 @@ $\rho_m^{*}(b)=\kappa_{\ge2}\,b+O(b^{3})$, where
 \end{equation}
 \end{proposition}
 
-\noindent The line and the plane give different constants because they
-give different feasible geometries: the plane admits the free candidate
-\eqref{eq:Lfree}, and its opening tradeoff carries no cubic-in-$b$ value
-term, so the equation for $k$ is the pure $x e^{x}$ form that $W$
-solves, where the line's is not. The coefficient is the same for every
-$m\ge 2$; the three-shot policy is insensitive to further dimension.
+\noindent The line and the plane give different constants because they give
+different feasible geometries: the plane admits the free candidate
+\eqref{eq:Lfree}, which the line does not. Why the planar coefficient
+closes is then immediate. With $c=1/(2p)=\sqrt{\pi/2}$, the stationary
+condition of $Q_m$ is
+\begin{equation}
+Q_m'(k)=\frac{1-k}{2}-p(\log k+1)=0
+\iff \log k=c(1-k)-1
+\iff (ck)\,e^{ck}=c\,e^{c-1},
+\end{equation}
+so $ck=W_0(ce^{c-1})$. The coefficient is the same for every $m\ge 2$;
+the three-shot policy is insensitive to further dimension.
 
 Above the unit scale even the Gaussian--Markov structure is
-unnecessary. Let $X$ be any centered, unit-variance Gaussian field with
-positive correlations $R$ for which $d(s,t)=-\log R(s,t)$ is a metric.
-For $b\ge 1$ the triangle inequalities place every attainable terminal
-pair in $\mathcal{C}_\rho$, and since the maximizer is then infeasible,
-\begin{equation}
-\E\,e^{\max(b,D)}\le J_X(b,\text{trial})\le J_{\mathrm{OU}}(b,\rho),
+unnecessary. Say a field has \emph{metric log-correlations} if its
+positive correlations satisfy $R_{ij}\ge R_{ik}R_{kj}$ for every triple,
+equivalently that $-\log R$ obeys the triangle inequalities; these are
+the path-product inequalities of Gaussian graphical models (Johnson and
+Smith 2008; Lauritzen, Uhler and Zwiernik 2019, \S\S4.1--4.2).
+
+\begin{theorem}[High-incumbent universality]\label{thm:universal}
+Let $X$ be a centered, unit-variance Gaussian field with metric
+log-correlations, and suppose every correlation in some interval
+$(\rho_0,1)$ is attainable from the initial location. For $b\ge 1$,
+\begin{equation}\label{eq:sandwich}
+\E\,e^{\max(b,D)}\le J_X(b,\rho)\le J_{\mathrm{OU}}(b,\rho),
 \qquad D\sim N\!\left(b\rho,1-\rho^{2}\right),
 \end{equation}
-the bounds differing by $O(e^{b}/b^{3})$ uniformly in $\rho$. Whenever
-opening correlations near one are attainable the high-incumbent laws of
-Proposition~\ref{prop:openasym} transfer verbatim:
-$1-\rho^{*}(b)\sim 0.749096/b^{2}$ and
-$\log J^{*}(b)=b+0.202456/b+o(b^{-1})$. This holds for
-powered-exponential fields $e^{-\lambda\|s-t\|^{\alpha}}$ with
-$0<\alpha\le 1$ and for mixtures of exponentials, which are generally
-not Markov.
+and $0\le J_{\mathrm{OU}}(b,\rho)-\E\,e^{\max(b,D)}\le K\,e^{b}/b^{3}$
+for a constant $K$, uniformly in $\rho$. Consequently every global
+maximizer of the opening satisfies, as $b\to\infty$,
+$1-\rho^{*}(b)\sim c_\infty/b^{2}$ and
+$\log J^{*}(b)=b+A_\infty/b+o(b^{-1})$.
+\end{theorem}
+
+\noindent The constants are analytic: $a_\infty=0.612003\ldots$ is the
+unique root of $\phi(a)=2a\,\Phi(-a)$, and
+$c_\infty=2a_\infty^{2}=0.749096\ldots$,
+$A_\infty=c_\infty\Phi(-a_\infty)=0.202456\ldots$ The upper bound holds
+because for $b\ge 1$ the maximizer of \eqref{eq:projection} cannot lie
+strictly inside $\mathcal{C}_\rho$, so the value is controlled by its
+OU-boundary maximum, which every metric field's attainable correlations
+underlie. The attainability interval is needed: correlations that merely
+accumulate at one, with gaps, can keep the optimizer from the $b^{-2}$
+scale. The class covers powered-exponential fields
+$e^{-\lambda\|s-t\|^{\alpha}}$ with $0<\alpha\le 1$ and mixtures of
+exponentials, which are generally not Markov.
 
 The small-incumbent constant thus detects the feasible terminal
 geometry --- $0.540062$ on the line, the Lambert-$W$ value $0.604170$ in
@@ -1036,13 +1077,18 @@ use separately in the humpday benchmark package.
 
 The problem solved here is terminal placement: the payoff is the
 value at the final location, not the running maximum of the path.
-Section~2 locates it in the literature; the short version is that
-the tradition's exact objects are thresholds in
-$\sigma^{2}/|\mu|$ on drifting Brownian paths with endogenous
-evaluations and flow payoffs, and the fixed-budget, terminal-payoff,
-mean-reverting combination, with its phase diagram, constant
-amplification $C$, and constrained parabola
-\eqref{eq:parabola}, is new.
+Section~2 locates it in the literature; the tradition's exact objects
+are thresholds in $\sigma^{2}/|\mu|$ on drifting Brownian paths with
+endogenous evaluations and flow payoffs, whereas the fixed-budget,
+terminal-payoff, mean-reverting problem solved here is new. Its deeper
+structure is a covariance geometry: terminal placement projects the
+observed values onto a feasible correlation set, and the problem is
+exact in every Euclidean dimension. That geometry is what the two
+regimes read --- small-incumbent placement is sensitive to it, so the
+opening coefficient jumps from $0.540062$ on the line to the
+Lambert-$W$ value $0.604170$ in the plane, while large-incumbent
+behaviour is universal across landscapes whose log-correlation is a
+metric.
 
 \subsection*{Reproducibility}
 
@@ -1059,7 +1105,11 @@ counterexample checks in \texttt{verify/check\_inside.py} and
 \texttt{linesearch/}; and the basin holdout, with its
 pre-registration committed before the results, from
 \texttt{linesearch/exp3\_basins/} (\texttt{PREREGISTRATION.md} at
-commit \texttt{98f7997}).
+commit \texttt{98f7997}). The opening and spatial results, with their
+verifiers, are in \texttt{grass-opening-analysis.md},
+\texttt{grass-covariance-geometry.md}, \texttt{grass\_opening\_verify.py},
+and \texttt{grass\_spatial\_verify.py}; Figure~\ref{fig:geometry} is from
+\texttt{make\_geometry\_figure.py}.
 
 \appendix
 \section{The abandonment threshold}\label{app:abandon}
@@ -1136,6 +1186,91 @@ longer horizon an exterior trial followed by a possible return can
 still carry continuation value depending on $v$, which
 Proposition~\ref{prop:monotone} does not by itself exclude.
 Verification scripts accompany the paper's repository.
+
+\section{Opening asymptotics: proofs}\label{app:opening}
+
+Throughout $p=\phi(0)=1/\sqrt{2\pi}$, $Z\sim N(0,1)$, and
+$h(d)=e^{\zeta(d)}$, with $h(d)\phi(d)=e^{1/2}p$ on $0<d<1$. Full detail
+is in the repository (\texttt{grass-opening-analysis.md},
+\texttt{grass-covariance-geometry.md}).
+
+\subsection*{The line coefficient (Proposition~\ref{prop:openasym})}
+
+Write $J(b,\rho)$ for the opening value, the terminal value averaged
+over the reveal $D\sim N(b\rho,1-\rho^{2})$. At $b=0$ strict convex
+ordering gives $J(0,\rho)<J(0,0)$ for every $\rho>0$, and coupling the
+reveal at incumbent $b$ to that at $0$ raises each terminal conditional
+mean by at most $b$, so $J(b,\rho)\le e^{b}J(0,\rho)$ and
+$\rho^{*}(b)\to0$. For the sharper bound, a bridge point with
+correlations $x,y$ to the two observations and
+$t=(x-\rho y)/(1-\rho^{2})\ge0$ has
+$L=dy+\tfrac12(1-y^{2})+(b-\rho d)t-\tfrac12(1-\rho^{2})t^{2}$, whose
+last two terms are at most $b^{2}/[2(1-\rho^{2})]$ for $d\ge0$;
+abandonment gives the same bound for $d<0$. Hence
+$J(b,\rho)\le J_0+Cb^{2}+Cb\rho-c\rho^{2}$ locally, and comparison with
+$J(b,0)\ge J_0$ forces $\rho^{*}=O(b)$.
+
+Put $\rho=kb$. For fixed $0<d<1$ the interior optimum attached to $d$
+is $y=d$, and the envelope theorem gives
+$\sup_y L=\zeta(d)+b^{2}f(d,k)+O(b^{4})$ with
+$f(d,k)=k(d^{-1}-d)-\tfrac{k^{2}}{2}(d^{-2}-d^{2})$; the exterior option
+keeps the uplift at $[f]_+$, and $f>0$ iff $d>a(k)=k/(1+\sqrt{1-k^{2}})$.
+Using $h\phi=e^{1/2}p$ and expanding the reveal density,
+$e^{-1/2}J(b,kb)=1+p+b^{2}Q(k)+O(b^{3})$ with
+\begin{equation}
+Q(k)=\tfrac14+\tfrac{1+p}{2}k-\left(\tfrac14+\tfrac{2p}{3}\right)k^{2}
++p\!\int_{a(k)}^{1}\!f(d,k)\,dd,
+\end{equation}
+the integral elementary. Then
+$Q'(k)=\tfrac{1-k}{2}+p[-\log a+\tfrac{a^{2}}{2}-\tfrac{k}{a}
+-\tfrac{ka^{3}}{3}]$, and substituting $k=2a/(1+a^{2})$ reduces $Q'=0$
+to the equation of Proposition~\ref{prop:openasym}, root
+$a_0=0.293253$, $\kappa_0=2a_0/(1+a_0^{2})=0.540062$. Uniqueness holds
+because $Q''(k)=-\tfrac12+p(-\tfrac1{2a}+a+\tfrac{a^{3}}{6})<0$ (the
+parenthesis rises in $a$ to at most $2/3$, and $2p/3<\tfrac12$), with
+$Q'(0^{+})=+\infty$, $Q'(1^{-})=-5p/6<0$, and the $k\ge1$ branch
+decreasing. The active region is bounded away from $d=0$ near
+$\kappa_0$ and the $k$-independent $b^{3}$ term (from $0<d<b$) does not
+move the maximizer, so $0=\partial_k J=e^{1/2}b^{2}\{Q'(k^{*})+O(b^{2})\}$
+gives $k^{*}(b)=\kappa_0+O(b^{2})$.
+
+\subsection*{The planar coefficient (Proposition~\ref{prop:lambertw})}
+
+In dimension $m\ge2$ the free candidate $(x,y)=(b,d)$ is admissible when
+$(b,d)\in\mathcal{C}_\rho$, i.e.\ for $0<d<k$ at leading order, and
+improves on the exterior by $\tfrac{b^{2}}{2}[(1-kd)^{2}-(u-1)^{2}]$,
+optimized at $u=1$. The same integration gives
+$Q_m(k)=\tfrac14+\tfrac{k}{2}-\tfrac{k^{2}}{4}-pk\log k$ on $0<k\le1$;
+for $k\ge1$ the free candidate is infeasible and
+$Q_m(k)=\tfrac14+\tfrac{1+p}{2}k-(\tfrac14+\tfrac{2p}{3})k^{2}
++\tfrac{p}{6k}$, strictly decreasing, so no maximizer has $k\ge1$. On
+$(0,1)$, $Q_m'(k)=\tfrac{1-k}{2}-p(\log k+1)$ and
+$Q_m''(k)=-\tfrac12-\tfrac{p}{k}<0$, so $Q_m$ is strictly concave with a
+unique interior maximizer. With $c=1/(2p)=\sqrt{\pi/2}$,
+$Q_m'(k)=0\iff\log k=c(1-k)-1\iff(ck)e^{ck}=ce^{c-1}$, hence
+$ck=W_0(ce^{c-1})$ and $\kappa_{\ge2}=W_0(ce^{c-1})/c=0.604170$,
+independent of $m$. The localization and remainder arguments are those
+of the line, with the small-reveal crossover now at $d=kb^{2}$, so no
+cubic-in-$b$ value term arises.
+
+\subsection*{High-incumbent universality (Theorem~\ref{thm:universal})}
+
+For $b\ge1$ returning to the better observed point gives the lower
+bound $\E\,e^{\max(b,D)}$, and by \eqref{eq:projection} an interior
+maximizer that cannot lie strictly inside $\mathcal{C}_\rho$ bounds the
+value above by its OU-boundary optimum $J_{\mathrm{OU}}(b,\rho)$, which
+is \eqref{eq:sandwich}. A Gaussian-tail estimate makes the gap uniform,
+$0\le J_{\mathrm{OU}}(b,\rho)-\E\,e^{\max(b,D)}\le Ke^{b}/b^{3}$ for
+$0\le\rho\le1$. Setting $\rho=1-c/b^{2}$ and rescaling, the leading
+incumbent profile is
+$H(c)=\E(\sqrt{2c}\,Z-c)_+=\sqrt{2c}\,\phi(\sqrt{c/2})-c\,\Phi(-\sqrt{c/2})$,
+whose unique maximizer solves $\phi(a_\infty)=2a_\infty\Phi(-a_\infty)$
+with $a_\infty=\sqrt{c_\infty/2}$ and
+$c_\infty=2a_\infty^{2}=0.749096$. The uniform gap and continuity of $H$
+on compact $c$-ranges carry the maximizer and value to any metric field
+with the attainability interval, giving $1-\rho^{*}\sim c_\infty/b^{2}$
+and $\log J^{*}=b+A_\infty/b+o(b^{-1})$ with
+$A_\infty=H(c_\infty)=c_\infty\Phi(-a_\infty)=0.202456$.
 
 \begin{thebibliography}{9}
 
