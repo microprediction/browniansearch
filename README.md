@@ -14,8 +14,8 @@ there a controller *prunes many* paths under budget; here a searcher
 
 ## Founding paper
 
-**When the Grass Is Greener: Three-Shot Search on an Exponentiated
-Ornstein-Uhlenbeck Landscape** (Cotton) —
+**When the Grass Is Greener: Three-Shot Search on Exponentiated
+Gaussian Landscapes** (Cotton) —
 [papers/grass/grass.pdf](papers/grass/grass.pdf), source and numerics in
 [papers/grass/](papers/grass/).
 
