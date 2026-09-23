@@ -1,49 +1,59 @@
-<!-- title: browniansearch · few-shot search on Brownian-family paths | math -->
+<!-- title: browniansearch · few-shot search on rugged landscapes | math -->
   <main>
-    <h1>Few-shot search on rugged landscapes</h1>
-    <p class="subtitle">A searcher samples a path of a Brownian-family process a few times and must decide where to sample next.</p>
+    <h1>Brownian search</h1>
+    <p class="subtitle">Few-shot search on rugged landscapes modelled by Brownian-family paths.</p>
 
-    <p class="lead">Performance often varies roughly with position: a strategy, a design parameter, a location. A
-    searcher can afford only a handful of evaluations and is paid at the point it finally commits to. Modelling the
-    log-performance as a stationary Ornstein&ndash;Uhlenbeck path makes that decision exactly solvable.</p>
-    <p>In the sibling problem, <a href="https://github.com/microprediction/brownianbandit">brownianbandit</a>, a controller
-    prunes many paths under a budget. Here a searcher samples one path a few times. Both maximize an expected
-    extreme.</p>
+    <figure class="diagram hero">
+      <img src="./landscape.svg" alt="A rugged mountain range drawn from exponentiated Ornstein-Uhlenbeck paths, with three sampled points">
+    </figure>
 
-    <h2>The founding result</h2>
+    <p class="lead">Performance often varies roughly with position: a strategy, a design parameter, a location on a
+    map. Evaluations are expensive, so a searcher can afford only a few before it must commit.</p>
+    <p>Modelling the landscape as a path of a Brownian-family process, such as the exponential of an
+    Ornstein&ndash;Uhlenbeck path, turns these decisions into problems about path extremes and conditioned paths. Some
+    of them can be solved exactly.</p>
+
+    <h2>The questions</h2>
+    <ul>
+      <li>Where to evaluate next, given a few observed values and a model of how the landscape varies.</li>
+      <li>When to stop searching, and where to commit.</li>
+      <li>How the answers change with the objective: the value at the final point, the best value found, or the
+        chance of beating the best seen so far.</li>
+      <li>How the answers change with the landscape: roughness, correlation length, dimension, and the number of
+        evaluations allowed.</li>
+    </ul>
+
+    <h2>Results</h2>
     <div class="result">
-    <p>A searcher knows an incumbent position&apos;s performance, may run one more trial, and must then commit. The
-    landscape is $e^{X_t}$ with $X$ a stationary Ornstein&ndash;Uhlenbeck path, and the payoff is the value at the
-    final position. For equal observations the optimal final placement has a closed-form phase diagram:</p>
-    <ul>
-      <li>abandon a below-median incumbent;</li>
-      <li>after a disappointing trial, revert to the better position&apos;s own two-shot rule;</li>
-      <li>commit between two good positions;</li>
-      <li>stay put once a position is strong enough.</li>
-    </ul>
+    <p><a href="./papers.html"><em>When the Grass Is Greener</em></a> solves the three-evaluation problem on an
+    exponentiated Ornstein&ndash;Uhlenbeck landscape, paid at the final point. The optimal rule abandons a below-median
+    incumbent, reverts after a disappointing trial, commits between two good positions, and stays put once a position
+    is strong enough.</p>
     <p>Commitment between positions rests on a variance-ratio identity. Every interior position has the same
-    conditional mean log-performance as an explicit exterior alternative, and a conditional variance larger by the
-    constant factor</p>
+    conditional mean as an explicit exterior alternative and a conditional variance larger by the factor</p>
     $$\frac{1+\rho}{1-\rho},$$
-    <p>where $\rho$ is the correlation between the two observed positions. For a convex payoff the interior point
-    therefore dominates.</p>
+    <p>where $\rho$ is the correlation between the two observed positions.</p>
     </div>
-    <p>Terminal placement is a projection of the observed values onto a feasible set of correlations, so the geometry
-    solves in every Euclidean dimension. The small-incumbent opening constant rises from $0.540$ on the line to a
-    Lambert-$W$ value in the plane.</p>
-    <p>The interior option is worth at most about 1% of expected value. Most of the gain from a third evaluation comes
-    from the evaluation itself.</p>
+    <p>The rule has been tested <a href="./line-search.html">as a line search</a> inside derivative-free optimizers and
+    <a href="./wifi.html">on measured radio signal strength</a>.</p>
 
-    <h2>Where the rule is tested</h2>
+    <h2>Directions</h2>
     <ul>
-      <li><a href="./line-search.html">As a line search</a> inside derivative-free optimizers, across physics simulators,
-        classic test functions and its own model landscape.</li>
-      <li><a href="./wifi.html">On measured radio signal strength</a>, where the Ornstein&ndash;Uhlenbeck premise holds and
-        fast reversion decides which policies lead.</li>
+      <li>Policies for more than three evaluations, where closed forms end: value functions by dynamic programming on
+        a lattice.</li>
+      <li>Objectives beyond the final value: the chance of beating the best seen, quantiles of the best found, and the
+        expected path maximum.</li>
+      <li>Search in several dimensions, on fields with exponential and other metric correlations.</li>
+      <li>How people search rugged landscapes, measured with a browser game.</li>
     </ul>
-    <p>Exact finite-sample laws of the maximum, argmax and first passage of Gauss&ndash;Markov paths are in the
-    <a href="https://github.com/microprediction/winning">winning</a> repository, the distributional complement of the
-    policy results here.</p>
+
+    <h2>Related sites</h2>
+    <ul>
+      <li><a href="https://github.com/microprediction/brownianbandit">brownianbandit</a>: a controller prunes many paths
+        under a budget, where here a searcher samples one path a few times. Both maximize an expected extreme.</li>
+      <li><a href="https://github.com/microprediction/winning">winning</a>: exact finite-sample laws of the maximum,
+        argmax and first passage of Gauss&ndash;Markov paths.</li>
+    </ul>
 
     <h2>Cite</h2>
     <blockquote>
