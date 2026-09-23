@@ -1,7 +1,7 @@
 <!-- title: Introduction · browniansearch | math -->
   <main>
     <h1>Introduction</h1>
-    <p class="subtitle">Brownian landscapes came from economics, the same object with large budgets is studied in optimization, and few-shot search sits between them.</p>
+    <p class="subtitle">The literature on search over correlated landscapes, organized by how many evaluations the searcher gets.</p>
 
     <h2>Search on an unknown landscape</h2>
     <p>A firm chooses a strategy, a designer a parameter, an engineer a location. Each choice has a performance, and
@@ -9,110 +9,137 @@
     ones may perform very differently. That unknown function is the <em>landscape</em>.</p>
     <p>Trying a choice reveals its performance at that point only. A searcher who can afford a few trials must decide
     where to try next and, at the end, where to commit.</p>
-    <p>To reason about this one needs a model of how the landscape varies. The simplest is to treat performance along a
-    line of choices as the path of a random process: Brownian motion, or a process that reverts toward an average. The
-    literature below uses such models in three ways: to explain how organizations search, to design optimization
-    algorithms, and to describe landscapes in nature.</p>
 
-    <h2>Brownian landscapes in economics</h2>
-    <p><a href="./bibliography.html#callander2008">Callander (2008)</a> introduced the Brownian policy landscape: the
-    outcome of a policy is an unknown function of its position, drawn from a Brownian motion. In that paper, delegation
-    to a biased expert survives only when the bias is small relative to the landscape&apos;s volatility.</p>
-    <p>The 2011 papers use the landscape for search (<a href="./bibliography.html#callander2011">Callander 2011a</a>;
-    <a href="./bibliography.html#callander2011b">Callander 2011b</a>). An agent experiments when the incumbent outcome
-    falls below a threshold and stops otherwise. Search ends almost surely, often at a mediocre policy.</p>
-    <p>In that model a sequence of short-lived agents each makes one trial, so search is myopic by construction.
-    Later papers derive similar thresholds for precedent
-    (<a href="./bibliography.html#callanderclark2017">Callander and Clark 2017</a>), risk-averse learning
-    (<a href="./bibliography.html#callandermatouschek2019">Callander and Matouschek 2019</a>) and agenda control
-    (<a href="./bibliography.html#callandermccarty2024">Callander and McCarty 2024</a>). In all of them the number of
-    evaluations is endogenous and payoffs accrue every period.</p>
-    <p><a href="./bibliography.html#bardhicallander2026">Bardhi and Callander (forthcoming)</a> survey the line. Two-period
-    foresight is understood, and farsighted search by a long-lived agent with a free choice of location is largely
-    open.</p>
-
-    <h2>Small budgets and farsighted searchers</h2>
-    <p>Two papers treat very few evaluations. <a href="./bibliography.html#callanderhummel2014">Callander and Hummel
-    (2014)</a> analyze a two-period game in which each of two policymakers can experiment once.
-    <a href="./bibliography.html#ganz2020">Ganz (2020)</a> studies an organization that allows a manager one offline
-    trial before an online choice, so only the second evaluation is paid.</p>
-    <p>Other papers obtain farsighted results under other restrictions:</p>
+    <h2>Correlated learning</h2>
+    <p><a href="./bibliography.html#bardhicallander2026">Bardhi and Callander (2026)</a> survey this area under the name
+    <em>correlated learning</em>: how an observed outcome changes beliefs about other choices when outcomes are
+    correlated. The modelling device is to treat the unknown map from choices to outcomes as the path of a stochastic
+    process, indexed by choices rather than time, most often Brownian motion.</p>
+    <p>Brownian motion gives learning a simple shape. Beliefs about an untried choice depend only on its nearest observed
+    neighbours. Uncertainty grows with distance from what is known, and learning one region reveals little about the
+    rest.</p>
+    <p>The classic index results for search and bandits
+    (<a href="./bibliography.html#gittins1979">Gittins 1979</a>; <a href="./bibliography.html#weitzman1979">Weitzman
+    1979</a>) assume independent outcomes. Correlated extensions had made little progress beyond special cases such as
+    negatively correlated bandits (<a href="./bibliography.html#kleinrady2011">Klein and Rady 2011</a>).</p>
+    <p>The Brownian framework has been applied to four kinds of problem:</p>
     <ul>
-      <li>contiguous search, with a closed-form drawdown stopping rule
-        (<a href="./bibliography.html#urgunyariv2025">Urgun and Yariv 2025</a>), extended to teams
-        (<a href="./bibliography.html#cetemen2023">Cetemen, Urgun and Yariv 2023</a>) and to flow payoffs
-        (<a href="./bibliography.html#wong2025">Wong 2025</a>);</li>
-      <li>choosing several sample locations at once (<a href="./bibliography.html#bardhi2024">Bardhi 2024</a>);</li>
-      <li>infinite sequences of short-lived agents (<a href="./bibliography.html#garfagnini2016">Garfagnini and Strulovici
-        2016</a>; <a href="./bibliography.html#carnehl2025">Carnehl and Schneider 2025</a>;
-        <a href="./bibliography.html#clm2025">Callander, Lambert and Matouschek, forthcoming</a>).</li>
+      <li>search and experimentation, discussed below;</li>
+      <li>communication between an expert and a decision maker (<a href="./bibliography.html#callander2008">Callander
+        2008</a>; <a href="./bibliography.html#clm2021">Callander, Lambert and Matouschek 2021</a>);</li>
+      <li>innovation and competition (<a href="./bibliography.html#callandermatouschek2022">Callander and Matouschek
+        2022</a>; <a href="./bibliography.html#clm2025">Callander, Lambert and Matouschek, forthcoming</a>);</li>
+      <li>attribute problems, where samples inform a later policy
+        (<a href="./bibliography.html#callanderclark2017">Callander and Clark 2017</a>;
+        <a href="./bibliography.html#bardhi2024">Bardhi 2024</a>).</li>
     </ul>
-    <p>Worst-case versions replace the prior with a Lipschitz bound
-    (<a href="./bibliography.html#malladi2025">Malladi 2025</a>; <a href="./bibliography.html#banchio2025">Banchio and
-    Malladi 2025</a>). <a href="./bibliography.html#hodgson2025">Hodgson and Lewis (2025)</a> estimate a Gaussian-process
-    search model on consumer clickstream data.</p>
+
+    <h2>One shot</h2>
+    <p>In the workhorse search model (<a href="./bibliography.html#callander2011b">Callander 2011a</a>) each agent in a
+    sequence lives one period, tries one choice and cares only about its outcome. Each decision is therefore a one-shot
+    problem, solved afresh with everything learned so far.</p>
+    <p>The solution is a risk&ndash;return threshold set by the drift and volatility of the landscape. An agent keeps the
+    status quo when its outcome is close enough to ideal, and otherwise searches, more boldly the worse the status quo.
+    Learning can get stuck: after a bad outcome, reaching a good one looks too risky, and search stops even though better
+    choices exist.</p>
+    <p>The same one-shot logic appears in elections (<a href="./bibliography.html#callander2011">Callander 2011b</a>),
+    judicial precedent (<a href="./bibliography.html#callanderclark2017">Callander and Clark 2017</a>), search with
+    non-satiated preferences (<a href="./bibliography.html#callandermatouschek2019">Callander and Matouschek 2019</a>)
+    and agenda control (<a href="./bibliography.html#callandermccarty2024">Callander and McCarty 2024</a>).</p>
+    <p>In communication, <a href="./bibliography.html#callander2008">Callander (2008)</a> introduced the Brownian
+    landscape. An expert who knows the landscape recommends one action, and the recommendation is followed when her
+    bias is below the same threshold. <a href="./bibliography.html#aybas2025">Aybas and Callander (2025)</a> extend the
+    one-shot cheap-talk game to Itô-diffusion landscapes, including mean-reverting ones.</p>
+
+    <h2>Two shots</h2>
+    <p>With two evaluations the first can be spent on information. <a href="./bibliography.html#callanderhummel2014">Callander
+    and Hummel (2014)</a> give each of two policymakers one experiment in a two-period game. An incumbent who expects to
+    lose power experiments early to shape what its successor learns.</p>
+    <p><a href="./bibliography.html#garfagnini2016">Garfagnini and Strulovici (2016)</a> study agents who live two periods
+    and search twice, with a cost of novelty. Trying something new has option value because the second period exploits
+    the best outcome found. <a href="./bibliography.html#ganz2020">Ganz (2020)</a> allows a manager one offline trial
+    before an online choice, so only the second evaluation is paid.</p>
+    <p>Bayesian optimization has the same horizon. With one informative trial before a final recommendation, the
+    knowledge-gradient policy (<a href="./bibliography.html#frazier2009">Frazier, Powell and Dayanik 2009</a>) is optimal
+    by construction. <a href="./bibliography.html#wu2019">Wu and Frazier (2019)</a> implement a practical two-step
+    lookahead.</p>
+
+    <h2>Three shots</h2>
+    <p>A searcher knows an incumbent&apos;s performance, runs one trial, and then commits to a final position, which is
+    the third evaluation and the only one paid. <a href="./papers.html"><em>When the Grass Is Greener</em></a> solves
+    this problem exactly on the exponential of an Ornstein&ndash;Uhlenbeck landscape.</p>
+    <p>The final placement is in closed form, with a phase diagram for equal observations: abandon a below-median
+    incumbent, revert after a disappointing trial, commit between two good positions, and stay put once a position is
+    strong enough. The opening trial reduces to a one-dimensional optimization.</p>
+    <p>Commitment between positions rests on a variance-ratio identity. An interior position has the same conditional
+    mean as an explicit exterior one and a conditional variance larger by the factor</p>
+    $$\frac{1+\rho}{1-\rho},$$
+    <p>where $\rho$ is the correlation between the two observed positions.</p>
+
+    <h2>Many shots and unbounded search</h2>
+    <p>Farsighted search by a long-lived agent with a free choice of location is largely open
+    (<a href="./bibliography.html#bardhicallander2026">Bardhi and Callander 2026</a>). Progress has come under
+    restrictions:</p>
+    <ul>
+      <li>contiguous search, where the searcher moves continuously and chooses only its speed
+        (<a href="./bibliography.html#urgunyariv2025">Urgun and Yariv 2025</a>; <a href="./bibliography.html#wong2025">Wong
+        2025</a>; <a href="./bibliography.html#cetemen2023">Cetemen, Urgun and Yariv 2023</a>);</li>
+      <li>sequences of short-lived agents (<a href="./bibliography.html#carnehl2025">Carnehl and Schneider 2025</a>;
+        <a href="./bibliography.html#clm2025">Callander, Lambert and Matouschek, forthcoming</a>);</li>
+      <li>choosing several sample locations at once (<a href="./bibliography.html#bardhi2024">Bardhi 2024</a>);</li>
+      <li>worst-case search over Lipschitz landscapes (<a href="./bibliography.html#malladi2025">Malladi 2025</a>;
+        <a href="./bibliography.html#banchio2025">Banchio and Malladi 2025</a>);</li>
+      <li>a structural model of consumer search, solved numerically and estimated
+        (<a href="./bibliography.html#hodgson2025">Hodgson and Lewis 2025</a>).</li>
+    </ul>
+    <p>An early hybrid is <a href="./bibliography.html#jovanovicrob1990">Jovanovic and Rob (1990)</a>, with correlated
+    learning inside an interval and independence across intervals.</p>
+    <p>Optimization studies the same object with large budgets. <a href="./bibliography.html#calvin1997">Calvin
+    (1997)</a> derives average-case convergence rates under Wiener measure.
+    <a href="./bibliography.html#grill2018">Grill, Valko and Munos (2018)</a> approximate the maximum of a Brownian path,
+    and <a href="./bibliography.html#grosse2023">Grosse, Zhang and Hennig (2023)</a> extend this to Gaussian-process
+    samples.</p>
+    <p>Bayesian optimization mostly uses one-step rules: probability of improvement
+    (<a href="./bibliography.html#kushner1964">Kushner 1964</a>), expected improvement
+    (<a href="./bibliography.html#mockus1978">Mockus et al. 1978</a>; <a href="./bibliography.html#jones1998">Jones et al.
+    1998</a>), upper confidence bounds (<a href="./bibliography.html#srinivas2010">Srinivas et al. 2010</a>) and entropy
+    search (<a href="./bibliography.html#hennig2012">Hennig and Schuler 2012</a>;
+    <a href="./bibliography.html#wang2017mes">Wang and Jegelka 2017</a>). Multi-step lookahead exists in approximate form
+    (<a href="./bibliography.html#ginsbourger2010">Ginsbourger and Le Riche 2010</a>;
+    <a href="./bibliography.html#lam2016">Lam, Willcox and Wolpert 2016</a>; <a href="./bibliography.html#jiang2020">Jiang
+    et al. 2020</a>). <a href="./bibliography.html#shahriari2016">Shahriari et al. (2016)</a> review the field.</p>
+    <p>A line search is a few evaluations along one direction. The probabilistic line search of
+    <a href="./bibliography.html#mahsereci2017">Mahsereci and Hennig (2017)</a> uses gradient observations and a
+    Gaussian-process model. The grass rule used as a line search is on the <a href="./line-search.html">line-search
+    page</a>.</p>
 
     <h2>Mean-reverting landscapes</h2>
     <p>A Brownian landscape drifts without bound away from known territory. An Ornstein&ndash;Uhlenbeck landscape
-    reverts, so performance far from what is known regresses to an average. Its covariance is the exponential kernel,
-    the Mat&eacute;rn kernel with $\nu = 1/2$ (<a href="./bibliography.html#rasmussen2006">Rasmussen and Williams
-    2006</a>).</p>
-    <p>In the economics literature, <a href="./bibliography.html#aybas2025">Aybas and Callander (2025)</a> allow
-    Itô-diffusion landscapes including the Ornstein&ndash;Uhlenbeck case, in a one-shot cheap-talk game.
-    <a href="./bibliography.html#bardhi2024">Bardhi (2024)</a> proves that the Ornstein&ndash;Uhlenbeck kernel is the
-    only powered-exponential covariance with the Markov property.</p>
-    <p>The same kernel appears in other fields. <a href="./bibliography.html#weinberger1990">Weinberger (1990)</a>
-    measures the ruggedness of a fitness landscape by the exponential decay of a random walk&apos;s autocorrelation. In
-    evolutionary biology the Ornstein&ndash;Uhlenbeck process models a trait held near an optimum
-    (<a href="./bibliography.html#hansen1997">Hansen 1997</a>; <a href="./bibliography.html#butlerking2004">Butler and
-    King 2004</a>). Radio shadowing has exponential spatial correlation
-    (<a href="./bibliography.html#gudmundson1991">Gudmundson 1991</a>).</p>
-
-    <h2>Optimization with large budgets</h2>
-    <p>In optimization the same object appears with many evaluations.
-    <a href="./bibliography.html#calvin1997">Calvin (1997)</a> derives average-case convergence rates under Wiener
-    measure. <a href="./bibliography.html#grill2018">Grill, Valko and Munos (2018)</a> approximate the maximum of a
-    Brownian path, and <a href="./bibliography.html#grosse2023">Grosse, Zhang and Hennig (2023)</a> extend this to
-    Gaussian-process samples with regret rates.</p>
-    <p><a href="./bibliography.html#alabert2018">Alabert and Caballero (2018)</a> compute the law of the minimum of a
-    conditioned Brownian bridge to compare fixed sampling designs. The probabilistic line search of
-    <a href="./bibliography.html#mahsereci2017">Mahsereci and Hennig (2017)</a> is a Gaussian-process line search for
-    stochastic gradient descent, built on gradient observations.</p>
-
-    <h2>Bayesian optimization</h2>
-    <p>Acquisition rules in Bayesian optimization differ along two lines
-    (<a href="./bibliography.html#shahriari2016">Shahriari et al. 2016</a>). One is myopic against lookahead.
-    Probability of improvement (<a href="./bibliography.html#kushner1964">Kushner 1964</a>), expected improvement
-    (<a href="./bibliography.html#mockus1978">Mockus et al. 1978</a>; <a href="./bibliography.html#jones1998">Jones et al.
-    1998</a>), the upper confidence bound (<a href="./bibliography.html#srinivas2010">Srinivas et al. 2010</a>) and entropy
-    search (<a href="./bibliography.html#hennig2012">Hennig and Schuler 2012</a>;
-    <a href="./bibliography.html#wang2017mes">Wang and Jegelka 2017</a>) are one-step rules.</p>
-    <p>Multi-step rules exist in approximate form:</p>
+    reverts, so performance far from what is known regresses to an average, and every choice is equally uncertain before
+    any is tried.</p>
+    <p><a href="./bibliography.html#bardhi2024">Bardhi (2024)</a> introduces the powered-exponential covariances
+    $\exp(-(|x-x'|/\ell)^p)$. The case $p = 1$ is the Ornstein&ndash;Uhlenbeck covariance, the only member with the
+    nearest-neighbour property. The case $p = 2$ is the smooth squared-exponential kernel, which loses it. In machine
+    learning $p = 1$ is the Mat&eacute;rn kernel with $\nu = 1/2$ (<a href="./bibliography.html#rasmussen2006">Rasmussen
+    and Williams 2006</a>).</p>
+    <p>The survey calls for testing such distance-based covariances more widely. The same kernel already appears
+    elsewhere:</p>
     <ul>
-      <li>the observation that one-step rules are suboptimal under a genuine budget
-        (<a href="./bibliography.html#ginsbourger2010">Ginsbourger and Le Riche 2010</a>);</li>
-      <li>finite-budget optimization as an approximate dynamic program
-        (<a href="./bibliography.html#lam2016">Lam, Willcox and Wolpert 2016</a>);</li>
-      <li>two-step lookahead (<a href="./bibliography.html#wu2019">Wu and Frazier 2019</a>) and the full lookahead tree
-        (<a href="./bibliography.html#jiang2020">Jiang et al. 2020</a>).</li>
+      <li>the ruggedness of fitness landscapes (<a href="./bibliography.html#weinberger1990">Weinberger 1990</a>);</li>
+      <li>traits held near an adaptive optimum (<a href="./bibliography.html#hansen1997">Hansen 1997</a>;
+        <a href="./bibliography.html#butlerking2004">Butler and King 2004</a>);</li>
+      <li>shadow fading of radio signals (<a href="./bibliography.html#gudmundson1991">Gudmundson 1991</a>), tested on the
+        <a href="./wifi.html">WiFi page</a>.</li>
     </ul>
-    <p>The other line is the payoff: cumulative regret, or the value of a final recommendation. The knowledge
-    gradient (<a href="./bibliography.html#frazier2009">Frazier, Powell and Dayanik 2009</a>) scores the final
-    recommendation. With one informative trial before a terminal recommendation it is optimal by construction.</p>
-
-    <h2>Where few-shot search sits</h2>
-    <p>The grass problem has a fixed budget of three evaluations, pays only at the final placement, and uses a
-    mean-reverting landscape. In the taxonomy above it is lookahead with a terminal recommendation, the
-    knowledge-gradient corner. On the exponentiated Ornstein&ndash;Uhlenbeck landscape that policy is characterized
-    exactly: the final placement in closed form, the opening trial by one-dimensional quadrature.</p>
-    <p>Larger budgets, other objectives and several dimensions are open, and are listed on the
-    <a href="./index.html">home page</a>.</p>
 
     <h2>Practice and experiment</h2>
-    <p>Across four randomized trials covering 759 firms, 59% never pivoted radically during the study, 24% pivoted
-    once and 17% more than once (<a href="./bibliography.html#camuffo2024">Camuffo et al. 2024</a>;
+    <p>Across four randomized trials covering 759 firms, 59% never pivoted radically during the study, 24% pivoted once
+    and 17% more than once (<a href="./bibliography.html#camuffo2024">Camuffo et al. 2024</a>;
     <a href="./bibliography.html#camuffo2020">Camuffo et al. 2020</a>). Practitioners call the fork pivot or persevere
-    (<a href="./bibliography.html#ries2011">Ries 2011</a>).</p>
-    <p><a href="./bibliography.html#glick2015">Glick and Myers (2015)</a> tested the one-evaluation problem in the lab.
-    Subjects respond to the Brownian structure but modify too much when the variance is high.</p>
+    (<a href="./bibliography.html#ries2011">Ries 2011</a>). Rugged-landscape models in management study search by
+    heuristics such as hill climbing (<a href="./bibliography.html#levinthal1997">Levinthal 1997</a>).</p>
+    <p>In the lab, subjects respond to Brownian uncertainty but struggle when it is highly complex
+    (<a href="./bibliography.html#glick2015">Glick and Myers 2015</a>). In a dynamic search experiment, participants move
+    away from low prizes, stay near high ones, and concentrate around their best discoveries
+    (<a href="./bibliography.html#malladimm2025">Malladi, Martínez-Marquina and Morozov 2025</a>).</p>
   </main>
