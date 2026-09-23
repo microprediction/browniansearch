@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The rule as a line search · browniansearch</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <style>.katex { white-space: nowrap; } .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="./index.html">browniansearch</a>
+    <nav>
+      <span class="menu"><span class="menu-label" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">Research</span><span class="drop">
+        <a href="./line-search.html">The rule as a line search</a>
+        <a href="./wifi.html">WiFi case study</a>
+      </span></span>
+      <a href="./papers.html">Papers</a>
+      <a href="./bibliography.html">Bibliography</a>
+      <a href="https://github.com/microprediction/browniansearch">GitHub</a>
+    </nav>
+  </div>
+  <script>
+    document.querySelectorAll('.site-header .menu-label').forEach(function (b) {
+      b.addEventListener('click', function (e) { e.stopPropagation(); var m = b.parentNode, open = m.classList.toggle('open'); b.setAttribute('aria-expanded', open); });
+    });
+    document.addEventListener('click', function () { document.querySelectorAll('.site-header .menu.open').forEach(function (m) { m.classList.remove('open'); m.querySelector('.menu-label').setAttribute('aria-expanded', 'false'); }); });
+  </script>
+</header>
+
+  <main>
+    <h1>The rule as a line search</h1>
+    <p class="subtitle">The two-shot placement rule as the inner loop of derivative-free optimizers: where it wins, where it loses, and why.</p>
+
+    <p class="lead">A line search in a derivative-free optimizer is terminal placement: a few evaluations along a
+    direction, then a point is returned. Golden-section and Brent searches assume smooth unimodal slices. The grass
+    rule instead assumes an Ornstein&ndash;Uhlenbeck slice and places its probes in closed form.</p>
+
+    <h2>How rough real objectives are</h2>
+    <p>Roughness is measured by the variogram exponent $p$, with $\mathbb{E}\big[(f(x+\Delta)-f(x))^2\big] \sim \Delta^p$ at
+    small lags. Smooth slices have $p = 2$, and an Ornstein&ndash;Uhlenbeck path has $p = 1$.</p>
+    <ul>
+      <li>Classic test functions along random lines are smooth, with $p$ between 1.72 and 1.98.</li>
+      <li>Full-physics simulators are often very rough: pool 0.15, mini golf 0.18, curling 0.07, bowling 0.29.</li>
+      <li>Composing with a space-filling curve manufactures roughness that falls with dimension.</li>
+    </ul>
+
+    <h2>Inside a custom outer loop</h2>
+    <p>With one outer loop of iterated random-direction line searches and a budget of 120 evaluations, only the inner
+    loop differs. The rule uses one or two evaluations per line, so the outer loop sees three to five times as many
+    directions as it would with Brent.</p>
+    <ul>
+      <li>It wins on navigably rough simulators with collision or agent chaos: plinko (20 to 21 of 24 seeds against
+        every rival), bowling, boids and tennis.</li>
+      <li>It wins in high dimension, where direction count beats per-line precision. Against Brent its seed wins rise
+        from 6 of 24 at dimension 2 to 24 of 24 at dimension 32 on Rosenbrock.</li>
+      <li>It loses on smooth low-dimensional slices, and on needle landscapes where the value hides in a tiny region.</li>
+    </ul>
+    <p>Ablations show the engine is the per-line economy and the adaptive bracket, not the third shot. The two-shot
+    version with a uniform interior flee is the one to carry forward, and it is also the simplest.</p>
+
+    <h2>Against engineered optimizers</h2>
+    <p>Against nine state-of-the-art optimizers ported into humpday, on 22 physics simulators at a budget of 120, the
+    rule ranks about sixth of eleven by tie-averaged rank. It is just below PRIMA&apos;s BOBYQA and above golden section,
+    Nelder&ndash;Mead, random search and dual annealing.</p>
+    <p>It is a few-shot specialist. Its standing is best at a budget of 40, where it leads CMA-ES, and CMA-ES overtakes
+    it from about 100 evaluations on.</p>
+
+    <h2>Swapped into Powell&apos;s method</h2>
+    <p>Replacing only the line search inside Powell&apos;s method is not an upgrade: stock Powell with Brent wins 373 of
+    488 paired seeds. Powell&apos;s direction-set updates rely on the line search being a genuine minimizer, and a one- or
+    two-evaluation probe feeds them noise.</p>
+    <p>The exception is budget-starved high dimension. On a 16-dimensional wind-farm layout, Brent&apos;s lines exhaust the
+    budget before one direction cycle, and the swap wins 24 of 24 seeds.</p>
+
+    <h2>Against one-step expected improvement</h2>
+    <p>The optimizer keeps its incumbent, so the matched one-step acquisition is expected improvement on the
+    Ornstein&ndash;Uhlenbeck line. The rule, which carries the wider bracket of the terminal game, wins 143 paired seeds
+    to 116 across 14 problems. The wider bracket buys exploration whose value a one-step criterion cannot see.</p>
+
+    <h2>On its own model</h2>
+    <p>On Gaussian fields with exponential covariance, which are Ornstein&ndash;Uhlenbeck along every line, the rule
+    loses: golden section with six probes wins almost every case. With correlation length $1/\kappa$ the cube holds
+    about $\kappa^d$ nearly independent cells, and with 120 evaluations decorrelated probing wins.</p>
+    <p>So the rule&apos;s wins are not explained by the slices being Ornstein&ndash;Uhlenbeck. Its terminal-placement logic
+    says to correlate, while a running maximum over many calls says to spread.</p>
+
+    <h2>The basin hypothesis</h2>
+    <p>The rule should win when the evaluation budget is comparable to the number of local minima. The direction,
+    membership and rank definition were registered before a holdout sweep of 33 full-physics pages. On that holdout the
+    Spearman correlation between basin count and the rule&apos;s rank is $+0.455$, one-sided $p = 0.0039$, in the
+    predicted direction.</p>
+    <p>Across every experiment the strongest general baseline is golden section with two full-segment probes per line.
+    The rule&apos;s distinctive wins over it are the navigably rough simulators and structured high-dimensional
+    landscapes.</p>
+    <p class="muted">Code and logs: <a href="https://github.com/microprediction/browniansearch/tree/main/linesearch">linesearch/</a>.</p>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/browniansearch">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

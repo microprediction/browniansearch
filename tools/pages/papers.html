@@ -1,0 +1,24 @@
+<!-- title: Papers · browniansearch | math -->
+  <main>
+    <h1>Papers</h1>
+    <p class="subtitle">Papers and notes on few-shot search.</p>
+    <div class="paper">
+      <p><strong><a href="./grass.pdf">When the Grass Is Greener: Three-Shot Search on Exponentiated Gaussian Landscapes</a></strong></p>
+      <p class="meta">Peter Cotton &middot; working paper, September 2026; first version April 6, 2022 &middot;
+        <a href="./grass.pdf">PDF</a> &middot;
+        <a href="https://github.com/microprediction/browniansearch/tree/main/papers/grass">source and numerics</a> &middot;
+        <a href="https://github.com/microprediction/browniansearch/tree/main/verify">checks</a> &middot;
+        <a href="https://github.com/microprediction/home/blob/main/workingpapers/go_forth.pdf">2022 version</a></p>
+      <p>How should a firm spend its last pivot? A searcher knows an incumbent strategy&apos;s performance, may run one
+      more trial, and must then commit, on a landscape given by the exponential of a stationary Ornstein&ndash;Uhlenbeck
+      path. The final placement is solved exactly, with a closed-form phase diagram for equal observations: abandon a
+      below-median incumbent; after a disappointing trial revert to the better position&apos;s own two-shot rule; commit
+      between two good positions; and stay put once a position is strong enough.</p>
+      <p>Commitment between positions rests on a constant variance-ratio identity: every interior position has the same
+      conditional mean log-performance as an explicit exterior alternative and $(1+\rho)/(1-\rho)$ times its conditional
+      variance. Terminal placement is a projection of the observed values onto a feasible set of correlations, so the
+      geometry solves in every Euclidean dimension.</p>
+      <p>Every number is produced by the numerics script and checked independently by exact conditioning and weighted
+      Monte Carlo.</p>
+    </div>
+  </main>
