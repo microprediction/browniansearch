@@ -12,7 +12,7 @@ It is the search-side sibling of
 there a controller *prunes many* paths under budget; here a searcher
 *samples one* path a few times. Both maximize an expected extreme.
 
-## Founding paper
+## Papers
 
 **When the Grass Is Greener: Three-Shot Search on Exponentiated
 Gaussian Landscapes** (Cotton) —
