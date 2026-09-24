@@ -13,8 +13,8 @@ the final placement exactly and gives a closed-form phase diagram for
 the case of equal observations: abandon a below-median incumbent,
 leave past the better position after a disappointing trial, commit
 between two good positions, and stay put above an exact ceiling. The
-central identity is that an interior position shares its conditional
-mean with a bolder alternative and carries (1+rho)/(1-rho) times its
+central identity is that, for equal observed values, an interior
+position shares its conditional mean with a bolder alternative and carries (1+rho)/(1-rho) times its
 variance.
 
 The result sits in the correlated-search tradition of Callander and
