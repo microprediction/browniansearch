@@ -22,52 +22,60 @@ short-scale/nugget component of roughly half the variance. The expOU
 premise holds on real radio measurements, consistent with the
 classical Gudmundson shadowing model [U].
 
-Next: the trace-split three-shot replay per the recorded protocol
-(prior fit on training traces only; 120-sample mean power as the
-latent payoff surface; policies compared: three-shot exact,
-two-shot, interior-excluded, equispaced, empirical KG).
+## Trace-split replay (replay.py, output in replay_results.json)
+Protocol: split the 50 traces into 25 training and 25 held-out
+traces first (seed 0). Fit the AP path-loss trend on the
+location-AP observations outside the held-out traces and freeze it;
+detrend the held-out traces with the frozen fit. Fit the covariance
+model on the training traces: var 1.139, L = 9.43 grid units, OU
+share 0.49. 125 episodes on the held-out traces, payoff exp of the
+120-sample mean surface at the deployed point:
 
-## Replay round one (2026-09-03, scoring corrected to the
-## exponential payoff the policies optimize)
-Model fit on 25 training traces: var 1.165, L = 10.77 grid units,
-OU share 0.50. 125 episodes on 25 held-out traces:
-  incumbent    2.596 linear payoff   (baseline)
-  twoshot      3.184  (+22.6%)
-  threeshot    3.442  (+32.5%)
-  kg           4.224  (+62.7%)
-  equispaced   4.409  (+69.8%)
-(A first run scored mean LOG power -- the wrong exam for policies
-optimizing E[e^X]; corrected before reading anything into it.)
+  trial              deployment        mean payoff   vs incumbent
+  none               incumbent         2.899
+  two-shot step      better observed   3.875         +33.7%
+  two-shot step      model             4.235         +46.1%
+  far end            better observed   4.300         +48.3%
+  three-shot rule    model             4.380         +51.1%
 
-## The standings are the theory's own fast-reversion prediction
-L ~ 11 against traces of 15-92: far probes are near-fresh draws.
+threeshot - far_best: +0.079, paired se 0.260 (not distinguished).
+
+The two-shot step is lam = clip(b, 0, 1) from the incumbent, b
+standardized by the OU sd. With the better observed point paid it is
+a heuristic, not the paper's two-shot game (which pays the second
+point). The three-shot rule is the trial maximizing the expected
+payoff of the model deployment that follows, computed on the finite
+trace with the nugget by one-step lookahead over every grid point.
+Model deployment values an observed point at its known value and an
+unobserved one at exp(mu + (var + nugget)/2).
+
+## Fast reversion
+L ~ 9-11 against traces of 15-92: far probes are near-fresh draws.
 Small-rho expansion of the exact formulas: revisit window
 (b_-, e^{2 Theta}) -> (0.586 sqrt(rho), 1+2 rho) and the interior
-premium U_off - zeta ~ rho (1 - b^2): the interior option's edge is
-O(rho) while the fresh-draw variance bonus is O(1). Fast mean
-reversion demotes revisiting to a second-order refinement, so
-measure-far-take-best is leading-order optimal -- equispaced and KG
-lead because the regime says they should. Adjacent points sit at
-rho = 0.91 (the slow scale): one trace contains both scales.
+premium U_off - zeta ~ rho (1 - b^2). The interior option's edge is
+O(rho). That does not make measure-far-take-best optimal: the
+exterior option keeps an O(1) value (zeta(y) > y for y < 1), and
+the trial location still matters, even for the best of two
+observed payoffs when the incumbent is positive. Adjacent points sit at rho = 0.91 (the slow
+scale): one trace contains both scales.
 
 ## The multiscale program (Peter: PhD on fast mean-reverting OU;
 ## FPS-style singular perturbation)
-epsilon = 1/(kappa T). Leading order: the k-shot game degenerates to
-order statistics of independent draws plus the incumbent (a winning-
-engine object). Corrections: bridge terms enter at O(epsilon) --
-expand the exact three-shot solution as the seed, then the k-shot
-value via the perturbation machinery that closed forms cannot reach.
-This would give the paper an asymptotic k-shot section grounded in
-exactly the regime the real data occupies.
+epsilon = 1/(kappa T). Far probes become independent draws, but the
+terminal point can still be stepped out from the best observation,
+so the leading-order k-shot game is order statistics of independent
+draws plus a two-shot exterior step from the best. Corrections:
+bridge terms enter at O(epsilon) -- expand the exact three-shot
+solution as the seed, then the k-shot value via the perturbation
+machinery that closed forms cannot reach.
 
-## Honest gaps in round one, to fix in round two
-1. Conditional cut missing: the phase diagram predicts WHERE
-   threeshot beats far-probing (high-b incumbents, near brackets);
-   report gains conditional on the incumbent's standardized b and
-   the region, not just pooled.
-2. Trace-level mean effects: detected traces have elevated mean
-   (+0.39); a per-trace random intercept (AP-corridor effect) is not
-   in the model and may misallocate variance between mean and OU.
-3. Finite-trace flee: the theory's "flee to infinity" maps to the
-   far end of a short trace; twoshot/threeshot implementations
-   truncate the step rather than model the boundary.
+## Open items
+1. Conditional cut: the phase diagram predicts where the three-shot
+   rule beats far probing (high-b incumbents, near brackets); report
+   gains conditional on the incumbent's standardized b and position.
+2. Trace-level mean effects: detected traces have elevated mean; a
+   per-trace random intercept (AP-corridor effect) is not in the
+   model and may misallocate variance between mean and OU.
+3. More episodes or several splits, to separate the leading
+   policies.

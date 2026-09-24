@@ -1,7 +1,7 @@
 <!-- title: WiFi case study · browniansearch | math -->
   <main>
     <h1>WiFi case study</h1>
-    <p class="subtitle">Measured indoor signal strength follows the exponentiated Ornstein&ndash;Uhlenbeck model, and fast reversion decides which search policies lead.</p>
+    <p class="subtitle">Measured indoor signal strength follows the exponentiated Ornstein&ndash;Uhlenbeck model. On held-out traces, one well-placed measurement raises the deployed payoff by about half.</p>
 
     <h2>The data</h2>
     <p>The <a href="./bibliography.html#feng2024">Feng, Nguyen and Luo (2024)</a> dataset covers a 92 by 15 metre floor
@@ -15,36 +15,54 @@
     <a href="./bibliography.html#gudmundson1991">Gudmundson (1991)</a>.</p>
 
     <h2>Replaying the policies</h2>
-    <p>The model was fitted on 25 training traces, and 125 search episodes were replayed on 25 held-out traces. The
-    payoff is the exponentiated signal, the objective the policies optimize.</p>
+    <p>The 50 traces were split into 25 training and 25 held-out traces before anything was fitted. The path-loss trend
+    was fitted on the observations outside the held-out traces, then frozen. The covariance model was fitted on the
+    training traces alone.</p>
+    <p class="muted">Fitted model: variance 1.139, correlation length 9.43 grid units, OU share 0.49.</p>
+    <p>Each of the 125 episodes on held-out traces starts from a random incumbent point. The searcher makes one more
+    measurement and then deploys at one point of the trace. The payoff is the exponentiated signal at the deployed
+    point, the objective the policies optimize.</p>
+    <p>Model deployment picks the point with the highest expected payoff under the fitted model. An observed point is
+    worth its known value; an unobserved point is worth its conditional log-normal mean.</p>
     <div class="table-wrap">
     <table class="impl">
-      <thead><tr><th>policy</th><th>mean payoff</th><th>gain over the incumbent</th></tr></thead>
+      <thead><tr><th>trial</th><th>deployment</th><th>mean payoff</th><th>gain over the incumbent</th></tr></thead>
       <tbody>
-        <tr><td>incumbent</td><td>2.596</td><td></td></tr>
-        <tr><td>two-shot rule</td><td>3.184</td><td>+22.6%</td></tr>
-        <tr><td>three-shot rule</td><td>3.442</td><td>+32.5%</td></tr>
-        <tr><td>knowledge gradient</td><td>4.224</td><td>+62.7%</td></tr>
-        <tr><td>equispaced probes</td><td>4.409</td><td>+69.8%</td></tr>
+        <tr><td>none</td><td>incumbent</td><td>2.899</td><td></td></tr>
+        <tr><td>two-shot step</td><td>better observed point</td><td>3.875</td><td>+33.7%</td></tr>
+        <tr><td>two-shot step</td><td>model</td><td>4.235</td><td>+46.1%</td></tr>
+        <tr><td>far end of the trace</td><td>better observed point</td><td>4.300</td><td>+48.3%</td></tr>
+        <tr><td>three-shot rule</td><td>model</td><td>4.380</td><td>+51.1%</td></tr>
       </tbody>
     </table>
     </div>
+    <p>The two-shot step moves to correlation $\operatorname{clip}(b,0,1)$ from the incumbent, where $b$ is the
+    incumbent&apos;s standardized value. It is a heuristic trial here. The paper&apos;s two-shot game pays the second
+    point, not the better of two.</p>
+    <p>The three-shot rule chooses the trial that maximizes the expected payoff of the model deployment that follows
+    it. It is computed for the fitted model on the finite trace, nugget included, by searching every grid point and
+    integrating over the trial&apos;s predicted value.</p>
+    <p>The three-shot rule leads the far probe by 0.079, with a paired standard error of 0.260. The two are not
+    distinguished by these 125 episodes.</p>
 
-    <h2>Why far probes lead here</h2>
-    <p>The correlation length of about 11 grid units is short against traces of 15 to 92, so far probes are nearly
-    fresh draws. For small correlation $\rho$ the exact formulas give a revisiting window</p>
+    <h2>Fast reversion and far probes</h2>
+    <p>The correlation length of 9 to 11 grid units is short against traces of 15 to 92, so far probes are nearly
+    fresh draws. For small bracket correlation $\rho$ the exact formulas give a revisiting window</p>
     $$\big(b_-,\ e^{2\Theta}\big) \;\to\; \big(0.586\sqrt\rho,\ 1 + 2\rho\big),$$
-    <p>and an interior premium of order $\rho(1 - b^2)$. The interior option&apos;s edge is of order $\rho$, while the
-    variance of a fresh draw is of order one.</p>
-    <p>Fast reversion therefore makes measuring far away and taking the best optimal to leading order. Equispaced
-    probing and the knowledge gradient lead because the regime says they should.</p>
+    <p>and an interior premium of order $\rho(1 - b^2)$. Placing the final point between two nearly independent
+    observations gains little.</p>
+    <p>Placing it outside keeps its value. A final point stepped out from an observed value $y$ by the two-shot rule
+    has log expected payoff</p>
+    $$\zeta(y) \;=\; \tfrac{1}{2}\left(\max(y,0)^{2}+1\right) \;>\; y \qquad (y < 1),$$
+    <p>so the exterior option is worth order one even when the interior premium vanishes. Where the trial goes also
+    matters. Small bracket correlation does not make probing far and taking the better observation optimal.</p>
 
     <h2>Refinements</h2>
     <ul>
       <li>Report gains conditional on the incumbent&apos;s standardized value and position, where the phase diagram
         predicts the three-shot rule beats far probing.</li>
       <li>Add a per-trace random intercept for the elevated mean of detected traces.</li>
-      <li>Model the trace boundary, since fleeing to infinity maps to the far end of a short trace.</li>
+      <li>Replay more held-out episodes, or several splits, to separate the leading policies.</li>
     </ul>
     <p class="muted">Code: <a href="https://github.com/microprediction/browniansearch/tree/main/casestudy/wifi">casestudy/wifi/</a>.</p>
   </main>

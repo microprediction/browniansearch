@@ -13,14 +13,14 @@ Target (Peter's parallel run): 4,387 location-AP observations,
 ~50 traces of 15+, skew 0.047, excess kurtosis -0.152,
 C(h) ~ 0.640 exp(-h/11.84), R^2 0.990.
 """
+import os
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize
 from scipy.stats import skew, kurtosis
 
-BASE = ("/private/tmp/claude-501/-Users-petercotton-github-winning/"
-        "4cfe1164-1ade-46c7-a29a-33bedf35fe90/scratchpad/wifi_feng/"
-        "WiFi-RTT-RSS-dataset-main/dataset/")
+from replay import BASE
+BASE = BASE + os.sep
 
 def load():
     fr = pd.read_csv(BASE + "dataset_building_floor_train.csv",
