@@ -995,11 +995,13 @@ loop of an iterated random-direction optimizer, with mean, scale, and
 correlation length estimated online, it is the best inner loop on
 several rough and high-dimensional objectives of a public physics
 benchmark, the HumpDay suite (Cotton 2021), and mid-field as a
-standalone optimizer against a panel of eleven standard methods. It
-helps when the evaluation budget is comparable to the number of local
-minima a slice presents and loses when the minima greatly outnumber
-the budget, consistent with a policy built for terminal placement
-rather than many-call optimization.
+standalone optimizer against a panel of eleven standard methods. In a
+pre-registered holdout at a budget of 120 evaluations, its rank among
+six inner loops worsens as the number of extrema on short slices
+grows (Spearman $+0.52$, one-sided $p=0.001$, $n=33$), consistent
+with a policy built for terminal placement rather than many-call
+optimization; whether the ratio of budget to basin count is the
+operative variable has not been tested.
 
 The benchmark table, the heuristic implementation and its caveats, an
 exponentiated-OU control, an ablation that isolates the third

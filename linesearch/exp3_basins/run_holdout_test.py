@@ -4,8 +4,8 @@ import glob, json, os
 import numpy as np
 from scipy.stats import rankdata, spearmanr
 
-HOLD = ("/Users/petercotton/github/browniansearch/linesearch/"
-        "exp2_bench/js_holdout")
+HERE = os.path.dirname(os.path.abspath(__file__))
+HOLD = os.path.join(HERE, "..", "exp2_bench", "js_holdout")
 
 # discovery-set objective stems (excluded from holdout, per prereg)
 DISCOVERY = {"bowling","plinko_funnel","plinko","boids_flocking","boids",
@@ -65,4 +65,4 @@ json.dump(dict(n=len(rows),rho=float(rho),p_two=float(p),
     p_one=float(p_one),verdict=verdict,
     rows=[dict(name=r[0],d=r[1],basins=r[2],rank=r[3]) for r in rows],
     excluded=sorted(set(excluded))),
-    open("holdout_results.json","w"),indent=2)
+    open(os.path.join(HERE,"holdout_results.json"),"w"),indent=2)

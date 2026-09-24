@@ -54,3 +54,11 @@ demo-pair rule, not a name inference), so the locked exclusion "any
 JS page whose objective is one of the discovery 22" applies. Rerun on
 33: Spearman(basins, grass_rank) = +0.455, one-sided p=0.0039 --
 verdict unchanged, SUPPORTED. Paper carries the n=33 figures.
+
+## Rerun (2026-09-24): sweep regenerated after the line-search fixes
+Brent no longer re-evaluates the incumbent and the direction and
+inner-search RNG streams are separate (exp2_bench/ou3_linesearch.py).
+Same locked test, same 33 pages: Spearman(basins, grass2U_rank) =
++0.517, one-sided p = 0.0010, SUPPORTED; 16/33 smooth ties. The test
+holds the budget at 120, so it speaks to the slice-extrema proxy
+against rank at that budget, not to budget matching.

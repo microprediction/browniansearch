@@ -20,7 +20,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, "/Users/petercotton/github/humpday")
 sys.path.insert(0, "/Users/petercotton/github/humpday/example_applications")
 
-from run_family import DEMOS, eval_cost_ms, get_objective  # noqa: E402
+from run_family import DEMOS, eval_cost_ms, get_objective, tier_seeds  # noqa: E402
 from ou3_linesearch import GrassInner, golden_inner, iterated_line_search  # noqa: E402
 
 from humpday.optimizers.alloptimizers import PURE_OPTIMIZERS  # noqa: E402
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         t0 = time.time()
         obj, d = get_objective(demo)
         ms = eval_cost_ms(obj, d)
-        seeds = 24 if ms < 2 else (16 if ms < 30 else 8)
+        seeds = tier_seeds(ms, "vs_sota_results.json", demo)
         rows = {}
         for m in METHODS:
             runner = run_ours if m in ("grass2U", "golden2") else run_humpday

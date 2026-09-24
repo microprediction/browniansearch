@@ -53,13 +53,16 @@
 
     <h2>Inside a custom outer loop</h2>
     <p>With one outer loop of iterated random-direction line searches and a budget of 120 evaluations, only the inner
-    loop differs. The rule uses one or two evaluations per line, so the outer loop sees three to five times as many
-    directions as it would with Brent.</p>
+    loop differs. For a given seed every method starts at the same point and its $k$-th line has the same direction;
+    the rule&apos;s own random draws come from a separate stream. The positions differ, since each method moves to the
+    best point of its own line.</p>
+    <p>The rule uses one or two evaluations per line and Brent about eight, so the outer loop sees four to six times as
+    many directions as it does with Brent.</p>
     <ul>
       <li>It wins on navigably rough simulators with collision or agent chaos: plinko (20 to 21 of 24 seeds against
         every rival), bowling, boids and tennis.</li>
       <li>It wins in high dimension, where direction count beats per-line precision. Against Brent its seed wins rise
-        from 6 of 24 at dimension 2 to 24 of 24 at dimension 32 on Rosenbrock.</li>
+        from 6 of 24 at dimension 2 to 23 of 24 at dimension 32 on Rosenbrock.</li>
       <li>It loses on smooth low-dimensional slices, and on needle landscapes where the value hides in a tiny region.</li>
     </ul>
     <p>Ablations show the engine is the per-line economy and the adaptive bracket, not the third shot. The two-shot
@@ -69,8 +72,8 @@
     <p>Against nine state-of-the-art optimizers ported into humpday, on 22 physics simulators at a budget of 120, the
     rule ranks about sixth of eleven by tie-averaged rank. It is just below PRIMA&apos;s BOBYQA and above golden section,
     Nelder&ndash;Mead, random search and dual annealing.</p>
-    <p>It is a few-shot specialist. Its standing is best at a budget of 40, where it leads CMA-ES, and CMA-ES overtakes
-    it from about 100 evaluations on.</p>
+    <p>Its standing does not improve with budget. Over eight problems and budgets from 40 to 1080 evaluations, its mean
+    rank among five methods stays near three, and CMA-ES is ahead at every budget.</p>
 
     <h2>Swapped into Powell&apos;s method</h2>
     <p>Replacing only the line search inside Powell&apos;s method is not an upgrade: stock Powell with Brent wins 373 of
@@ -81,21 +84,27 @@
 
     <h2>Against one-step expected improvement</h2>
     <p>The optimizer keeps its incumbent, so the matched one-step acquisition is expected improvement on the
-    Ornstein&ndash;Uhlenbeck line. The rule, which carries the wider bracket of the terminal game, wins 143 paired seeds
-    to 116 across 14 problems. The wider bracket buys exploration whose value a one-step criterion cannot see.</p>
+    Ornstein&ndash;Uhlenbeck line. The rule, which carries the wider bracket of the terminal game, wins 146 paired seeds
+    to 118 across 14 problems, with 32 ties. The wider bracket buys exploration whose value a one-step criterion cannot see.</p>
 
     <h2>On its own model</h2>
     <p>On Gaussian fields with exponential covariance, which are Ornstein&ndash;Uhlenbeck along every line, the rule
-    loses: golden section with six probes wins almost every case. With correlation length $1/\kappa$ the cube holds
+    loses: golden section with six probes wins three of the five cases and the rule is never first. With correlation length $1/\kappa$ the cube holds
     about $\kappa^d$ nearly independent cells, and with 120 evaluations decorrelated probing wins.</p>
     <p>So the rule&apos;s wins are not explained by the slices being Ornstein&ndash;Uhlenbeck. Its terminal-placement logic
     says to correlate, while a running maximum over many calls says to spread.</p>
 
-    <h2>The basin hypothesis</h2>
-    <p>The rule should win when the evaluation budget is comparable to the number of local minima. The direction,
-    membership and rank definition were registered before a holdout sweep of 33 full-physics pages. On that holdout the
-    Spearman correlation between basin count and the rule&apos;s rank is $+0.455$, one-sided $p = 0.0039$, in the
-    predicted direction.</p>
+    <h2>Basin count and rank</h2>
+    <p>The working hypothesis is that the rule wins when the evaluation budget is comparable to the number of local
+    minima. The holdout tests a narrower statement at one budget.</p>
+    <p>Basin count is proxied per problem by the median number of extrema on short random one-dimensional slices, and
+    the rule&apos;s standing by its tie-averaged rank among six line searches at a budget of 120. The direction,
+    membership, proxy and rank definition were registered before a holdout sweep of 33 full-physics pages.</p>
+    <p>On that holdout the Spearman correlation between the basin proxy and the rule&apos;s rank is $+0.517$, one-sided
+    $p = 0.0010$, in the predicted direction. Sixteen of the 33 pages have smooth slices, tied at one basin, so the
+    rougher pages carry the correlation.</p>
+    <p>The test holds the budget fixed. Whether the rule&apos;s standing turns on the ratio of budget to basin count would
+    need budgets varied against basin counts, which has not been done.</p>
     <p>Across every experiment the strongest general baseline is golden section with two full-segment probes per line.
     The rule&apos;s distinctive wins over it are the navigably rough simulators and structured high-dimensional
     landscapes.</p>

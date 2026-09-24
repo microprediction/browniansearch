@@ -78,6 +78,17 @@ def measure_p(obj, d, n_slices=6, npts=257, seed=5):
     return (float(np.nanmedian(ps)) if ps else float("nan")), len(ps)
 
 
+def tier_seeds(ms, results_file, name):
+    """Seed count: the one recorded for this problem in results_file if
+    present (so reruns do not depend on machine load), else the cost
+    tier."""
+    try:
+        with open(os.path.join(HERE, results_file)) as fh:
+            return int(json.load(fh)["problems"][name]["seeds"])
+    except (OSError, KeyError, ValueError):
+        return 24 if ms < 2 else (16 if ms < 30 else 8)
+
+
 def eval_cost_ms(obj, d):
     rng = np.random.default_rng(0)
     t0 = time.time()
@@ -95,8 +106,8 @@ if __name__ == "__main__":
         t0 = time.time()
         obj, d = get_objective(demo)
         ms = eval_cost_ms(obj, d)
-        seeds = 24 if ms < 2 else (16 if ms < 30 else 8)
-        n_slices = 6 if ms < 30 else 4
+        seeds = tier_seeds(ms, "family_results.json", demo)
+        n_slices = 6 if seeds > 8 else 4
         p_med, usable = measure_p(obj, d, n_slices=n_slices)
         rows = {}
         for method in METHODS:

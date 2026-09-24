@@ -133,6 +133,13 @@ if __name__ == "__main__":
             ms = (time.time() - t1) / n_probe * 1000
             seeds = 24 if ms < 3 else (12 if ms < 30 else 6)
             n_slices, npts = (6, 257) if ms < 30 else (4, 129)
+            try:  # reuse the recorded tier so reruns do not depend on load
+                with open(os.path.join(OUT, f"{name}.json")) as fh:
+                    prev = json.load(fh)
+                seeds, npts = int(prev["seeds"]), int(prev["slice_npts"])
+                n_slices = len(prev["slices"])
+            except (OSError, KeyError, ValueError):
+                pass
             slice_vals = slices(obj, d, n_slices, npts)
             rows = {m: [run(m, obj, d, s) for s in range(seeds)] for m in METHODS}
             med = {m: float(np.median(v)) for m, v in rows.items()}

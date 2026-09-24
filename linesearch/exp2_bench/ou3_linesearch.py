@@ -178,6 +178,9 @@ def brent_inner(max_evals=10):
         state = {"n": 0, "best_a": 0.0, "best_f": fp}
 
         def ev(t):
+            # p itself (t = 0) is already evaluated: reuse fp, charge nothing
+            if t == 0.0:
+                return fp
             if state["n"] >= max_evals or budget.remaining() <= 0:
                 return None
             state["n"] += 1
@@ -486,9 +489,13 @@ class GrassInner:
 def iterated_line_search(objective, n_dim, n_trials, inner, seed):
     """One outer loop for every method: start at a common point, walk a
     common random-direction stream, hand each line to `inner`, move to
-    the line's best. Returns (best_value, best_x, evaluations)."""
+    the line's best. Returns (best_value, best_x, evaluations).
+
+    Directions and the inner search draw from separate streams, so the
+    k-th direction is the same for every method at a given seed."""
     rng_start = np.random.default_rng(seed)
     rng_dirs = np.random.default_rng(10_000 + seed)
+    rng_inner = np.random.default_rng(20_000 + seed)
     budget = Budget(objective, n_trials)
     p = np.asarray(rng_start.uniform(0.1, 0.9, n_dim))
     fp = budget(p)
@@ -500,7 +507,7 @@ def iterated_line_search(objective, n_dim, n_trials, inner, seed):
         if n < 1e-12:
             continue
         v /= n
-        p, fp = inner(budget, p, fp, v, rng_dirs)
+        p, fp = inner(budget, p, fp, v, rng_inner)
     return budget.best_value, budget.best_x, budget.evaluations
 
 

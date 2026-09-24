@@ -361,3 +361,32 @@ rule's distinctive wins over it are the navigably-rough simulators
 (bowling, plinko, boids, tennis) and structured high-d landscapes
 (wind_farm, rosenbrock/griewank d~8-16); everywhere else the honest
 recommendation is golden2, not Brent.
+
+## Rerun of 2026-09-24 (Brent accounting, separate RNG streams)
+brent_inner reuses fp at t = 0 instead of re-evaluating the incumbent
+(about 13 of 120 evaluations per run were duplicates, so Brent now
+sees ~15 lines per 120 evaluations instead of ~13). The outer loop
+draws directions and the inner search's uniform flee from separate
+streams, so the k-th direction is the same for every method at a
+given seed. Seed counts per problem are pinned to the recorded run
+(tier_seeds) so reruns do not depend on machine load. Everything
+that used brent_inner or a uniform-flee GrassInner was rerun; numbers
+of record are in the result files and summarize_site.py prints the
+site's figures from them. What moved:
+- plinko (bench): unchanged, 20/20/21 of 24 vs golden2/golden6/brent.
+- family: grass3 rank 1 on bowling, plinko, boids, wind_farm; tennis 2.
+- dimension law: rosenbrock grass3-vs-brent 6/24 (d=2) -> 23/24 (d=32).
+- directions per 120 evals (lines_per_budget.py): grass3 60-96,
+  grass2U 119, golden2 60, golden6 20, brent 13-18; grass3/brent
+  3.7 to 6.2.
+- vs SOTA: grass2U mean tie-averaged rank 6.18/11, below PRIMA_BOBYQA
+  6.05, above golden2 6.48, Rechenberg, Nelder-Mead, random, SA.
+- budget scaling: grass2U no longer leads CMA-ES at B=40 (3.00 vs
+  2.75); mean rank ~3/5 at every budget 40-1080, CMA-ES ahead
+  throughout. The "few-shot specialist" reading does not survive.
+- EI race: grass2U 146, grassEI 118, ties 32; grass2U median better
+  on 8/14.
+- expOU: golden6 best in 3/5 cases (golden2 at d16 k3, brent at
+  d16 k30); grass2U tie-rank 2-5 of 6.
+- basin holdout (locked test on the rerun sweep, 50/55 pages usable,
+  n=33): Spearman +0.517, one-sided p=0.0010, 16/33 smooth ties.

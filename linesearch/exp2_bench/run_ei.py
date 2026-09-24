@@ -26,7 +26,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, "/Users/petercotton/github/humpday")
 sys.path.insert(0, "/Users/petercotton/github/humpday/example_applications")
 
-from run_family import eval_cost_ms, get_objective  # noqa: E402
+from run_family import eval_cost_ms, get_objective, tier_seeds  # noqa: E402
 from ou3_linesearch import (  # noqa: E402
     GrassInner,
     golden_inner,
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     for name, obj, d in problems():
         t0 = time.time()
         ms = eval_cost_ms(obj, d)
-        seeds = 24 if ms < 2 else (16 if ms < 30 else 8)
+        seeds = tier_seeds(ms, "ei_results.json", name)
         rows = {m: [run(m, obj, d, n_trials, s) for s in range(seeds)] for m in METHODS}
         med = {m: float(np.median(v)) for m, v in rows.items()}
         wins2u = sum(a < c for a, c in zip(rows["grassEI"], rows["grass2U"]))

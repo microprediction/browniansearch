@@ -31,7 +31,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, "/Users/petercotton/github/humpday")
 sys.path.insert(0, "/Users/petercotton/github/humpday/example_applications")
 
-from run_family import DEMOS, eval_cost_ms, get_objective  # noqa: E402
+from run_family import DEMOS, eval_cost_ms, get_objective, tier_seeds  # noqa: E402
 from ou3_linesearch import (  # noqa: E402
     GrassInner,
     alpha_range,
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         t0 = time.time()
         obj, d = get_objective(demo)
         ms = eval_cost_ms(obj, d)
-        seeds = 24 if ms < 2 else (16 if ms < 30 else 8)
+        seeds = tier_seeds(ms, "ablation_results.json", demo)
         rows = {}
         for name, make in VARIANTS.items():
             rows[name] = [
